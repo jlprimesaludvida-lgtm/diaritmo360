@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#2A626C">
 <meta property="og:title" content="DiaRitmo 360 — Tu control de glucosa, claro y seguro">
 <meta property="og:description" content="Registra tu glucosa, medicamentos, citas y hábitos en un solo lugar. Tus datos se quedan en tu dispositivo.">
-<meta property="og:image" content="https://images.pexels.com/photos/8417438/pexels-photo-8417438.jpeg?auto=compress&cs=tinysrgb&w=1200&h=630&fit=crop">
+<meta property="og:image" content="https://images.pexels.com/photos/7242885/pexels-photo-7242885.jpeg?auto=compress&cs=tinysrgb&w=1200&h=630&fit=crop">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 500'%3E%3Ccircle cx='250' cy='250' r='220' fill='none' stroke='%232A626C' stroke-width='34'/%3E%3Cpath d='M250 70C232 88 215 125 215 160c0 40 17 70 35 82 18-12 35-42 35-82 0-35-17-72-35-90z' fill='%234F8B5C'/%3E%3Cpath d='M285 240h45l20-40 20 40h35l17-28 18 28h20' fill='none' stroke='%23367C87' stroke-width='22' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -84,7 +84,7 @@
   .checks .i{color:var(--sage);width:20px;height:20px}
   .hero-visual{position:relative;min-height:540px}
   .hero-photo{position:absolute;inset:0 0 0 70px;border-radius:28px;overflow:hidden;box-shadow:var(--shadow)}
-  .hero-photo img{width:100%;height:100%;object-fit:cover;object-position:60% 30%}
+  .hero-photo img{width:100%;height:100%;object-fit:cover;object-position:30% 30%}
   .hero-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(200deg,rgba(42,98,108,0) 45%,rgba(23,38,43,.35) 100%)}
   .float-card{position:absolute;background:#fff;border-radius:16px;box-shadow:0 18px 40px -12px rgba(23,38,43,.3);padding:14px 16px;display:flex;align-items:center;gap:12px;z-index:3}
   .float-card .ic{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center}
@@ -230,8 +230,10 @@
 
   /* CTA final */
   .final{position:relative;border-radius:32px;overflow:hidden;min-height:440px;display:flex;align-items:center}
-  .final img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 35%}
+  .final img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 30%}
   .final::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(23,38,43,.88) 0%,rgba(42,98,108,.72) 45%,rgba(42,98,108,.15) 100%)}
+  .final{background:#1F4B53}
+  @media(min-width:701px){.final img{left:auto;right:0;width:68%}.final::after{background:linear-gradient(90deg,#1F4B53 0%,#1F4B53 32%,rgba(31,75,83,.55) 50%,rgba(31,75,83,0) 75%)}}
   .final-in{position:relative;z-index:1;padding:56px;max-width:600px;color:#fff}
   .final h2{color:#fff;font-size:clamp(1.9rem,3.6vw,2.8rem)}
   .final p{color:rgba(255,255,255,.86);margin:16px 0 28px;font-size:1.06rem}
@@ -329,7 +331,7 @@
 
       <div class="hero-visual" aria-hidden="true">
         <div class="hero-photo">
-          <img src="https://images.pexels.com/photos/8417438/pexels-photo-8417438.jpeg?auto=compress&cs=tinysrgb&w=1100&h=1300&fit=crop" alt="" fetchpriority="high">
+          <img src="https://images.pexels.com/photos/7242885/pexels-photo-7242885.jpeg?auto=compress&cs=tinysrgb&w=1100&h=1300&fit=crop" alt="" fetchpriority="high">
         </div>
         <div class="float-card fc-1">
           <div class="ic"><svg class="i"><use href="#i-check"/></svg></div>
@@ -417,8 +419,8 @@
           <figcaption class="cap"><b>Entrena en casa</b><span>Tus hábitos y tu actividad, día a día.</span></figcaption>
         </figure>
         <figure class="tile">
-          <img src="https://images.pexels.com/photos/11243426/pexels-photo-11243426.jpeg?auto=compress&cs=tinysrgb&w=700&h=560&fit=crop" alt="Mujer mayor paseando a su perro" loading="lazy">
-          <figcaption class="cap"><b>Tu rutina de siempre</b><span>Sin cuadernos ni papeles sueltos.</span></figcaption>
+          <img src="https://images.pexels.com/photos/34733420/pexels-photo-34733420.jpeg?auto=compress&cs=tinysrgb&w=700&h=560&fit=crop" alt="Hombre adulto haciendo senderismo en la montaña" loading="lazy">
+          <figcaption class="cap"><b>Sigue con tus planes</b><span>Tu registro va contigo, sin cuadernos ni papeles.</span></figcaption>
         </figure>
       </div>
     </div>
@@ -463,7 +465,7 @@
   <section id="instalar" class="install">
     <div class="wrap install-grid">
       <div class="install-photo reveal">
-        <img src="https://images.pexels.com/photos/7859172/pexels-photo-7859172.jpeg?auto=compress&cs=tinysrgb&w=900&h=1100&fit=crop" alt="Mujer revisando su celular" loading="lazy">
+        <img src="https://images.pexels.com/photos/5428950/pexels-photo-5428950.jpeg?auto=compress&cs=tinysrgb&w=900&h=1100&fit=crop" alt="Hombre sonriendo mientras usa su celular" loading="lazy">
         <div class="tag"><svg class="i"><use href="#i-devices"/></svg>Funciona en todos tus dispositivos</div>
       </div>
       <div class="reveal">
@@ -537,7 +539,7 @@
   <section style="padding-top:20px">
     <div class="wrap">
       <div class="final reveal">
-        <img src="https://images.pexels.com/photos/8972326/pexels-photo-8972326.jpeg?auto=compress&cs=tinysrgb&w=1600&h=900&fit=crop" alt="" loading="lazy">
+        <img src="https://images.pexels.com/photos/4853112/pexels-photo-4853112.jpeg?auto=compress&cs=tinysrgb&w=1600&h=900&fit=crop" alt="" loading="lazy">
         <div class="final-in">
           <h2>Empieza hoy a llevar tu control con tranquilidad.</h2>
           <p>Tus mediciones, medicamentos y citas, ordenados y listos para tu médico. En tu celular y en tu computador.</p>
