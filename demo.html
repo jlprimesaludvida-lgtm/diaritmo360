@@ -4,34 +4,37 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DiaRitmo 360 – Demo (Control de Glucosa)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #F7F9FC;
+    --bg: #F6F7F4;
     --surface: #FFFFFF;
-    --surface2: #EEF4FF;
-    --border: #DDE6F0;
-    --text: #1A2332;
-    --text-soft: #6B7A8D;
-    --text-xsoft: #A8B4C0;
-    --blue: #2A6EBB;
-    --blue-light: #EBF3FF;
-    --blue-dark: #1D5298;
-    --green: #1E9E5E;
-    --green-bg: #E8F8F0;
-    --amber: #D97B0F;
-    --amber-bg: #FFF4E0;
-    --red: #D63B3B;
-    --red-bg: #FDEAEA;
+    --surface2: #EEF3F1;
+    --border: #E1E7E4;
+    --text: #17262B;
+    --text-soft: #5E6B6D;
+    --text-xsoft: #9CA8A9;
+    --blue: #2A626C;
+    --blue-light: #E7F0F1;
+    --blue-dark: #1F4B53;
+    --green: #2F7D4F;
+    --green-bg: #E7F2EA;
+    --amber: #B8680F;
+    --amber-bg: #FCF2E2;
+    --red: #C23F35;
+    --red-bg: #FBEAE7;
     --radius: 14px;
     --radius-sm: 8px;
-    --shadow: 0 2px 12px rgba(42,110,187,0.08);
-    --shadow-md: 0 4px 24px rgba(42,110,187,0.13);
+    --shadow: 0 2px 12px rgba(42,98,108,0.08);
+    --shadow-md: 0 4px 24px rgba(42,98,108,0.13);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
@@ -279,8 +282,8 @@
 
   /* Check / símbolo flotante en esquina */
   .moment-tab.has-ok::after   { content: '✓'; position: absolute; top: 4px; right: 5px; font-size: 9px; font-weight: 900; color: var(--green); line-height: 1; }
-  .moment-tab.has-warn::after { content: '⚠'; position: absolute; top: 4px; right: 5px; font-size: 9px; line-height: 1; }
-  .moment-tab.has-bad::after  { content: '⚡'; position: absolute; top: 4px; right: 5px; font-size: 9px; line-height: 1; }
+  .moment-tab.has-warn::after { content: '!'; position: absolute; top: 4px; right: 5px; font-size: 9px; line-height: 1; }
+  .moment-tab.has-bad::after  { content: '!'; position: absolute; top: 4px; right: 5px; font-size: 9px; line-height: 1; }
 
   .input-section {
     background: var(--surface);
@@ -679,7 +682,7 @@
   /* ── MODAL ── */
   .modal-overlay {
     display: none; position: fixed; inset: 0;
-    background: rgba(26,35,50,0.5); z-index: 200;
+    background: rgba(23,38,43,0.5); z-index: 200;
     align-items: flex-end; justify-content: center;
   }
   .modal-overlay.open { display: flex; }
@@ -781,7 +784,7 @@
   /* Día con cita: enmarcado en un cuadrado azul, con el estetoscopio dentro */
   .cal-day.has-cita {
     border: 2.5px solid var(--blue);
-    box-shadow: 0 2px 8px rgba(42,110,187,0.25);
+    box-shadow: 0 2px 8px rgba(42,98,108,0.25);
   }
   .cal-day.has-cita.no-data { background: var(--blue-light); }
   .cal-day.has-cita.no-data .cal-day-num { color: var(--blue); font-weight: 800; }
@@ -832,6 +835,148 @@
   }
   .empty-state-icon { font-size: 40px; margin-bottom: 10px; }
   .empty-state-text { font-size: 14px; }
+
+  /* ══════════════════════════════
+     HÁBITOS / ACTIVIDAD (Registrar)
+  ══════════════════════════════ */
+  .habit-list { display: flex; flex-direction: column; gap: 8px; }
+  .habit-btn {
+    display: flex; align-items: center; gap: 10px; width: 100%;
+    padding: 11px 12px; border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm); background: var(--surface);
+    font-size: 13px; color: var(--text); cursor: pointer; text-align: left;
+    font-family: inherit; transition: all 0.15s;
+  }
+  .habit-btn .hb-icon { font-size: 17px; width: 22px; text-align: center; }
+  .habit-btn .hb-label { flex: 1; }
+  .habit-btn .hb-check {
+    width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 900; color: white; flex-shrink: 0;
+  }
+  .habit-btn.on { border-color: var(--green); background: var(--green-bg); }
+  .habit-btn.on .hb-check { background: var(--green); border-color: var(--green); }
+  .habit-btn.auto { cursor: default; }
+  .habit-btn .hb-sub { display: block; font-size: 11px; color: var(--text-soft); margin-top: 1px; }
+  .habit-count { font-weight: 700; color: var(--blue); font-size: 12px; margin-left: 6px; }
+  .act-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .act-chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 9px 12px; border: 1.5px solid var(--border); border-radius: 20px;
+    background: var(--surface); font-size: 13px; color: var(--text-soft);
+    cursor: pointer; font-family: inherit; transition: all 0.15s;
+  }
+  .act-chip.on { border-color: var(--blue); background: var(--blue-light); color: var(--blue); font-weight: 600; }
+  .autosave-note { font-size: 11px; color: var(--text-xsoft); margin-top: 10px; }
+
+  /* ══════════════════════════════
+     SCREEN: GUÍA
+  ══════════════════════════════ */
+  .guide-disclaimer {
+    background: var(--surface2); border-radius: var(--radius);
+    padding: 12px 14px; font-size: 12px; color: var(--text-soft);
+    line-height: 1.5; margin-bottom: 12px;
+  }
+  .guide-disclaimer b { color: var(--text); }
+  .guide-q { margin-bottom: 10px; }
+  .guide-q label { display: block; font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 5px; }
+  .guide-result {
+    display: flex; gap: 10px; align-items: flex-start;
+    border-radius: var(--radius-sm); padding: 12px; margin-top: 12px;
+    font-size: 13px; line-height: 1.45;
+  }
+  .guide-result:empty { display: none; }
+  .guide-result .gr-icon { font-size: 18px; line-height: 1.2; }
+  .guide-result .gr-title { display: block; margin-bottom: 3px; font-size: 13.5px; font-weight: 700; }
+  .guide-result p { margin: 0 0 4px; }
+  .guide-result.ok   { background: var(--green-bg); color: #245C3B; }
+  .guide-result.warn { background: var(--amber-bg); color: #8A4E08; }
+  .guide-result.bad  { background: var(--red-bg);   color: #9B2222; }
+  .guide-result.info { background: var(--blue-light); color: var(--blue-dark); }
+  .ex-input-wrap { display: flex; align-items: center; gap: 8px; }
+  .ex-input-wrap .pform-input { font-size: 22px; font-weight: 800; text-align: center; max-width: 140px; }
+  .ex-input-wrap span { font-size: 13px; font-weight: 700; color: var(--text-soft); }
+  .ex-legend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; font-size: 11px; color: var(--text-soft); }
+  .ex-legend i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; }
+  .faq-item { border-bottom: 1px solid var(--border); }
+  .faq-item:last-child { border-bottom: none; }
+  .faq-q {
+    width: 100%; display: flex; align-items: center; gap: 10px;
+    background: none; border: none; padding: 12px 0; cursor: pointer;
+    font-family: inherit; font-size: 13.5px; font-weight: 600; color: var(--text); text-align: left;
+  }
+  .faq-q .fq-icon { font-size: 18px; width: 24px; text-align: center; flex-shrink: 0; }
+  .faq-q .fq-text { flex: 1; }
+  .faq-q .fq-arrow { color: var(--text-soft); transition: transform 0.2s; }
+  .faq-item.open .fq-arrow { transform: rotate(180deg); }
+  .faq-a { display: none; font-size: 13px; color: var(--text-soft); line-height: 1.55; padding: 0 0 12px 34px; }
+  .faq-item.open .faq-a { display: block; }
+  .faq-a.urgent { color: #9B2222; }
+  .faq-a .link-btn { font-size: 12.5px; margin-top: 6px; display: inline-block; }
+
+  /* 6 pestañas: textos más compactos */
+  .nav-tab { font-size: 11px; padding: 10px 1px; letter-spacing: -0.1px; }
+  .nav-tab .tab-icon { font-size: 17px; }
+
+  /* ══════ ÍCONOS DE LÍNEA ══════ */
+  .i { width: 1.1em; height: 1.1em; vertical-align: -0.2em; flex-shrink: 0; }
+  .input-section-title, .agenda-card-title, .profile-section-title, .modal-title, .rh-title { display: flex; align-items: center; gap: 8px; }
+  .input-section-title .i, .agenda-card-title .i, .modal-title .i { color: var(--blue); width: 19px; height: 19px; }
+  .profile-section-title .i { width: 15px; height: 15px; color: var(--red); }
+  .rh-title .i { width: 21px; height: 21px; }
+  .mtab-icon .i { width: 22px; height: 22px; }
+  .mtab-icon { display: flex; justify-content: center; }
+  .sym-icon .i { width: 18px; height: 18px; }
+  .symptom-btn .sym-icon { display: flex; }
+  .pf-icon { display: flex; align-items: center; color: var(--teal); }
+  .pf-icon .i { width: 19px; height: 19px; }
+  .hb-icon { display: flex; justify-content: center; color: var(--teal); }
+  .habit-btn.on .hb-icon { color: var(--green); }
+  .hb-icon .i { width: 19px; height: 19px; }
+  .act-chip .i { width: 16px; height: 16px; }
+  .fq-icon { display: flex; justify-content: center; color: var(--teal); }
+  .fq-icon.urgent { color: var(--red); }
+  .fq-icon .i { width: 20px; height: 20px; }
+  .gr-icon { display: flex; } .gr-icon .i { width: 20px; height: 20px; }
+  .backup-alert-icon { color: var(--amber); display: flex; } .backup-alert-icon .i { width: 22px; height: 22px; }
+  .guide-disclaimer .i { color: var(--blue); }
+  .avatar-circle .i { width: 38px; height: 38px; }
+  .empty-state-icon { display: flex; justify-content: center; color: var(--text-xsoft); }
+  .empty-state-icon .i { width: 40px; height: 40px; stroke-width: 1.4; }
+  .cal-cita { display: flex; color: var(--blue); } .cal-cita .i { width: 14px; height: 14px; }
+  .cita-del { color: var(--text-soft); } .cita-del .i { width: 16px; height: 16px; }
+  .photo-btn, .export-btn, .backup-btn-export, .backup-btn-import, .danger-btn, .avatar-edit-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+  .dose-name, .med-tag-name, .sched-name { display: flex; align-items: center; gap: 6px; }
+  .dose-name .i, .med-tag-name .i, .sched-name .i { color: var(--teal); }
+  .legend-item .i { color: var(--blue); }
+  .agenda-progress { white-space: nowrap; flex-shrink: 0; }
+  .agenda-card-head { gap: 10px; }
+
+  /* ══════ ESTÉTICA v3 ══════ */
+  :root { --accent: #E8935B; --sage: #4F8B5C; --teal: #367C87; }
+  button, input, select, textarea { font-family: inherit; }
+  body { -webkit-font-smoothing: antialiased; letter-spacing: 0.1px; }
+  .app-logo-icon { background: transparent; width: 36px; height: 36px; border-radius: 0; }
+  .app-logo-text { color: var(--text); font-weight: 700; letter-spacing: -0.4px; display: flex; align-items: center; gap: 6px; }
+  .brand-360 { font-size: 11px; font-weight: 700; color: var(--blue); border: 1.5px solid var(--blue); border-radius: 20px; padding: 0 7px; line-height: 17px; letter-spacing: 0; }
+  .nav-tab { color: var(--text-xsoft); font-weight: 500; gap: 4px; font-size: 10.5px; letter-spacing: -0.2px; white-space: nowrap; overflow: hidden; min-width: 0; }
+  .month-nav { white-space: nowrap; gap: 6px; }
+  .app-logo { gap: 7px; min-width: 0; }
+  .app-logo-text { font-size: 18px; }
+  .brand-360 { font-size: 10px; padding: 0 5px; line-height: 15px; }
+  .month-btn { width: 28px; height: 28px; }
+  .mtab-badge { white-space: nowrap; font-size: 9.5px; }
+  .nav-tab .tab-icon { display: flex; }
+  .nav-tab.active { color: var(--blue); }
+  .nav-tab.active .tab-svg { stroke-width: 2.2; }
+  .day-summary, .calendar-card, .input-section, .agenda-card, .profile-section, .backup-card {
+    box-shadow: 0 1px 2px rgba(23,38,43,0.04), 0 4px 16px rgba(23,38,43,0.05);
+    border: 1px solid #EAEFEC;
+  }
+  .add-reading-btn, .save-btn, .add-med-btn, .backup-btn-export { letter-spacing: 0.2px; box-shadow: 0 2px 6px rgba(42,98,108,0.18); }
+  .report-header-card, .profile-avatar-card { background: linear-gradient(135deg, #2A626C 0%, #367C87 100%); }
+  .reading-val { letter-spacing: -0.5px; }
+  .cal-day.today .cal-day-num { background: var(--blue); }
   .demo-banner {
     background: #FFF4E0;
     border-bottom: 1px solid #F0D9A8;
@@ -842,7 +987,7 @@
     padding: 7px 14px;
     line-height: 1.4;
   }
-  .demo-banner a { color: #2A6EBB; text-decoration: underline; font-weight: 700; }
+  .demo-banner a { color: #2A626C; text-decoration: underline; font-weight: 700; }
   .demo-modal-overlay {
     position: fixed; inset: 0; background: rgba(20,28,40,0.55);
     display: none; align-items: center; justify-content: center; z-index: 999; padding: 20px;
@@ -870,13 +1015,13 @@
 
 <!-- DEMO BANNER -->
 <div class="demo-banner" id="demoBanner">
-  🕒 Versión de demostración — tus datos se borran automáticamente cada 3 días. <a href="https://pay.hotmart.com/R106866950E" target="_blank" rel="noopener">Comprar versión completa</a>
+  <svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M12 7v5l3 2"/></svg> Versión de demostración — tus datos se borran automáticamente cada 3 días. <a href="https://pay.hotmart.com/R106866950E" target="_blank" rel="noopener">Comprar versión completa</a>
 </div>
 
 <!-- DEMO RESET MODAL -->
 <div class="demo-modal-overlay" id="demoResetModal">
   <div class="demo-modal">
-    <h3>⏳ Demo reiniciada</h3>
+    <h3>Demo reiniciada</h3>
     <p>Han pasado 3 días desde que empezaste esta demo, así que tus datos de prueba se borraron automáticamente. Puedes seguir probando desde cero, o pasarte a la versión completa para guardar tu historial sin límite de tiempo.</p>
     <a class="btn-buy" href="https://pay.hotmart.com/R106866950E" target="_blank" rel="noopener">Comprar versión completa</a>
     <button class="btn-continue" onclick="document.getElementById('demoResetModal').classList.remove('open')">Seguir probando la demo</button>
@@ -888,9 +1033,9 @@
 <div class="topbar">
   <div class="topbar-row">
     <div class="app-logo">
-      <div class="app-logo-icon">💧</div>
+      <div class="app-logo-icon"><svg viewBox="0 0 500 500" width="34" height="34" aria-hidden="true"><circle cx="250" cy="250" r="220" fill="none" stroke="#2A626C" stroke-width="22"/><path d="M250 70C232 88 215 125 215 160c0 40 17 70 35 82 18-12 35-42 35-82 0-35-17-72-35-90z" fill="#4F8B5C"/><path d="M285 240h45l20-40 20 40h35l17-28 18 28h20" fill="none" stroke="#367C87" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/><circle cx="350" cy="200" r="9" fill="#E8935B"/></svg></div>
       <div>
-        <div class="app-logo-text">DiaRitmo</div>
+        <div class="app-logo-text">DiaRitmo<span class="brand-360">360</span></div>
         <div class="app-logo-sub">Control de glucosa</div>
       </div>
     </div>
@@ -905,19 +1050,22 @@
 <!-- NAV TABS -->
 <div class="nav-tabs">
   <button class="nav-tab active" onclick="showScreen('calendar',this)">
-    <span class="tab-icon">📅</span>Calendario
+    <span class="tab-icon"><svg class="tab-svg" viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4.5" width="18" height="16.5" rx="2.5"/><path d="M16 2.5v4M8 2.5v4M3 10h18"/></svg></span>Calendario
   </button>
   <button class="nav-tab" onclick="showScreen('register',this)">
-    <span class="tab-icon">✏️</span>Registrar
+    <span class="tab-icon"><svg class="tab-svg" viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3s-6 6.6-6 11.2a6 6 0 0 0 12 0C18 9.6 12 3 12 3z"/><path d="M12 11.5v5M9.5 14h5"/></svg></span>Registrar
   </button>
   <button class="nav-tab" onclick="showScreen('agenda',this)">
-    <span class="tab-icon">🗓️</span>Agenda
+    <span class="tab-icon"><svg class="tab-svg" viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/></svg></span>Agenda
   </button>
   <button class="nav-tab" onclick="showScreen('report',this)">
-    <span class="tab-icon">📊</span>Reporte
+    <span class="tab-icon"><svg class="tab-svg" viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 3.5v17h17"/><path d="M7.5 15l3.5-4 3 2.5 5-6"/></svg></span>Reporte
   </button>
   <button class="nav-tab" onclick="showScreen('profile',this)">
-    <span class="tab-icon">👤</span>Mi perfil
+    <span class="tab-icon"><svg class="tab-svg" viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg></span>Mi perfil
+  </button>
+  <button class="nav-tab" onclick="showScreen('guia',this)">
+    <span class="tab-icon"><svg class="tab-svg" viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2.2 4.8-4.8 2.2 2.2-4.8z"/></svg></span>Guía
   </button>
 </div>
 
@@ -978,7 +1126,7 @@
         <div class="legend-item"><div class="legend-dot" style="background:var(--amber)"></div>Precaución</div>
         <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div>Fuera de rango</div>
         <div class="legend-item"><div class="legend-dot" style="background:var(--border)"></div>Sin registro</div>
-        <div class="legend-item"><div class="legend-cita"></div>🩺 Cita</div>
+        <div class="legend-item"><div class="legend-cita"></div>Cita</div>
       </div>
     </div>
 
@@ -1000,26 +1148,26 @@
     <!-- Momentos del día -->
     <div class="moment-tabs">
       <button class="moment-tab active" data-moment="ayunas" onclick="setMoment('ayunas',this)">
-        <span class="mtab-icon">🌅</span>Ayunas
+        <span class="mtab-icon"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span>Ayunas
         <span class="mtab-badge" id="badge-ayunas"></span>
       </button>
       <button class="moment-tab" data-moment="antes" onclick="setMoment('antes',this)">
-        <span class="mtab-icon">🍽️</span>Antes
+        <span class="mtab-icon"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 2v7a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2a5 5 0 0 0-5 5v6a2 2 0 0 0 2 2h3zm0 0v7"/></svg></span>Antes
         <span class="mtab-badge" id="badge-antes"></span>
       </button>
       <button class="moment-tab" data-moment="despues" onclick="setMoment('despues',this)">
-        <span class="mtab-icon">✅</span>Después
+        <span class="mtab-icon"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg></span>Después
         <span class="mtab-badge" id="badge-despues"></span>
       </button>
       <button class="moment-tab" data-moment="noche" onclick="setMoment('noche',this)">
-        <span class="mtab-icon">🌙</span>Noche
+        <span class="mtab-icon"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></svg></span>Noche
         <span class="mtab-badge" id="badge-noche"></span>
       </button>
     </div>
 
     <!-- Entrada de glucosa -->
     <div class="input-section">
-      <div class="input-section-title">📍 Medida de glucosa</div>
+      <div class="input-section-title"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.7s-6 6.4-6 11.3a6 6 0 0 0 12 0c0-4.9-6-11.3-6-11.3z"/></svg> Medida de glucosa</div>
 
       <div class="picker-wrap">
         <div class="picker-hint">↕ Desliza cada columna para ingresar tu medida</div>
@@ -1056,39 +1204,49 @@
         <span id="glcLblHigh">Alto &gt;180</span>
       </div>
       <div class="glc-status-msg" id="glcStatusMsg"></div>
-      <button class="save-btn" style="margin-top:14px;" onclick="saveReading()">💾 Guardar lectura</button>
+      <button class="save-btn" style="margin-top:14px;" onclick="saveReading()">Guardar lectura</button>
     </div>
 
     <!-- Síntomas -->
     <div class="input-section">
-      <div class="input-section-title">💬 ¿Cómo te sentiste? <span style="font-weight:400;color:var(--text-soft)">(opcional)</span></div>
+      <div class="input-section-title"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> ¿Cómo te sentiste? <span style="font-weight:400;color:var(--text-soft)">(opcional)</span></div>
       <div class="symptoms-grid">
         <button class="symptom-btn" data-sym="Mareo" onclick="toggleSymptom(this,'Mareo')">
-          <span class="sym-icon">😵</span>Mareo
+          <span class="sym-icon"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg></span>Mareo
         </button>
         <button class="symptom-btn" data-sym="Mucha sed" onclick="toggleSymptom(this,'Mucha sed')">
-          <span class="sym-icon">🥤</span>Mucha sed
+          <span class="sym-icon"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h14l-1.6 17.2A2 2 0 0 1 15.4 22H8.6a2 2 0 0 1-2-1.8z"/><path d="M5.6 9h12.8"/></svg></span>Mucha sed
         </button>
         <button class="symptom-btn" data-sym="Cansancio" onclick="toggleSymptom(this,'Cansancio')">
-          <span class="sym-icon">😴</span>Cansancio
+          <span class="sym-icon"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="17" height="10" rx="2"/><path d="M22 11v2M6 11v2"/></svg></span>Cansancio
         </button>
         <button class="symptom-btn" data-sym="Hambre" onclick="toggleSymptom(this,'Hambre')">
-          <span class="sym-icon">🍎</span>Mucha hambre
+          <span class="sym-icon"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 7c-1.6-1.2-5-1.6-6.6 1.4C3.8 11.3 5 17 8 20c1.5 1.5 2.6 1 4 .4 1.4.6 2.5 1.1 4-.4 3-3 4.2-8.7 2.6-11.6C17 5.4 13.6 5.8 12 7z"/><path d="M12 7c.2-2 1.4-3.5 3.5-4"/></svg></span>Mucha hambre
         </button>
         <button class="symptom-btn" data-sym="Temblor" onclick="toggleSymptom(this,'Temblor')">
-          <span class="sym-icon">🫨</span>Temblor
+          <span class="sym-icon"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12h3l2-5 3 10 3-10 3 10 2-5h4"/></svg></span>Temblor
         </button>
         <button class="symptom-btn" data-sym="Me sentí bien" onclick="toggleSymptom(this,'Me sentí bien')">
-          <span class="sym-icon">😊</span>Me sentí bien
+          <span class="sym-icon"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9.5h.01M15 9.5h.01"/></svg></span>Me sentí bien
         </button>
       </div>
     </div>
 
     <!-- Notas -->
     <div class="input-section">
-      <div class="input-section-title">📝 Nota para el médico <span style="font-weight:400;color:var(--text-soft)">(opcional)</span></div>
+      <div class="input-section-title"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg> Nota para el médico <span style="font-weight:400;color:var(--text-soft)">(opcional)</span></div>
       <textarea class="notes-area" id="notesInput" rows="3"
         placeholder="Ej: Comí tarde, olvidé la pastilla, hice ejercicio…"></textarea>
+    </div>
+
+    <!-- Hábitos del día -->
+    <div class="input-section">
+      <div class="input-section-title"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10z"/><path d="M2 21c0-3 1.9-5.4 5.1-6"/></svg> Hábitos del día <span class="habit-count" id="habitCount"></span></div>
+      <div style="font-size:12px;color:var(--text-soft);margin:-8px 0 12px;">Marca lo que sí ocurrió. No es una evaluación: es contexto para tu médico.</div>
+      <div class="habit-list" id="habitList"></div>
+      <div class="input-section-title" style="margin:18px 0 12px;"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> Actividad física</div>
+      <div class="act-chips" id="actChips"></div>
+      <div class="autosave-note">✓ Los hábitos y la actividad se guardan solos al tocarlos.</div>
     </div>
 
   </div>
@@ -1100,7 +1258,7 @@
 
     <div class="agenda-card">
       <div class="agenda-card-head">
-        <div class="agenda-card-title">💊 Medicamentos de hoy</div>
+        <div class="agenda-card-title"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7z"/><path d="m8.5 8.5 7 7"/></svg> Medicamentos de hoy</div>
         <div class="agenda-progress" id="dosisProgress"></div>
       </div>
       <div id="dosisList"></div>
@@ -1108,7 +1266,7 @@
 
     <div class="agenda-card">
       <div class="agenda-card-head">
-        <div class="agenda-card-title">🩺 Próximas citas</div>
+        <div class="agenda-card-title"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3H4a2 2 0 0 0-2 2v4a6 6 0 0 0 12 0V5a2 2 0 0 0-2-2h-1"/><path d="M8 15a6 6 0 0 0 12 0v-3"/><circle cx="20" cy="10" r="2"/></svg> Próximas citas</div>
       </div>
       <div id="citasList"></div>
       <button class="add-reading-btn" onclick="openCitaModal()">+ Nueva cita</button>
@@ -1120,13 +1278,13 @@
 
     <div class="agenda-card">
       <div class="agenda-card-head">
-        <div class="agenda-card-title">⏰ Horarios de medicamentos</div>
+        <div class="agenda-card-title"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M12 7v5l3 2"/></svg> Horarios de medicamentos</div>
       </div>
       <div class="agenda-hint">Define a qué horas tomas cada medicamento. Cada día aparecerán en "Medicamentos de hoy".</div>
       <div id="horariosList"></div>
     </div>
 
-    <div class="agenda-hint" style="text-align:center;">🔔 Los recordatorios aparecen mientras la app esté abierta.</div>
+    <div class="agenda-hint" style="text-align:center;"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg> Los recordatorios aparecen mientras la app esté abierta.</div>
   </div>
 </div>
 
@@ -1135,7 +1293,7 @@
   <div class="report-wrap">
 
     <div class="report-header-card">
-      <div class="rh-title">📋 Reporte mensual</div>
+      <div class="rh-title"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2M9 12h6M9 16h6"/></svg> Reporte mensual</div>
       <div class="rh-period" id="reportPeriod"></div>
       <div class="rh-stats">
         <div class="rh-stat">
@@ -1164,7 +1322,7 @@
     </div>
 
     <button class="export-btn" onclick="exportReport()">
-      🖨️ Preparar para el médico
+      <svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> Preparar para el médico
     </button>
 
   </div>
@@ -1176,13 +1334,13 @@
 
     <!-- Avatar / cabecera -->
     <div class="profile-avatar-card" id="profileHeader">
-      <button class="avatar-edit-btn" onclick="toggleProfileEdit()">✏️ Editar</button>
-      <div class="avatar-circle" id="avatarIcon">👤</div>
+      <button class="avatar-edit-btn" onclick="toggleProfileEdit()"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg> Editar</button>
+      <div class="avatar-circle" id="avatarIcon"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></div>
       <div class="avatar-name" id="profileNameDisplay">Tu nombre</div>
       <div class="avatar-since" id="profileSinceDisplay">Registrado desde –</div>
       <div class="photo-actions" id="photoActions" style="display:none;">
-        <button class="photo-btn" onclick="abrirCamara()">📷 Cámara</button>
-        <button class="photo-btn" onclick="document.getElementById('fotoGaleria').click()">🖼️ Galería</button>
+        <button class="photo-btn" onclick="abrirCamara()"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3"/></svg> Cámara</button>
+        <button class="photo-btn" onclick="document.getElementById('fotoGaleria').click()"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg> Galería</button>
         <button class="photo-btn ghost" id="fotoQuitarBtn" onclick="quitarFoto()">Quitar foto</button>
       </div>
       <input type="file" id="fotoGaleria" accept="image/*" style="display:none;" onchange="fotoDesdeArchivo(event)">
@@ -1195,53 +1353,72 @@
       <div class="profile-section">
         <div class="profile-section-title">Datos personales</div>
         <div class="profile-field">
-          <span class="pf-icon">🎂</span>
+          <span class="pf-icon"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1M2 21h20M7 8v3M12 8v3M17 8v3"/></svg></span>
           <span class="pf-label">Edad</span>
           <span class="pf-value" id="pv-edad">–</span>
         </div>
         <div class="profile-field">
-          <span class="pf-icon">⚧</span>
+          <span class="pf-icon"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2 20a7 7 0 0 1 14 0"/><path d="M16 4.3a3.5 3.5 0 0 1 0 7.4M18 14.5a7 7 0 0 1 4 5.5"/></svg></span>
           <span class="pf-label">Sexo</span>
           <span class="pf-value" id="pv-sexo">–</span>
         </div>
         <div class="profile-field">
-          <span class="pf-icon">⚖️</span>
+          <span class="pf-icon"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M7 21h10M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/><path d="m16 16 3-8 3 8c-.9.7-1.9 1-3 1s-2.1-.3-3-1zM2 16l3-8 3 8c-.9.7-1.9 1-3 1s-2.1-.3-3-1z"/></svg></span>
           <span class="pf-label">Peso</span>
           <span class="pf-value" id="pv-peso">–</span>
         </div>
         <div class="profile-field">
-          <span class="pf-icon">📏</span>
+          <span class="pf-icon"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.4 2.4 0 0 1 0-3.4l2.6-2.6a2.4 2.4 0 0 1 3.4 0z"/><path d="m14.5 12.5 2-2M11.5 9.5l2-2M8.5 6.5l2-2M17.5 15.5l2-2"/></svg></span>
           <span class="pf-label">Estatura</span>
           <span class="pf-value" id="pv-estatura">–</span>
         </div>
         <div class="profile-field">
-          <span class="pf-icon">🩺</span>
+          <span class="pf-icon"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3H4a2 2 0 0 0-2 2v4a6 6 0 0 0 12 0V5a2 2 0 0 0-2-2h-1"/><path d="M8 15a6 6 0 0 0 12 0v-3"/><circle cx="20" cy="10" r="2"/></svg></span>
           <span class="pf-label">Tipo diabetes</span>
           <span class="pf-value" id="pv-tipo">–</span>
         </div>
         <div class="profile-field">
-          <span class="pf-icon">📅</span>
+          <span class="pf-icon"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4.5" width="18" height="16.5" rx="2.5"/><path d="M16 2.5v4M8 2.5v4M3 10h18"/></svg></span>
           <span class="pf-label">Diagnóstico</span>
           <span class="pf-value" id="pv-diagnostico">–</span>
+        </div>
+        <div class="profile-field">
+          <span class="pf-icon"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.7s-6 6.4-6 11.3a6 6 0 0 0 12 0c0-4.9-6-11.3-6-11.3z"/></svg></span>
+          <span class="pf-label">Tipo de sangre</span>
+          <span class="pf-value" id="pv-sangre">–</span>
         </div>
       </div>
 
       <div class="profile-section">
         <div class="profile-section-title">Médico tratante</div>
         <div class="profile-field">
-          <span class="pf-icon">👨‍⚕️</span>
+          <span class="pf-icon"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span>
           <span class="pf-label">Nombre</span>
           <span class="pf-value" id="pv-medico">–</span>
         </div>
         <div class="profile-field">
-          <span class="pf-icon">📞</span>
+          <span class="pf-icon"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></span>
           <span class="pf-label">Teléfono</span>
           <span class="pf-value" id="pv-telmedico">–</span>
         </div>
         <div class="profile-field">
-          <span class="pf-icon">🏥</span>
+          <span class="pf-icon"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18M5 21V7l7-4 7 4v14M12 9v6M9 12h6"/></svg></span>
           <span class="pf-label">EPS / Clínica</span>
           <span class="pf-value" id="pv-eps">–</span>
+        </div>
+      </div>
+
+      <div class="profile-section">
+        <div class="profile-section-title"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.7 18-8-14a2 2 0 0 0-3.4 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-3z"/><path d="M12 9v4M12 17h.01"/></svg> Contacto de emergencia</div>
+        <div class="profile-field">
+          <span class="pf-icon"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span>
+          <span class="pf-label">Nombre</span>
+          <span class="pf-value" id="pv-emergNombre">–</span>
+        </div>
+        <div class="profile-field">
+          <span class="pf-icon"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg></span>
+          <span class="pf-label">Teléfono</span>
+          <span class="pf-value" id="pv-emergTel">–</span>
         </div>
       </div>
 
@@ -1278,7 +1455,7 @@
     <!-- ── BACKUP — siempre visible ── -->
     <div class="backup-card" id="backupCard">
       <div class="backup-alert">
-        <span class="backup-alert-icon">⚠️</span>
+        <span class="backup-alert-icon"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.7 18-8-14a2 2 0 0 0-3.4 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-3z"/><path d="M12 9v4M12 17h.01"/></svg></span>
         <div>
           <div class="backup-alert-title">Tus datos pueden perderse</div>
           <div class="backup-alert-desc">Si borras el historial del navegador o cambias de dispositivo, perderás todas tus mediciones. Guarda un respaldo regularmente.</div>
@@ -1287,10 +1464,10 @@
       <div class="backup-last" id="backupLastSaved">Último respaldo: nunca</div>
       <div class="backup-btns">
         <button class="backup-btn-export" onclick="exportBackup()">
-          ⬇️ Descargar respaldo
+          <svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg> Descargar respaldo
         </button>
         <label class="backup-btn-import" for="importFileInput">
-          ⬆️ Restaurar respaldo
+          <svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21V9M7 14l5-5 5 5M5 3h14"/></svg> Restaurar respaldo
         </label>
         <input type="file" id="importFileInput" accept=".diaritmo,.json" style="display:none;" onchange="importBackup(event)">
       </div>
@@ -1346,6 +1523,14 @@
             <input class="pform-input" id="pf-diagnostico" type="number" placeholder="Ej: 2019" min="1940" max="2030">
           </div>
         </div>
+        <div class="pform-field">
+          <label class="pform-label">Tipo de sangre</label>
+          <select class="pform-select" id="pf-sangre">
+            <option value="">No sé</option>
+            <option>O+</option><option>O-</option><option>A+</option><option>A-</option>
+            <option>B+</option><option>B-</option><option>AB+</option><option>AB-</option>
+          </select>
+        </div>
       </div>
 
       <div class="profile-section">
@@ -1362,6 +1547,20 @@
           <div class="pform-field">
             <label class="pform-label">EPS / Clínica</label>
             <input class="pform-input" id="pf-eps" type="text" placeholder="Ej: Sura">
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-section">
+        <div class="profile-section-title"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.7 18-8-14a2 2 0 0 0-3.4 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-3z"/><path d="M12 9v4M12 17h.01"/></svg> Contacto de emergencia</div>
+        <div class="pform-row">
+          <div class="pform-field">
+            <label class="pform-label">Nombre</label>
+            <input class="pform-input" id="pf-emergNombre" type="text" maxlength="60" placeholder="Ej: Ana (hija)">
+          </div>
+          <div class="pform-field">
+            <label class="pform-label">Teléfono</label>
+            <input class="pform-input" id="pf-emergTel" type="tel" maxlength="20" placeholder="Ej: 3001234567">
           </div>
         </div>
       </div>
@@ -1397,16 +1596,63 @@
         </div>
       </div>
 
-      <button class="save-btn" onclick="saveProfile()">💾 Guardar perfil</button>
+      <button class="save-btn" onclick="saveProfile()">Guardar perfil</button>
 
       <div style="height:12px;"></div>
 
       <div class="danger-zone">
-        <div class="danger-zone-title">⚠ Zona de precaución</div>
-        <button class="danger-btn" onclick="confirmClearData()">🗑 Borrar todos mis datos</button>
+        <div class="danger-zone-title"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.7 18-8-14a2 2 0 0 0-3.4 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-3z"/><path d="M12 9v4M12 17h.01"/></svg> Zona de precaución</div>
+        <button class="danger-btn" onclick="confirmClearData()"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg> Borrar todos mis datos</button>
       </div>
 
     </div><!-- /profileEditMode -->
+  </div>
+</div>
+
+<!-- ══ SCREEN: GUÍA ══ -->
+<div class="screen" id="screen-guia">
+  <div class="agenda-wrap">
+
+    <div class="guide-disclaimer"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.7 9a1 1 0 0 1-.6 0C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.2-2.7a1.2 1.2 0 0 1 1.6 0C14.5 3.8 17 5 19 5a1 1 0 0 1 1 1z"/></svg> <b>Herramienta de registro, no de diagnóstico.</b> DiaRitmo organiza tu información para que converses mejor con tu equipo médico. No reemplaza la consulta, el diagnóstico ni el tratamiento. Ante una emergencia o síntomas intensos, busca atención médica inmediata.</div>
+
+    <div class="agenda-card">
+      <div class="agenda-card-head"><div class="agenda-card-title"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="m15.5 8.5-2.2 4.8-4.8 2.2 2.2-4.8z"/></svg> ¿Cómo llegas hoy?</div></div>
+      <div class="agenda-hint">Responde cuatro preguntas y te decimos qué conviene anotar primero.</div>
+      <div class="guide-q"><label for="ci-sueno">¿Cómo dormiste?</label>
+        <select class="pform-select" id="ci-sueno" onchange="limpiarCheckin()"><option value="">Selecciona</option><option value="bien">Dormí bien</option><option value="mal">Dormí poco o mal</option></select></div>
+      <div class="guide-q"><label for="ci-estres">¿Cómo está tu estrés?</label>
+        <select class="pform-select" id="ci-estres" onchange="limpiarCheckin()"><option value="">Selecciona</option><option value="bajo">Bajo</option><option value="alto">Alto</option></select></div>
+      <div class="guide-q"><label for="ci-sintomas">¿Tienes síntomas intensos ahora? <span style="font-weight:400;color:var(--text-soft)">(temblor, sudor frío, confusión, mucha debilidad)</span></label>
+        <select class="pform-select" id="ci-sintomas" onchange="limpiarCheckin()"><option value="">Selecciona</option><option value="no">No</option><option value="si">Sí, ahora mismo</option></select></div>
+      <div class="guide-q"><label for="ci-trat">¿Tomaste tu tratamiento a tiempo?</label>
+        <select class="pform-select" id="ci-trat" onchange="limpiarCheckin()"><option value="">Selecciona</option><option value="si">Sí</option><option value="no">No, o tengo duda</option></select></div>
+      <button class="add-reading-btn" onclick="verCheckin()">Ver mi resultado</button>
+      <div class="guide-result" id="checkinResult"></div>
+    </div>
+
+    <div class="agenda-card">
+      <div class="agenda-card-head"><div class="agenda-card-title"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> Antes de hacer ejercicio</div></div>
+      <div class="agenda-hint">Escribe tu glucosa antes de moverte. El resultado aparece al instante.</div>
+      <div class="ex-input-wrap">
+        <input class="pform-input" id="exInput" type="number" inputmode="numeric" min="20" max="600" placeholder="000" oninput="evaluarEjercicio()">
+        <span>mg/dL</span>
+      </div>
+      <div class="guide-result" id="exResult"></div>
+      <div class="ex-legend">
+        <span><i style="background:var(--red)"></i>Menos de 70</span>
+        <span><i style="background:var(--amber)"></i>70–89</span>
+        <span><i style="background:var(--green)"></i>90–250</span>
+        <span><i style="background:var(--amber)"></i>Más de 250</span>
+      </div>
+      <div class="agenda-hint" style="margin:10px 0 0;">Orientación general. Si tu médico te dio otros rangos para hacer ejercicio, sigue los suyos.</div>
+    </div>
+
+    <div class="agenda-card">
+      <div class="agenda-card-head"><div class="agenda-card-title"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01"/></svg> ¿Qué hago si…?</div></div>
+      <div class="agenda-hint">Abre la situación que se parece a lo que te pasa.</div>
+      <div id="faqList"></div>
+    </div>
+
   </div>
 </div>
 
@@ -1414,7 +1660,7 @@
 <div class="modal-overlay" id="importModal">
   <div class="modal" style="position:relative;">
     <button class="modal-close" onclick="closeImportModal()">×</button>
-    <div class="modal-title">⚠️ Restaurar respaldo</div>
+    <div class="modal-title"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.7 18-8-14a2 2 0 0 0-3.4 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-3z"/><path d="M12 9v4M12 17h.01"/></svg> Restaurar respaldo</div>
     <p style="font-size:14px;color:var(--text-soft);margin-bottom:16px;line-height:1.5;">
       Esto <strong>reemplazará todos tus datos actuales</strong> con los del archivo de respaldo. Esta acción no se puede deshacer.
     </p>
@@ -1440,7 +1686,7 @@
 <div class="modal-overlay" id="citaModal">
   <div class="modal" style="position:relative;">
     <button class="modal-close" onclick="closeCitaModal()">×</button>
-    <div class="modal-title">🩺 Nueva cita médica</div>
+    <div class="modal-title"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3H4a2 2 0 0 0-2 2v4a6 6 0 0 0 12 0V5a2 2 0 0 0-2-2h-1"/><path d="M8 15a6 6 0 0 0 12 0v-3"/><circle cx="20" cy="10" r="2"/></svg> Nueva cita médica</div>
     <div class="pform-row">
       <div class="pform-field">
         <label class="pform-label">Fecha</label>
@@ -1463,7 +1709,7 @@
       <label class="pform-label">Nota (opcional)</label>
       <input class="pform-input" id="cita-nota" type="text" maxlength="120" placeholder="Ej: Llevar exámenes de laboratorio">
     </div>
-    <button class="save-btn" onclick="saveCita()">💾 Guardar cita</button>
+    <button class="save-btn" onclick="saveCita()">Guardar cita</button>
   </div>
 </div>
 
@@ -1471,9 +1717,9 @@
 <div class="modal-overlay" id="camModal">
   <div class="modal" style="position:relative;text-align:center;">
     <button class="modal-close" onclick="cerrarCamara()">×</button>
-    <div class="modal-title">📷 Tomar foto</div>
+    <div class="modal-title"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3"/></svg> Tomar foto</div>
     <video id="camVideo" class="cam-video" autoplay playsinline muted></video>
-    <button class="save-btn" onclick="capturarFoto()">📸 Capturar</button>
+    <button class="save-btn" onclick="capturarFoto()">Capturar</button>
   </div>
 </div>
 
@@ -1481,6 +1727,7 @@
 <div class="toast" id="toast"></div>
 
 <script>
+const I = {"sun": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"4\"/><path d=\"M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4\"/></svg>", "utensils": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 2v7a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2a5 5 0 0 0-5 5v6a2 2 0 0 0 2 2h3zm0 0v7\"/></svg>", "checkc": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9.5\"/><path d=\"m8.5 12 2.5 2.5 4.5-5\"/></svg>", "moon": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z\"/></svg>", "drop": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 2.7s-6 6.4-6 11.3a6 6 0 0 0 12 0c0-4.9-6-11.3-6-11.3z\"/></svg>", "msg": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z\"/></svg>", "dizzy": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M21 12a9 9 0 1 1-3-6.7L21 8\"/><path d=\"M21 3v5h-5\"/></svg>", "cup": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 3h14l-1.6 17.2A2 2 0 0 1 15.4 22H8.6a2 2 0 0 1-2-1.8z\"/><path d=\"M5.6 9h12.8\"/></svg>", "battery": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"2\" y=\"7\" width=\"17\" height=\"10\" rx=\"2\"/><path d=\"M22 11v2M6 11v2\"/></svg>", "apple": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 7c-1.6-1.2-5-1.6-6.6 1.4C3.8 11.3 5 17 8 20c1.5 1.5 2.6 1 4 .4 1.4.6 2.5 1.1 4-.4 3-3 4.2-8.7 2.6-11.6C17 5.4 13.6 5.8 12 7z\"/><path d=\"M12 7c.2-2 1.4-3.5 3.5-4\"/></svg>", "shake": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M2 12h3l2-5 3 10 3-10 3 10 2-5h4\"/></svg>", "smile": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9.5\"/><path d=\"M8 14s1.5 2 4 2 4-2 4-2M9 9.5h.01M15 9.5h.01\"/></svg>", "pencil": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 20h9\"/><path d=\"M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z\"/></svg>", "leaf": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10z\"/><path d=\"M2 21c0-3 1.9-5.4 5.1-6\"/></svg>", "pulse": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M22 12h-4l-3 9L9 3l-3 9H2\"/></svg>", "pill": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7z\"/><path d=\"m8.5 8.5 7 7\"/></svg>", "steth": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 3H4a2 2 0 0 0-2 2v4a6 6 0 0 0 12 0V5a2 2 0 0 0-2-2h-1\"/><path d=\"M8 15a6 6 0 0 0 12 0v-3\"/><circle cx=\"20\" cy=\"10\" r=\"2\"/></svg>", "clock": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9.5\"/><path d=\"M12 7v5l3 2\"/></svg>", "bell": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9\"/><path d=\"M10.3 21a1.94 1.94 0 0 0 3.4 0\"/></svg>", "clipboard": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"8\" y=\"2\" width=\"8\" height=\"4\" rx=\"1\"/><path d=\"M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2M9 12h6M9 16h6\"/></svg>", "printer": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2\"/><rect x=\"6\" y=\"14\" width=\"12\" height=\"8\"/></svg>", "user": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"8\" r=\"4\"/><path d=\"M4 21a8 8 0 0 1 16 0\"/></svg>", "camera": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z\"/><circle cx=\"12\" cy=\"13\" r=\"3\"/></svg>", "image": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"2\"/><circle cx=\"9\" cy=\"9\" r=\"2\"/><path d=\"m21 15-5-5L5 21\"/></svg>", "cake": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1M2 21h20M7 8v3M12 8v3M17 8v3\"/></svg>", "users": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"9\" cy=\"8\" r=\"3.5\"/><path d=\"M2 20a7 7 0 0 1 14 0\"/><path d=\"M16 4.3a3.5 3.5 0 0 1 0 7.4M18 14.5a7 7 0 0 1 4 5.5\"/></svg>", "scale": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 3v18M7 21h10M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2\"/><path d=\"m16 16 3-8 3 8c-.9.7-1.9 1-3 1s-2.1-.3-3-1zM2 16l3-8 3 8c-.9.7-1.9 1-3 1s-2.1-.3-3-1z\"/></svg>", "ruler": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.4 2.4 0 0 1 0-3.4l2.6-2.6a2.4 2.4 0 0 1 3.4 0z\"/><path d=\"m14.5 12.5 2-2M11.5 9.5l2-2M8.5 6.5l2-2M17.5 15.5l2-2\"/></svg>", "calendar": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3\" y=\"4.5\" width=\"18\" height=\"16.5\" rx=\"2.5\"/><path d=\"M16 2.5v4M8 2.5v4M3 10h18\"/></svg>", "phone": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z\"/></svg>", "hospital": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 21h18M5 21V7l7-4 7 4v14M12 9v6M9 12h6\"/></svg>", "alert": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m21.7 18-8-14a2 2 0 0 0-3.4 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-3z\"/><path d=\"M12 9v4M12 17h.01\"/></svg>", "mobile": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"5\" y=\"2\" width=\"14\" height=\"20\" rx=\"2\"/><path d=\"M12 18h.01\"/></svg>", "download": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 3v12M7 10l5 5 5-5M5 21h14\"/></svg>", "upload": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 21V9M7 14l5-5 5 5M5 3h14\"/></svg>", "trash": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2\"/></svg>", "shield": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 13c0 5-3.5 7.5-7.7 9a1 1 0 0 1-.6 0C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.2-2.7a1.2 1.2 0 0 1 1.6 0C14.5 3.8 17 5 19 5a1 1 0 0 1 1 1z\"/></svg>", "compass": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9.5\"/><path d=\"m15.5 8.5-2.2 4.8-4.8 2.2 2.2-4.8z\"/></svg>", "help": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9.5\"/><path d=\"M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01\"/></svg>", "pin": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z\"/><circle cx=\"12\" cy=\"10\" r=\"3\"/></svg>", "inbox": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M22 12h-6l-2 3h-4l-2-3H2\"/><path d=\"M5.5 5.1 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.5-6.9A2 2 0 0 0 16.8 4H7.2a2 2 0 0 0-1.7 1.1z\"/></svg>", "flame": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.3.1 1.6 1.3 2.8 2.5 2.8z\"/></svg>", "zap": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M13 2 3 14h9l-1 8 10-12h-9l1-8z\"/></svg>", "ban": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9.5\"/><path d=\"m5.3 5.3 13.4 13.4\"/></svg>", "walk": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"13\" cy=\"4\" r=\"2\"/><path d=\"m9 21 2.5-6 2.5 2v4M7 12l3-4 4 1 2 4 3 1M11.5 15 10 9\"/></svg>", "stretch": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"4.5\" r=\"2\"/><path d=\"M5 8.5l7 2 7-2M12 10.5V15l-3 6M12 15l3 6\"/></svg>", "dumbbell": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M6.5 6.5v11M17.5 6.5v11M3 9.5v5M21 9.5v5M6.5 12h11\"/></svg>", "note": "<svg class=\"i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z\"/><path d=\"M14 3v6h6M8 13h8M8 17h5\"/></svg>"};
 // Almacenamiento: usa localStorage y, si el navegador lo bloquea, guarda en memoria
 const store = (()=>{ const mem={}; let ls=null;
   try{ ls=window.localStorage; ls.setItem('__t','1'); ls.removeItem('__t'); }catch(e){ ls=null; }
@@ -1642,7 +1889,7 @@ function showScreen(name, btn){
   if(name==='register') renderRegister();
   if(name==='report') renderReport();
   if(name==='agenda') renderAgenda();
-  if(name==='profile'){ profileEditing=false; setFotoEdicion(false); document.getElementById('profileViewMode').style.display='block'; document.getElementById('profileEditMode').style.display='none'; document.querySelector('.avatar-edit-btn').textContent='✏️ Editar'; renderProfile(); }
+  if(name==='profile'){ profileEditing=false; setFotoEdicion(false); document.getElementById('profileViewMode').style.display='block'; document.getElementById('profileEditMode').style.display='none'; document.querySelector('.avatar-edit-btn').innerHTML=I.pencil+' Editar'; renderProfile(); }
 }
 
 // ═══════════════════════════════════════
@@ -1701,7 +1948,7 @@ function renderCalendar(){
     const nCitas = citas.filter(c=>c.fecha===key).length;
     if(nCitas){
       const ci = document.createElement('div');
-      ci.className = 'cal-cita'; ci.textContent = '🩺';
+      ci.className = 'cal-cita'; ci.innerHTML = I.steth;
       el.appendChild(ci);
     }
 
@@ -1720,7 +1967,7 @@ function renderCalendar(){
 }
 
 function selectDay(d,m,y){
-  if(esFuturo(y,m,d) && !citas.some(c=>c.fecha===dateKey(y,m,d))){ showToast('⛔ No se puede registrar en fechas futuras'); return; }
+  if(esFuturo(y,m,d) && !citas.some(c=>c.fecha===dateKey(y,m,d))){ showToast('No se puede registrar en fechas futuras'); return; }
   selectedDay=d; selectedMonth=m; selectedYear=y;
   renderCalendar();
 }
@@ -1756,13 +2003,13 @@ function updateDaySummary(){
   const st = dayStatus(rec);
   const statusEl = document.getElementById('summaryStatus');
   if(st==='ok'){ statusEl.className='day-summary-status status-ok'; statusEl.textContent='✓ En rango'; }
-  else if(st==='warn'){ statusEl.className='day-summary-status status-warn'; statusEl.textContent='⚠ Precaución'; }
-  else if(st==='bad'){ statusEl.className='day-summary-status status-bad'; statusEl.textContent='⚡ Fuera de rango'; }
+  else if(st==='warn'){ statusEl.className='day-summary-status status-warn'; statusEl.textContent='Precaución'; }
+  else if(st==='bad'){ statusEl.className='day-summary-status status-bad'; statusEl.textContent='Fuera de rango'; }
   else { statusEl.className='day-summary-status status-empty'; statusEl.textContent='Sin registro'; }
 
   // Citas del día seleccionado
   document.getElementById('dsCitas').innerHTML = citas.filter(c=>c.fecha===key).sort(cmpCita).map(c=>
-    `<div class="ds-cita">🩺 <b>${c.hora?esc(c.hora)+' · ':''}${esc(c.titulo)}</b>${c.lugar?' — '+esc(c.lugar):''}</div>`
+    `<div class="ds-cita">${I.steth} <b>${c.hora?esc(c.hora)+' · ':''}${esc(c.titulo)}</b>${c.lugar?' — '+esc(c.lugar):''}</div>`
   ).join('');
 
   renderUpCitas();
@@ -1803,7 +2050,7 @@ function renderUpCitas(){
       ${badge}
       <div class="up-cita-info">
         <div class="up-cita-title">${esc(c.titulo)}</div>
-        <div class="up-cita-meta">${dia}${c.hora?' · 🕐 '+esc(c.hora):''}${c.lugar?' · 📍 '+esc(c.lugar):''}</div>
+        <div class="up-cita-meta">${dia}${c.hora?' · '+esc(c.hora):''}${c.lugar?' · '+esc(c.lugar):''}</div>
       </div>
       ${when}
     </button>`;
@@ -1811,15 +2058,15 @@ function renderUpCitas(){
     // Varias el mismo día: el espacio se divide en partes iguales
     cuerpo = `<div class="up-cita-split">${delDia.map(c=>`
       <button class="up-cita half" onclick="irADiaCita('${c.fecha}')">
-        <div class="up-half-top">${badge}<div class="up-half-hora">${c.hora?'🕐 '+esc(c.hora):'Sin hora'}</div></div>
+        <div class="up-half-top">${badge}<div class="up-half-hora">${c.hora?esc(c.hora):'Sin hora'}</div></div>
         <div class="up-cita-title">${esc(c.titulo)}</div>
-        ${c.lugar?`<div class="up-cita-meta">📍 ${esc(c.lugar)}</div>`:''}
+        ${c.lugar?`<div class="up-cita-meta">${esc(c.lugar)}</div>`:''}
       </button>`).join('')}</div>`;
   }
 
   cont.innerHTML = `
     <div class="up-citas-head">
-      <div class="up-citas-title">🩺 Próxima cita${delDia.length>1?` ${when}`:''}</div>
+      <div class="up-citas-title">Próxima cita${delDia.length>1?` ${when}`:''}</div>
       <button class="up-citas-more" onclick="document.querySelectorAll('.nav-tab')[2].click()">Ver agenda ›</button>
     </div>
     ${cuerpo}`;
@@ -2033,10 +2280,10 @@ function refreshStatusUI(){
   body.classList.add('st-'+st);
 
   if(st==='ok')        { msgEl.style.background='var(--green-bg)'; msgEl.style.color='var(--green)'; msgEl.textContent='✓ Dentro de tu meta'; }
-  else if(st==='warn' && v<meta.min) { msgEl.style.background='var(--amber-bg)'; msgEl.style.color='var(--amber)'; msgEl.textContent='⚠ Por debajo de tu meta'; }
-  else if(st==='warn') { msgEl.style.background='var(--amber-bg)'; msgEl.style.color='var(--amber)'; msgEl.textContent='⚠ Por encima de tu meta'; }
-  else if(v<70)        { msgEl.style.background='var(--red-bg)';   msgEl.style.color='var(--red)';   msgEl.textContent='⚡ Nivel bajo – consulta a tu médico'; }
-  else                 { msgEl.style.background='var(--red-bg)';   msgEl.style.color='var(--red)';   msgEl.textContent='⚡ Nivel alto – consulta a tu médico'; }
+  else if(st==='warn' && v<meta.min) { msgEl.style.background='var(--amber-bg)'; msgEl.style.color='var(--amber)'; msgEl.textContent='Por debajo de tu meta'; }
+  else if(st==='warn') { msgEl.style.background='var(--amber-bg)'; msgEl.style.color='var(--amber)'; msgEl.textContent='Por encima de tu meta'; }
+  else if(v<70)        { msgEl.style.background='var(--red-bg)';   msgEl.style.color='var(--red)';   msgEl.textContent='Nivel bajo – consulta a tu médico'; }
+  else                 { msgEl.style.background='var(--red-bg)';   msgEl.style.color='var(--red)';   msgEl.textContent='Nivel alto – consulta a tu médico'; }
 }
 
 /* ── Render + carga de momento ── */
@@ -2066,6 +2313,7 @@ function renderRegister(){
   if(!pickerBuilt) buildPicker();
   loadExistingForMoment();
   updateMomentTabs();
+  renderHabitos();
 }
 
 function updateRegDateLabel(){
@@ -2095,7 +2343,7 @@ function loadExistingForMoment(){
 }
 
 function saveReading(){
-  if(esFuturo(selectedYear, selectedMonth, selectedDay)){ showToast('⛔ No se puede registrar en fechas futuras'); return; }
+  if(esFuturo(selectedYear, selectedMonth, selectedDay)){ showToast('No se puede registrar en fechas futuras'); return; }
   if(!pickerVal || pickerVal < 30){ showToast('↕ Desliza las ruedas para ingresar tu medida'); return; }
   if(pickerVal > 599){ showToast('El valor debe estar entre 30 y 599 mg/dL'); return; }
   const key = dateKey(selectedYear,selectedMonth,selectedDay);
@@ -2194,7 +2442,7 @@ function renderWeekBars(y,m,days){
 function renderLogList(y,m,days){
   const container=document.getElementById('logList');
   container.innerHTML='';
-  const momentLabels={ayunas:'🌅 Ayunas',antes:'🍽️ Antes de comer',despues:'✅ Después de comer',noche:'🌙 Noche'};
+  const momentLabels={ayunas:'Ayunas',antes:'Antes de comer',despues:'Después de comer',noche:'Noche'};
   let entries=[];
 
   for(let d=days;d>=1;d--){
@@ -2208,7 +2456,7 @@ function renderLogList(y,m,days){
   }
 
   if(!entries.length){
-    container.innerHTML=`<div class="empty-state"><div class="empty-state-icon">📭</div><div class="empty-state-text">No hay lecturas este mes.<br>¡Empieza a registrar hoy!</div></div>`;
+    container.innerHTML=`<div class="empty-state"><div class="empty-state-icon">${I.inbox}</div><div class="empty-state-text">No hay lecturas este mes.<br>¡Empieza a registrar hoy!</div></div>`;
     return;
   }
 
@@ -2235,16 +2483,16 @@ function renderLogList(y,m,days){
 function cellColor(val, mo){
   if(!val) return '#f5f5f5';
   const st = glucoseStatus(val, mo);
-  if(st==='ok') return '#e8f8f0';
-  if(st==='warn') return '#fff4e0';
-  return '#fdeaea';
+  if(st==='ok') return '#E7F2EA';
+  if(st==='warn') return '#FCF2E2';
+  return '#FBEAE7';
 }
 function cellTextColor(val, mo){
   if(!val) return '#999';
   const st = glucoseStatus(val, mo);
-  if(st==='ok') return '#1e9e5e';
-  if(st==='warn') return '#d97b0f';
-  return '#d63b3b';
+  if(st==='ok') return '#2F7D4F';
+  if(st==='warn') return '#B8680F';
+  return '#C23F35';
 }
 
 function exportReport(){
@@ -2279,6 +2527,12 @@ function exportReport(){
         if(t) partes.push(`<b>${MOMENTO_CORTO[mo]}:</b> ${esc(t)}`);
       });
     }
+    if(rec){
+      const hb = HABITOS.filter(h=>rec.habitos && rec.habitos[h.id]).map(h=>h.corto);
+      const ac = ACTIVIDADES.filter(a=>rec.actividad && rec.actividad[a.id]).map(a=>a.corto);
+      if(hb.length) partes.push(`<b>Hábitos:</b> ${hb.join(', ')}`);
+      if(ac.length) partes.push(`<b>Actividad:</b> ${ac.join(', ')}`);
+    }
     const extra = partes.join('<br>');
 
     filas += `<tr style="${bgRow}">
@@ -2294,7 +2548,7 @@ function exportReport(){
 
   // Bloque de medicamentos
   const medsHtml = medications.length
-    ? medications.map(med=>`<span style="background:#ebf3ff;color:#2a6ebb;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;margin-right:4px;">${esc(med.name)}${med.dose?' '+esc(med.dose):''}${med.horas&&med.horas.length?' · 🕐 '+med.horas.map(esc).join(', '):''}</span>`).join('')
+    ? medications.map(med=>`<span style="background:#E7F0F1;color:#2A626C;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;margin-right:4px;">${esc(med.name)}${med.dose?' '+esc(med.dose):''}${med.horas&&med.horas.length?' · '+med.horas.map(esc).join(', '):''}</span>`).join('')
     : '<span style="color:#aaa;font-size:11px;">Sin medicamentos registrados</span>';
 
   const proxCitas = citas.filter(c=>c.fecha>=nowKey()).sort(cmpCita).slice(0,5);
@@ -2310,42 +2564,42 @@ function exportReport(){
 <style>
   @page { size: A4 portrait; margin: 18mm 15mm 15mm 15mm; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #1a2332; background: white; }
+  body { font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #17262B; background: white; }
 
   /* ── ENCABEZADO ── */
-  .header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 18px; border-bottom: 3px solid #2a6ebb; padding-bottom: 14px; }
+  .header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 18px; border-bottom: 3px solid #2A626C; padding-bottom: 14px; }
   .header-logo { display: flex; align-items: center; gap: 10px; }
-  .logo-box { width: 42px; height: 42px; background: #2a6ebb; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
-  .logo-text { font-size: 22px; font-weight: 900; color: #2a6ebb; letter-spacing: -0.5px; }
+  .logo-box { width: 42px; height: 42px; background: #2A626C; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+  .logo-text { font-size: 22px; font-weight: 900; color: #2A626C; letter-spacing: -0.5px; }
   .logo-sub { font-size: 11px; color: #888; }
   .header-right { text-align: right; }
-  .report-title { font-size: 15px; font-weight: 800; color: #1a2332; }
-  .report-period { font-size: 12px; color: #2a6ebb; font-weight: 700; }
+  .report-title { font-size: 15px; font-weight: 800; color: #17262B; }
+  .report-period { font-size: 12px; color: #2A626C; font-weight: 700; }
   .report-date { font-size: 10px; color: #aaa; margin-top: 2px; }
 
   /* ── DATOS PACIENTE ── */
-  .patient-card { background: #f0f6ff; border-radius: 10px; padding: 14px 16px; margin-bottom: 14px; border-left: 4px solid #2a6ebb; }
-  .patient-name { font-size: 16px; font-weight: 900; color: #1a2332; margin-bottom: 8px; }
+  .patient-card { background: #EEF4F3; border-radius: 10px; padding: 14px 16px; margin-bottom: 14px; border-left: 4px solid #2A626C; }
+  .patient-name { font-size: 16px; font-weight: 900; color: #17262B; margin-bottom: 8px; }
   .patient-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; }
   .patient-label { font-size: 9px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
-  .patient-value { font-size: 12px; font-weight: 600; color: #1a2332; }
-  .meds-row { margin-top: 10px; border-top: 1px solid #dde6f0; padding-top: 8px; }
+  .patient-value { font-size: 12px; font-weight: 600; color: #17262B; }
+  .meds-row { margin-top: 10px; border-top: 1px solid #E1E7E4; padding-top: 8px; }
   .meds-label { font-size: 9px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
 
   /* ── STATS RESUMEN ── */
   .stats-row { display: flex; gap: 10px; margin-bottom: 14px; }
-  .stat-box { flex: 1; background: #f7f9fc; border-radius: 8px; padding: 10px; text-align: center; border: 1px solid #dde6f0; }
-  .stat-val { font-size: 22px; font-weight: 900; color: #2a6ebb; }
+  .stat-box { flex: 1; background: #F6F7F4; border-radius: 8px; padding: 10px; text-align: center; border: 1px solid #E1E7E4; }
+  .stat-val { font-size: 22px; font-weight: 900; color: #2A626C; }
   .stat-label { font-size: 9px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
 
   /* ── TABLA ── */
   .section-title { font-size: 10px; font-weight: 800; color: #888; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
   table { width: 100%; border-collapse: collapse; font-size: 11px; }
-  thead tr { background: #2a6ebb; color: white; }
+  thead tr { background: #2A626C; color: white; }
   thead th { padding: 7px 6px; text-align: center; font-size: 10px; font-weight: 700; letter-spacing: 0.3px; }
   thead th:last-child { text-align: left; }
-  tbody tr { border-bottom: 1px solid #eef2f8; }
-  tbody tr:hover { background: #f7fbff; }
+  tbody tr { border-bottom: 1px solid #EDF1EF; }
+  tbody tr:hover { background: #F4F8F7; }
   tbody td { padding: 6px 6px; vertical-align: middle; }
 
   /* ── LEYENDA ── */
@@ -2354,7 +2608,7 @@ function exportReport(){
   .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
 
   /* ── FOOTER ── */
-  .footer { margin-top: 18px; border-top: 1px solid #dde6f0; padding-top: 10px; font-size: 9px; color: #bbb; display: flex; justify-content: space-between; }
+  .footer { margin-top: 18px; border-top: 1px solid #E1E7E4; padding-top: 10px; font-size: 9px; color: #bbb; display: flex; justify-content: space-between; }
 
   @media print {
     body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -2366,7 +2620,7 @@ function exportReport(){
 <!-- ENCABEZADO -->
 <div class="header">
   <div class="header-logo">
-    <div class="logo-box">💧</div>
+    <div class="logo-box" style="background:none;"><svg viewBox="0 0 500 500" width="42" height="42" aria-hidden="true"><circle cx="250" cy="250" r="220" fill="none" stroke="#2A626C" stroke-width="22"/><path d="M250 70C232 88 215 125 215 160c0 40 17 70 35 82 18-12 35-42 35-82 0-35-17-72-35-90z" fill="#4F8B5C"/><path d="M285 240h45l20-40 20 40h35l17-28 18 28h20" fill="none" stroke="#367C87" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/><circle cx="350" cy="200" r="9" fill="#E8935B"/></svg></div>
     <div>
       <div class="logo-text">DiaRitmo</div>
       <div class="logo-sub">Control de glucosa</div>
@@ -2381,7 +2635,7 @@ function exportReport(){
 
 <!-- DATOS DEL PACIENTE -->
 <div class="patient-card">
-  <div class="patient-name" style="display:flex;align-items:center;gap:12px;">${fotoValida(profile.foto)?`<img src="${profile.foto}" alt="" style="width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid #2a6ebb;">`:''}<span>${esc(profile.nombre) || 'Paciente sin nombre'}</span></div>
+  <div class="patient-name" style="display:flex;align-items:center;gap:12px;">${fotoValida(profile.foto)?`<img src="${profile.foto}" alt="" style="width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid #2A626C;">`:''}<span>${esc(profile.nombre) || 'Paciente sin nombre'}</span></div>
   <div class="patient-grid">
     <div class="patient-item">
       <div class="patient-label">Edad</div>
@@ -2419,6 +2673,18 @@ function exportReport(){
       <div class="patient-label">Teléfono médico</div>
       <div class="patient-value">${esc(profile.telmedico)||'–'}</div>
     </div>
+    <div class="patient-item">
+      <div class="patient-label">Tipo de sangre</div>
+      <div class="patient-value">${esc(profile.sangre)||'–'}</div>
+    </div>
+    <div class="patient-item">
+      <div class="patient-label">Contacto de emergencia</div>
+      <div class="patient-value">${esc(profile.emergNombre)||'–'}</div>
+    </div>
+    <div class="patient-item">
+      <div class="patient-label">Teléfono de emergencia</div>
+      <div class="patient-value">${esc(profile.emergTel)||'–'}</div>
+    </div>
   </div>
   <div class="meds-row">
     <div class="meds-label">Medicamentos actuales</div>
@@ -2441,7 +2707,7 @@ function exportReport(){
     <div class="stat-label">Días registrados</div>
   </div>
   <div class="stat-box">
-    <div class="stat-val" style="color:#1e9e5e;">${pct}</div>
+    <div class="stat-val" style="color:#2F7D4F;">${pct}</div>
     <div class="stat-label">Días en meta</div>
   </div>
   <div class="stat-box">
@@ -2457,11 +2723,11 @@ function exportReport(){
     <tr>
       <th style="width:36px;">Día</th>
       <th style="width:70px;">Fecha</th>
-      <th style="width:72px;">🌅 Ayunas</th>
-      <th style="width:72px;">🍽️ Antes comer</th>
-      <th style="width:72px;">✅ Después</th>
-      <th style="width:60px;">🌙 Noche</th>
-      <th>Notas / Síntomas</th>
+      <th style="width:72px;">Ayunas</th>
+      <th style="width:72px;">Antes de comer</th>
+      <th style="width:72px;">Después</th>
+      <th style="width:60px;">Noche</th>
+      <th>Notas / Síntomas / Hábitos</th>
     </tr>
   </thead>
   <tbody>${filas}</tbody>
@@ -2469,9 +2735,9 @@ function exportReport(){
 
 <!-- LEYENDA -->
 <div class="legend">
-  <div class="legend-item"><div class="legend-dot" style="background:#1e9e5e;"></div>Dentro de la meta</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#d97b0f;"></div>Fuera de la meta (entre 70 y 180 mg/dL)</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#d63b3b;"></div>Fuera de rango (&lt;70 o &gt;180 mg/dL)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#2F7D4F;"></div>Dentro de la meta</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#B8680F;"></div>Fuera de la meta (entre 70 y 180 mg/dL)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#C23F35;"></div>Fuera de rango (&lt;70 o &gt;180 mg/dL)</div>
 </div>
 <div style="font-size:10px;color:#666;margin-top:6px;">
   Metas usadas (mg/dL): Ayunas y antes de comer ${metaFor('ayunas').min}–${metaFor('ayunas').max} ·
@@ -2491,7 +2757,7 @@ function exportReport(){
 </html>`;
 
   const win = window.open('', '_blank');
-  if(!win){ showToast('⚠ Permite ventanas emergentes para imprimir'); return; }
+  if(!win){ showToast('Permite ventanas emergentes para imprimir'); return; }
   win.document.write(html);
   win.document.close();
   showToast('✓ Reporte listo para imprimir / guardar como PDF');
@@ -2552,7 +2818,7 @@ function renderDosis(){
     return `<div class="${cls}">
       <div class="dose-time">${esc(x.hora)}</div>
       <div class="dose-info">
-        <div class="dose-name">💊 ${esc(x.med.name)} ${tag}</div>
+        <div class="dose-name">${I.pill} ${esc(x.med.name)} ${tag}</div>
         ${x.med.dose?`<div class="dose-dose">${esc(x.med.dose)}</div>`:''}
       </div>
       <button class="dose-check" onclick="toggleToma('${x.k}')" aria-label="Marcar como tomada">${ok?'✓':''}</button>
@@ -2564,7 +2830,7 @@ function toggleToma(k){
   const d = nowKey();
   tomas[d] = tomas[d] || {};
   if(tomas[d][k]) delete tomas[d][k]; else { tomas[d][k] = true; showToast('✓ Toma registrada'); }
-  saveAgenda(); renderDosis();
+  saveAgenda(); renderDosis(); renderHabitos();
 }
 
 function citaCard(c, pasada){
@@ -2574,12 +2840,12 @@ function citaCard(c, pasada){
     <div class="cita-date"><div class="cita-day">${d}</div><div class="cita-mon">${MESES[m-1].substring(0,3)}</div></div>
     <div class="cita-info">
       <div class="cita-title">${esc(c.titulo)}</div>
-      <div class="cita-meta">${DIAS[new Date(y,m-1,d).getDay()]}${c.hora?' · 🕐 '+esc(c.hora):''}${c.lugar?' · 📍 '+esc(c.lugar):''}</div>
+      <div class="cita-meta">${DIAS[new Date(y,m-1,d).getDay()]}${c.hora?' · '+esc(c.hora):''}${c.lugar?' · '+esc(c.lugar):''}</div>
       ${c.nota?`<div class="cita-note">${esc(c.nota)}</div>`:''}
     </div>
     <div class="cita-side">
       ${pasada?'':`<span class="cita-when${dd<=1?' soon':''}">${cuando(c.fecha)}</span>`}
-      <button class="cita-del" onclick="deleteCita('${c.id}')" aria-label="Eliminar cita">🗑</button>
+      <button class="cita-del" onclick="deleteCita('${c.id}')" aria-label="Eliminar cita">${I.trash}</button>
     </div>
   </div>`;
 }
@@ -2633,7 +2899,7 @@ function deleteCita(id){
   if(!confirm(`¿Eliminar la cita "${c.titulo}" del ${fechaLarga(c.fecha)}?`)) return;
   citas = citas.filter(x=>x.id!==id);
   saveAgenda(); renderAgenda(); renderCalendar();
-  showToast('🗑 Cita eliminada');
+  showToast('Cita eliminada');
 }
 
 function renderHorarios(){
@@ -2644,10 +2910,10 @@ function renderHorarios(){
   }
   cont.innerHTML = medications.map(m=>`
     <div class="sched-med">
-      <div class="sched-name">💊 ${esc(m.name)}${m.dose?` <span class="sched-dose">${esc(m.dose)}</span>`:''}</div>
+      <div class="sched-name">${I.pill} ${esc(m.name)}${m.dose?` <span class="sched-dose">${esc(m.dose)}</span>`:''}</div>
       <div class="chips">
         ${(m.horas||[]).length
-          ? m.horas.map(h=>`<span class="chip">🕐 ${esc(h)}<button onclick="removeHora('${m.id}','${h}')" aria-label="Quitar horario">×</button></span>`).join('')
+          ? m.horas.map(h=>`<span class="chip">${esc(h)}<button onclick="removeHora('${m.id}','${h}')" aria-label="Quitar horario">×</button></span>`).join('')
           : '<span class="sched-none">Sin horario</span>'}
       </div>
       <div class="add-time-row">
@@ -2689,12 +2955,12 @@ function revisarRecordatorios(){
   const n = new Date(), k = nowKey(), h = hhmm(n), hechas = tomas[k] || {};
   dosisHoy().forEach(x=>{
     const id = k + x.k;
-    if(x.hora === h && !hechas[x.k] && !avisados[id]){ avisados[id] = 1; showToast(`💊 Hora de tomar ${x.med.name}${x.med.dose?' '+x.med.dose:''}`); }
+    if(x.hora === h && !hechas[x.k] && !avisados[id]){ avisados[id] = 1; showToast(`Hora de tomar ${x.med.name}${x.med.dose?' '+x.med.dose:''}`); }
   });
   citas.filter(c=>c.fecha===k && c.hora).forEach(c=>{
     const [hh,mm] = c.hora.split(':').map(Number);
     const faltan = (hh*60+mm) - (n.getHours()*60+n.getMinutes());
-    if(faltan === 60 && !avisados['c'+c.id]){ avisados['c'+c.id] = 1; showToast(`🩺 Cita en 1 hora: ${c.titulo}`); }
+    if(faltan === 60 && !avisados['c'+c.id]){ avisados['c'+c.id] = 1; showToast(`Cita en 1 hora: ${c.titulo}`); }
   });
   if(document.getElementById('screen-agenda').classList.contains('active')) renderDosis();
   if(document.getElementById('screen-calendar').classList.contains('active')) renderUpCitas();
@@ -2721,12 +2987,13 @@ function applyDateChange(){
   const v=document.getElementById('datePickerInput').value;
   if(!v) return;
   const [y,m,d]=v.split('-').map(Number);
-  if(esFuturo(y, m-1, d)){ showToast('⛔ No se puede registrar en fechas futuras'); return; }
+  if(esFuturo(y, m-1, d)){ showToast('No se puede registrar en fechas futuras'); return; }
   selectedYear=y; selectedMonth=m-1; selectedDay=d;
   closeDateModal();
   updateRegDateLabel();
   loadExistingForMoment();
   updateMomentTabs();
+  renderHabitos();
 }
 document.getElementById('dateModal').addEventListener('click',function(e){
   if(e.target===this) closeDateModal();
@@ -2765,6 +3032,9 @@ function renderProfile(){
   set('pv-medico', profile.medico);
   set('pv-telmedico', profile.telmedico);
   set('pv-eps', profile.eps);
+  set('pv-sangre', profile.sangre);
+  set('pv-emergNombre', profile.emergNombre);
+  set('pv-emergTel', profile.emergTel);
 
   // Metas
   document.getElementById('tv-ayunas').textContent = profile.metaAyunas || '80–130';
@@ -2777,9 +3047,9 @@ function renderProfile(){
     medsView.innerHTML = medications.map(m=>`
       <div class="med-tag" style="margin-bottom:6px;">
         <div>
-          <div class="med-tag-name">💊 ${esc(m.name)}</div>
+          <div class="med-tag-name">${I.pill} ${esc(m.name)}</div>
           ${m.dose?`<div class="med-tag-dose">${esc(m.dose)}</div>`:''}
-          ${m.horas&&m.horas.length?`<div class="med-tag-dose">🕐 ${m.horas.map(esc).join(' · ')}</div>`:''}
+          ${m.horas&&m.horas.length?`<div class="med-tag-dose">Horario: ${m.horas.map(esc).join(' · ')}</div>`:''}
         </div>
       </div>
     `).join('');
@@ -2805,7 +3075,7 @@ function renderAvatar(foto, nombre){
     img.src = foto; img.alt = 'Foto de perfil';
     c.appendChild(img);
   } else {
-    c.textContent = nombre ? nombre.charAt(0).toUpperCase() : '👤';
+    if(nombre) c.textContent = nombre.charAt(0).toUpperCase(); else c.innerHTML = I.user;
   }
 }
 
@@ -2883,7 +3153,7 @@ function toggleProfileEdit(){
   profileEditing = !profileEditing;
   document.getElementById('profileViewMode').style.display = profileEditing ? 'none' : 'block';
   document.getElementById('profileEditMode').style.display = profileEditing ? 'block' : 'none';
-  document.querySelector('.avatar-edit-btn').textContent = profileEditing ? '✕ Cancelar' : '✏️ Editar';
+  document.querySelector('.avatar-edit-btn').innerHTML = profileEditing ? '✕ Cancelar' : I.pencil+' Editar';
   setFotoEdicion(profileEditing);
 
   if(profileEditing){
@@ -2898,6 +3168,9 @@ function toggleProfileEdit(){
     document.getElementById('pf-medico').value = profile.medico||'';
     document.getElementById('pf-telmedico').value = profile.telmedico||'';
     document.getElementById('pf-eps').value = profile.eps||'';
+    document.getElementById('pf-sangre').value = profile.sangre||'';
+    document.getElementById('pf-emergNombre').value = profile.emergNombre||'';
+    document.getElementById('pf-emergTel').value = profile.emergTel||'';
     document.getElementById('pf-meta-ayunas').value = profile.metaAyunas||'80–130';
     document.getElementById('pf-meta-post').value = profile.metaPost||'< 180';
     document.getElementById('pf-meta-noche').value = profile.metaNoche||'100–140';
@@ -2910,7 +3183,7 @@ function renderMedsEdit(){
   container.innerHTML = medications.map((m,i)=>`
     <div class="med-tag">
       <div>
-        <div class="med-tag-name">💊 ${esc(m.name)}</div>
+        <div class="med-tag-name">${I.pill} ${esc(m.name)}</div>
         ${m.dose?`<div class="med-tag-dose">${esc(m.dose)}</div>`:''}
       </div>
       <button class="med-remove-btn" onclick="removeMed(${i})">×</button>
@@ -2950,6 +3223,9 @@ function saveProfile(){
   profile.medico = document.getElementById('pf-medico').value.trim();
   profile.telmedico = document.getElementById('pf-telmedico').value.trim();
   profile.eps = document.getElementById('pf-eps').value.trim();
+  profile.sangre = document.getElementById('pf-sangre').value;
+  profile.emergNombre = document.getElementById('pf-emergNombre').value.trim();
+  profile.emergTel = document.getElementById('pf-emergTel').value.trim();
   profile.metaAyunas = document.getElementById('pf-meta-ayunas').value.trim();
   profile.metaPost = document.getElementById('pf-meta-post').value.trim();
   profile.metaNoche = document.getElementById('pf-meta-noche').value.trim();
@@ -2973,9 +3249,9 @@ function confirmClearData(){
     setFotoEdicion(false);
     document.getElementById('profileViewMode').style.display = 'block';
     document.getElementById('profileEditMode').style.display = 'none';
-    document.querySelector('.avatar-edit-btn').textContent = '✏️ Editar';
+    document.querySelector('.avatar-edit-btn').innerHTML = I.pencil+' Editar';
     renderCalendar(); renderProfile(); updateBackupLastSaved();
-    showToast('🗑 Todos los datos fueron eliminados');
+    showToast('Todos los datos fueron eliminados');
   }
 }
 
@@ -3002,14 +3278,21 @@ function sanitizeData(raw){
     if(r.sintomas && typeof r.sintomas==='object'){
       rec.sintomas = {}; MOMENTOS.forEach(mo=>{ if(Array.isArray(r.sintomas[mo])) rec.sintomas[mo] = r.sintomas[mo].map(x=>cleanStr(x,40)).filter(Boolean).slice(0,10); });
     }
-    if(MOMENTOS.some(mo=>rec[mo])) out[k] = rec;
+    ['habitos','actividad'].forEach(g=>{
+      if(r[g] && typeof r[g]==='object'){
+        const allowed = g==='habitos' ? HABITOS.map(h=>h.id) : ACTIVIDADES.map(a=>a.id);
+        const o = {}; allowed.forEach(id=>{ if(r[g][id]===true) o[id] = true; });
+        if(Object.keys(o).length) rec[g] = o;
+      }
+    });
+    if(MOMENTOS.some(mo=>rec[mo]) || rec.habitos || rec.actividad) out[k] = rec;
   });
   return out;
 }
 function sanitizeProfile(raw){
   const out = {};
   if(!raw || typeof raw!=='object') return out;
-  ['nombre','edad','sexo','peso','estatura','tipo','diagnostico','medico','telmedico','eps','metaAyunas','metaPost','metaNoche']
+  ['nombre','edad','sexo','peso','estatura','tipo','diagnostico','medico','telmedico','eps','metaAyunas','metaPost','metaNoche','sangre','emergNombre','emergTel']
     .forEach(f=>{ if(raw[f]) out[f] = cleanStr(raw[f], 80); });
   if(fotoValida(raw.foto)) out.foto = raw.foto;
   return out;
@@ -3086,7 +3369,7 @@ function importBackup(event){
     try {
       const backup = JSON.parse(e.target.result);
       if(backup.appName !== 'DiaRitmo' || !backup.data){
-        showToast('❌ El archivo no es un respaldo válido de DiaRitmo');
+        showToast('El archivo no es un respaldo válido de DiaRitmo');
         return;
       }
       // Preparar preview
@@ -3109,7 +3392,7 @@ function importBackup(event){
       importPendingData = backup;
       document.getElementById('importModal').classList.add('open');
     } catch(err){
-      showToast('❌ No se pudo leer el archivo');
+      showToast('No se pudo leer el archivo');
     }
     // Resetear input para permitir reimportar el mismo archivo
     event.target.value = '';
@@ -3142,6 +3425,156 @@ function closeImportModal(){
 document.getElementById('importModal').addEventListener('click', function(e){
   if(e.target === this) closeImportModal();
 });
+
+// ═══════════════════════════════════════
+// HÁBITOS Y ACTIVIDAD DEL DÍA
+// Se guardan dentro del registro del día: data[fecha].habitos / data[fecha].actividad
+// ═══════════════════════════════════════
+const HABITOS = [
+  { id:'medicacion', icon:I.pill, label:'Tomé mi medicación a tiempo', corto:'medicación' },
+  { id:'agua',       icon:I.cup, label:'Tomé suficiente agua',         corto:'agua' },
+  { id:'comidas',    icon:I.utensils, label:'Comí en mis horarios',         corto:'comidas' },
+  { id:'sueno',      icon:I.moon, label:'Dormí lo necesario',           corto:'sueño' }
+];
+const ACTIVIDADES = [
+  { id:'caminata',  icon:I.walk, label:'Caminata o movimiento', corto:'caminata' },
+  { id:'movilidad', icon:I.stretch, label:'Pausa de movilidad',     corto:'movilidad' },
+  { id:'ejercicio', icon:I.dumbbell, label:'Ejercicio planeado',     corto:'ejercicio' }
+];
+
+// Si hay horarios en la Agenda, la medicación se calcula con las tomas marcadas
+function estadoMedicacion(key){
+  const total = medications.reduce((n,m)=>n+(m.horas||[]).length, 0);
+  if(!total) return null;
+  const hechas = tomas[key] || {};
+  const validas = new Set(); medications.forEach(m=>(m.horas||[]).forEach(h=>validas.add(m.id+'@'+h)));
+  const n = Object.keys(hechas).filter(k=>hechas[k] && validas.has(k)).length;
+  return { n, total };
+}
+
+function renderHabitos(){
+  const list = document.getElementById('habitList');
+  if(!list) return;
+  const key = dateKey(selectedYear, selectedMonth, selectedDay);
+  const rec = data[key] || {};
+  const hb = rec.habitos || {}, ac = rec.actividad || {};
+  const med = estadoMedicacion(key);
+  let hechos = 0;
+  list.innerHTML = HABITOS.map(h=>{
+    if(h.id==='medicacion' && med){
+      const on = med.n >= med.total;
+      if(on) hechos++;
+      const irAgenda = esHoy(selectedYear, selectedMonth, selectedDay) ? ` · <span class="link-btn" style="font-size:11px;">ir a Agenda</span>` : '';
+      return `<button class="habit-btn auto${on?' on':''}" onclick="${esHoy(selectedYear, selectedMonth, selectedDay)?"document.querySelectorAll('.nav-tab')[2].click()":''}">
+        <span class="hb-icon">${h.icon}</span>
+        <span class="hb-label">${h.label}<span class="hb-sub">${med.n} de ${med.total} tomas marcadas en tu Agenda${irAgenda}</span></span>
+        <span class="hb-check">${on?'✓':''}</span></button>`;
+    }
+    const on = !!hb[h.id]; if(on) hechos++;
+    return `<button class="habit-btn${on?' on':''}" onclick="toggleDia('habitos','${h.id}')" aria-pressed="${on}">
+      <span class="hb-icon">${h.icon}</span><span class="hb-label">${h.label}</span>
+      <span class="hb-check">${on?'✓':''}</span></button>`;
+  }).join('');
+  document.getElementById('habitCount').textContent = `${hechos}/${HABITOS.length}`;
+  document.getElementById('actChips').innerHTML = ACTIVIDADES.map(a=>{
+    const on = !!ac[a.id];
+    return `<button class="act-chip${on?' on':''}" onclick="toggleDia('actividad','${a.id}')" aria-pressed="${on}">${a.icon} ${a.label} ${on?'✓':'+'}</button>`;
+  }).join('');
+}
+
+function toggleDia(grupo, id){
+  if(esFuturo(selectedYear, selectedMonth, selectedDay)){ showToast('No se puede registrar en fechas futuras'); return; }
+  const key = dateKey(selectedYear, selectedMonth, selectedDay);
+  if(!data[key]) data[key] = {};
+  const g = data[key][grupo] || {};
+  if(g[id]) delete g[id]; else g[id] = true;
+  if(Object.keys(g).length) data[key][grupo] = g; else delete data[key][grupo];
+  if(!Object.keys(data[key]).length) delete data[key];
+  saveData();
+  renderHabitos();
+}
+
+// ═══════════════════════════════════════
+// GUÍA — check-in, ejercicio y "¿Qué hago si…?"
+// ═══════════════════════════════════════
+function panel(el, tono, icono, titulo, textos){
+  el.className = 'guide-result ' + tono;
+  el.innerHTML = `<span class="gr-icon">${icono}</span><div><span class="gr-title">${titulo}</span>${textos.map(t=>`<p>${t}</p>`).join('')}</div>`;
+}
+
+function limpiarCheckin(){ const r=document.getElementById('checkinResult'); r.className='guide-result'; r.innerHTML=''; }
+
+function verCheckin(){
+  const v = id=>document.getElementById(id).value;
+  const sueno=v('ci-sueno'), estres=v('ci-estres'), sint=v('ci-sintomas'), trat=v('ci-trat');
+  const el = document.getElementById('checkinResult');
+  if(!sueno || !estres || !sint || !trat){ showToast('Responde las cuatro preguntas'); return; }
+  if(sint==='si'){
+    panel(el,'bad',I.alert,'Primero, tu seguridad',[
+      'Si tienes temblor, sudor frío, confusión o debilidad intensa, mide tu glucosa si puedes y sigue el plan de acción que te dio tu equipo médico.',
+      'Si los síntomas son fuertes, empeoran o no puedes medir, busca ayuda médica de inmediato.'
+    ]);
+    return;
+  }
+  const notas = [];
+  if(sueno==='mal' || estres==='alto') notas.push('Anota en la nota de hoy cómo dormiste o tu nivel de estrés y la hora. Ambos pueden subir la glucosa. Hoy prioriza hidratarte, hacer una pausa y medir con contexto.');
+  if(trat==='no') notas.push('Anota qué pasó y a qué hora. <b>No dupliques ni compenses dosis por tu cuenta:</b> si tienes dudas, pregunta a tu equipo médico.');
+  if(notas.length){ panel(el,'warn',I.note,'Tu día merece una nota', notas); return; }
+  panel(el,'ok',I.checkc,'Todo listo para registrar',['Completa tus mediciones, marca tus hábitos y anota cualquier cambio de comida, actividad o sueño que ayude a entender el día.']);
+}
+
+function evaluarEjercicio(){
+  const el = document.getElementById('exResult');
+  const raw = document.getElementById('exInput').value;
+  const v = Number(raw);
+  if(!raw || !Number.isFinite(v) || v < 20 || v > 600){ el.className='guide-result'; el.innerHTML=''; return; }
+  if(v < 70){
+    panel(el,'bad',I.ban,'Glucosa baja: no hagas ejercicio ahora',[
+      'Sigue el plan para glucosa baja que te indicó tu médico (por ejemplo, 15 g de azúcar de absorción rápida y volver a medir en 15 minutos).',
+      'No empieces la actividad hasta que tu glucosa vuelva a tu rango. Si no mejora o te sientes mal, busca ayuda.'
+    ]);
+  } else if(v < 90){
+    panel(el,'warn',I.alert,'Precaución: glucosa en el límite bajo',[
+      'Considera un refrigerio con carbohidratos (15–30 g) según tu plan y vuelve a medir antes de empezar.',
+      'Lleva algo dulce contigo durante la actividad.'
+    ]);
+  } else if(v <= 250){
+    panel(el,'ok',I.checkc,'Rango orientativo para hacer actividad',[
+      'Lleva agua y algo dulce por si acaso. Detén la actividad si sientes mareo, temblor o malestar.'
+    ]);
+  } else {
+    panel(el,'warn',I.alert,'Glucosa elevada: revisa antes de moverte',[
+      'Si tienes diabetes tipo 1 o usas insulina, mide cetonas antes de hacer ejercicio. <b>Si hay cetonas, no hagas ejercicio</b> y contacta a tu equipo médico.',
+      'Si no hay cetonas y te sientes bien, prefiere una actividad suave, hidrátate y evita la alta intensidad.'
+    ]);
+  }
+}
+
+const FAQ = [
+  { icon:I.zap, urgent:true, q:'Tengo temblor, sudor frío o debilidad repentina',
+    a:'Puede ser glucosa baja (menos de 70 mg/dL). Si puedes, mídela. Si está baja, sigue el plan que te indicó tu médico (por ejemplo, la regla 15-15: 15 g de azúcar rápida y medir de nuevo en 15 minutos). Si los síntomas son intensos, empeoran o no puedes medir, busca ayuda médica inmediata. Luego anota la hora y los síntomas en tu registro.' },
+  { icon:I.flame, urgent:true, q:'Mi glucosa está muy alta (más de 250) y me siento mal',
+    a:'Si además tienes náuseas, vómito, dolor de estómago, respiración rápida, mucha sed o somnolencia, busca atención médica urgente. Si usas insulina, mide cetonas si tienes cómo. Toma agua y no hagas ejercicio. Anota el valor y la hora.' },
+  { icon:I.sun, q:'Mi glucosa en ayunas sube aunque cené ligero',
+    a:'Un solo valor no explica un patrón. Durante varios días anota la hora de la cena, cómo dormiste y la medición de la mañana. Lleva ese registro a tu médico para revisar horarios y tratamiento.' },
+  { icon:I.pulse, q:'Quiero hacer ejercicio y mi glucosa está fuera de mi rango',
+    a:'Usa el evaluador "Antes de hacer ejercicio" de esta misma pantalla. Es una orientación general; si tu médico te dio rangos propios, síguelos. Lleva agua y algo dulce, y detén la actividad si te sientes mal.', link:'exInput' },
+  { icon:I.clipboard, q:'Me faltan mediciones y no sé qué anotar en la consulta',
+    a:'Registra lo que sí mediste, la hora y cualquier síntoma o cambio de rutina. Un registro incompleto sigue siendo útil si tiene contexto. Evita llenar valores de memoria. El reporte mensual (pestaña Reporte) resume todo para tu médico.' }
+];
+
+function renderFaq(){
+  const el = document.getElementById('faqList');
+  if(!el) return;
+  el.innerHTML = FAQ.map((f,i)=>`
+    <div class="faq-item" id="faq-${i}">
+      <button class="faq-q" onclick="const it=document.getElementById('faq-${i}'); this.setAttribute('aria-expanded', it.classList.toggle('open'))" aria-expanded="false">
+        <span class="fq-icon${f.urgent?' urgent':''}">${f.icon}</span><span class="fq-text">${f.q}</span><span class="fq-arrow">▾</span>
+      </button>
+      <div class="faq-a${f.urgent?' urgent':''}">${f.a}${f.link?`<br><button class="link-btn" onclick="document.getElementById('${f.link}').focus()">Ir al evaluador ↑</button>`:''}</div>
+    </div>`).join('');
+}
+
 // ═══════════════════════════════════════
 // ARRANQUE
 // ═══════════════════════════════════════
@@ -3155,6 +3588,7 @@ document.getElementById('importModal').addEventListener('click', function(e){
   renderCalendar();
   renderRegister();
   renderProfile();
+  renderFaq();
   updateBackupLastSaved();
 })();
 </script>
