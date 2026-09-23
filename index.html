@@ -3,517 +3,549 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DiaRitmo 360 — Tu diario de control diario y preventivo</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%2314171A'/%3E%3Cpath d='M8 17h4l2.5-7 3 14 2.5-9 2 2h4' stroke='%23C6F24E' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
+<title>DiaRitmo 360 — Tu control de glucosa, claro y seguro</title>
+<meta name="description" content="DiaRitmo 360: diario digital para llevar el control de tu glucosa, medicamentos, citas y hábitos. Privado, fácil de usar y listo para tu médico. Funciona en tu celular y tu computador.">
+<meta name="theme-color" content="#2A626C">
+<meta property="og:title" content="DiaRitmo 360 — Tu control de glucosa, claro y seguro">
+<meta property="og:description" content="Registra tu glucosa, medicamentos, citas y hábitos en un solo lugar. Tus datos se quedan en tu dispositivo.">
+<meta property="og:image" content="https://images.pexels.com/photos/8417438/pexels-photo-8417438.jpeg?auto=compress&cs=tinysrgb&w=1200&h=630&fit=crop">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 500'%3E%3Ccircle cx='250' cy='250' r='220' fill='none' stroke='%232A626C' stroke-width='34'/%3E%3Cpath d='M250 70C232 88 215 125 215 160c0 40 17 70 35 82 18-12 35-42 35-82 0-35-17-72-35-90z' fill='%234F8B5C'/%3E%3Cpath d='M285 240h45l20-40 20 40h35l17-28 18 28h20' fill='none' stroke='%23367C87' stroke-width='22' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://images.pexels.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#F4F5F0;
-    --ink:#14171A;
-    --lime:#C6F24E;
-    --lime-dark:#AEDB33;
-    --lime-pale:#EEFACB;
-    --teal:#1FAE8E;
-    --teal-dark:#168F73;
-    --teal-pale:#E1F5F0;
-    --coral:#F0955C;
-    --line:#E4E6DF;
-    --muted:#5B5F58;
-    --white:#FFFFFF;
+    --marine:#2A626C; --marine-dark:#1F4B53; --teal:#367C87; --sage:#4F8B5C; --coral:#E8935B;
+    --ink:#17262B; --muted:#5E6B6D; --soft:#9CA8A9;
+    --bg:#F6F7F4; --surface:#FFFFFF; --tint:#E7F0F1; --tint-2:#EEF3F1; --line:#E1E7E4;
+    --ok:#2F7D4F; --ok-bg:#E7F2EA; --warn:#B8680F; --warn-bg:#FCF2E2; --bad:#C23F35; --bad-bg:#FBEAE7;
+    --radius:20px; --shadow:0 1px 2px rgba(23,38,43,.04),0 10px 30px rgba(23,38,43,.07);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Outfit',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  img{display:block;max-width:100%}
+  a{color:inherit}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+  @media(max-width:600px){.wrap{padding:0 16px}}
+  h1,h2,h3{letter-spacing:-.02em;line-height:1.12;color:var(--ink)}
+  h2{font-size:clamp(1.75rem,3.2vw,2.5rem);font-weight:700}
+  h3{font-weight:700}
+  .i{width:1.15em;height:1.15em;flex-shrink:0}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--teal)}
+  .eyebrow::before{content:"";width:22px;height:2px;background:var(--coral);border-radius:2px}
+  .lead{font-size:1.1rem;color:var(--muted)}
+  section{padding:88px 0;position:relative}
+  @media(max-width:700px){section{padding:64px 0}}
+  section[id]{scroll-margin-top:80px}
+  .head{max-width:640px;margin-bottom:44px}
+  .head h2{margin-top:12px}
+  .head p{margin-top:14px}
+  .center{text-align:center;margin-left:auto;margin-right:auto}
 
-    --font-display:'Syne', sans-serif;
-    --font-body:'Outfit', sans-serif;
+  /* Botones */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:15px 26px;border-radius:12px;font-weight:600;font-size:1rem;text-decoration:none;border:1.5px solid transparent;cursor:pointer;transition:transform .15s,box-shadow .15s,background .15s,border-color .15s;white-space:nowrap}
+  .btn .i{width:18px;height:18px}
+  .btn:focus-visible{outline:3px solid var(--coral);outline-offset:3px}
+  .btn-primary{background:var(--marine);color:#fff;box-shadow:0 6px 18px rgba(42,98,108,.28)}
+  .btn-primary:hover{background:var(--marine-dark);transform:translateY(-2px)}
+  .btn-ghost{background:#fff;color:var(--marine);border-color:var(--line)}
+  .btn-ghost:hover{border-color:var(--marine);transform:translateY(-2px)}
+  .btn-light{background:#fff;color:var(--marine)}
+  .btn-light:hover{transform:translateY(-2px)}
+  .btn-outline-light{border-color:rgba(255,255,255,.45);color:#fff}
+  .btn-outline-light:hover{border-color:#fff;transform:translateY(-2px)}
+
+  /* Header */
+  header{position:sticky;top:0;z-index:50;background:rgba(246,247,244,.9);backdrop-filter:saturate(1.4) blur(12px);-webkit-backdrop-filter:saturate(1.4) blur(12px);border-bottom:1px solid var(--line)}
+  nav{display:flex;align-items:center;justify-content:space-between;gap:16px;height:68px}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700;font-size:1.2rem;letter-spacing:-.02em}
+  .brand svg{width:34px;height:34px}
+  .brand .b360{font-size:.7rem;font-weight:700;color:var(--marine);border:1.5px solid var(--marine);border-radius:20px;padding:0 6px;line-height:16px}
+  .nav-links{display:flex;align-items:center;gap:26px}
+  .nav-links a.l{font-size:.95rem;font-weight:500;text-decoration:none;color:var(--muted)}
+  .nav-links a.l:hover{color:var(--marine)}
+  .nav-cta{display:flex;gap:10px}
+  .nav-cta .btn{padding:10px 18px;font-size:.92rem}
+  @media(max-width:960px){.nav-links{display:none}}
+  @media(max-width:520px){.nav-cta .btn-ghost{display:none}.brand{font-size:1.05rem}}
+
+  /* Hero */
+  .hero{padding:64px 0 80px;overflow:hidden}
+  .hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:56px;align-items:center}
+  .hero h1{font-size:clamp(2.35rem,4.8vw,3.7rem);font-weight:800;margin:16px 0 20px}
+  .hero h1 em{font-style:normal;color:var(--marine);position:relative;white-space:nowrap}
+  .hero h1 em::after{content:"";position:absolute;left:0;right:0;bottom:.02em;height:.16em;background:var(--coral);opacity:.35;border-radius:4px;z-index:-1}
+  .hero .lead{max-width:48ch;margin-bottom:30px}
+  .ctas{display:flex;gap:12px;flex-wrap:wrap}
+  .checks{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:28px;list-style:none}
+  .checks li{display:flex;align-items:center;gap:8px;font-size:.93rem;font-weight:500;color:var(--ink)}
+  .checks .i{color:var(--sage);width:20px;height:20px}
+  .hero-visual{position:relative;min-height:540px}
+  .hero-photo{position:absolute;inset:0 0 0 70px;border-radius:28px;overflow:hidden;box-shadow:var(--shadow)}
+  .hero-photo img{width:100%;height:100%;object-fit:cover;object-position:60% 30%}
+  .hero-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(200deg,rgba(42,98,108,0) 45%,rgba(23,38,43,.35) 100%)}
+  .float-card{position:absolute;background:#fff;border-radius:16px;box-shadow:0 18px 40px -12px rgba(23,38,43,.3);padding:14px 16px;display:flex;align-items:center;gap:12px;z-index:3}
+  .float-card .ic{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center}
+  .float-card small{display:block;font-size:.75rem;color:var(--muted)}
+  .float-card b{font-size:1rem}
+  .fc-1{right:-8px;top:36px}
+  .fc-1 .ic{background:var(--ok-bg);color:var(--ok)}
+  .fc-2{right:26px;bottom:34px}
+  .fc-2 .ic{background:var(--tint);color:var(--marine)}
+  @media(max-width:960px){
+    .hero-grid{grid-template-columns:1fr;gap:40px}
+    .hero-visual{min-height:500px}
+    .hero-photo{inset:0 0 0 40px}
+  }
+  @media(max-width:520px){
+    .hero{padding-top:36px}
+    .hero-visual{min-height:470px}
+    .hero-photo{inset:0 0 60px 50px}
+    .fc-1{right:4px;top:18px}.fc-2{display:none}
   }
 
-  *{box-sizing:border-box; margin:0; padding:0;}
-  html{scroll-behavior:smooth;}
-  body{
-    background:var(--bg);
-    color:var(--ink);
-    font-family:var(--font-body);
-    line-height:1.6;
-    -webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
-  }
-  img,svg{display:block; max-width:100%;}
-  a{color:inherit;}
-  .wrap{max-width:1160px; margin:0 auto; padding:0 24px; position:relative;}
-  h1,h2,h3{font-family:var(--font-display); font-weight:800; letter-spacing:-0.01em; color:var(--ink);}
+  /* Teléfono con la app */
+  .phone{position:absolute;left:0;bottom:-10px;width:250px;background:#10191C;border-radius:36px;padding:9px;box-shadow:0 30px 60px -18px rgba(23,38,43,.55);z-index:2}
+  .screen{background:#F6F7F4;border-radius:28px;overflow:hidden;font-size:10px}
+  .s-top{background:#fff;padding:12px 12px 8px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #E1E7E4}
+  .s-brand{display:flex;align-items:center;gap:5px;font-weight:700;font-size:12px}
+  .s-brand svg{width:18px;height:18px}
+  .s-brand span{font-size:7px;border:1px solid var(--marine);color:var(--marine);border-radius:10px;padding:0 3px;line-height:10px}
+  .s-month{font-weight:700;font-size:11px;white-space:nowrap}
+  .s-tabs{display:flex;justify-content:space-around;background:#fff;padding:5px 2px 6px;border-bottom:1px solid #E1E7E4;color:#9CA8A9;font-size:7px;font-weight:500}
+  .s-tabs div{display:flex;flex-direction:column;align-items:center;gap:2px}
+  .s-tabs svg{width:12px;height:12px}
+  .s-tabs .on{color:var(--marine);font-weight:700}
+  .s-body{padding:8px}
+  .s-card{background:#fff;border-radius:12px;padding:8px;border:1px solid #EAEFEC;margin-bottom:7px}
+  .s-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+  .s-pill{font-size:7px;font-weight:700;color:var(--ok);background:var(--ok-bg);padding:2px 6px;border-radius:10px}
+  .s-read{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+  .s-read div{background:#F6F7F4;border-radius:7px;text-align:center;padding:5px 2px}
+  .s-read small{display:block;font-size:6px;color:var(--muted);font-weight:700;letter-spacing:.03em}
+  .s-read b{font-size:13px;color:var(--ok);font-weight:800}
+  .s-read b.e{color:#C9D1D2}
+  .s-btn{background:var(--marine);color:#fff;text-align:center;border-radius:7px;padding:5px;font-weight:700;margin-top:6px;font-size:8px}
+  .s-cal{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+  .s-cal i{font-style:normal;aspect-ratio:1;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:7.5px;font-weight:700;background:#F6F7F4;color:#5E6B6D}
+  .s-cal i.o{background:var(--ok-bg);color:var(--ok)}
+  .s-cal i.w{background:var(--warn-bg);color:var(--warn)}
+  .s-cal i.b{background:var(--bad-bg);color:var(--bad)}
+  .s-cal i.t{background:var(--marine);color:#fff}
+  .s-cal i.c{outline:1.5px solid var(--marine);outline-offset:-1.5px}
+  .s-cal i.x{background:transparent}
+  @media(max-width:520px){.phone{width:214px;left:0;bottom:0}.s-brand{font-size:10.5px}.s-month{font-size:10px}}
 
-  .badge{
-    display:inline-flex; align-items:center;
-    background:var(--lime); color:var(--ink);
-    font-size:0.78rem; font-weight:700;
-    padding:8px 18px; border-radius:999px;
-    letter-spacing:0.01em;
-  }
+  /* Barra de confianza */
+  .trust{padding:0}
+  .trust-bar{display:grid;grid-template-columns:repeat(4,1fr);background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+  .trust-item{display:flex;gap:14px;align-items:flex-start;padding:24px 22px}
+  .trust-item+.trust-item{border-left:1px solid var(--line)}
+  .trust-item .ic{width:42px;height:42px;border-radius:12px;background:var(--tint);color:var(--marine);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .trust-item .ic .i{width:21px;height:21px}
+  .trust-item b{display:block;font-size:.98rem;margin-bottom:2px}
+  .trust-item span{font-size:.86rem;color:var(--muted);line-height:1.45;display:block}
+  @media(max-width:960px){.trust-bar{grid-template-columns:repeat(2,1fr)}.trust-item:nth-child(3){border-left:none}.trust-item:nth-child(n+3){border-top:1px solid var(--line)}}
+  @media(max-width:560px){.trust-bar{grid-template-columns:1fr}.trust-item+.trust-item{border-left:none;border-top:1px solid var(--line)}}
 
-  .highlight{background:linear-gradient(transparent 62%, var(--lime) 62%); padding:0 2px;}
+  /* Vida real */
+  .life{display:grid;grid-template-columns:1.25fr 1fr 1fr;grid-template-rows:260px 260px;gap:16px}
+  .tile{position:relative;border-radius:22px;overflow:hidden;background:#dfe6e3}
+  .tile img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+  .tile:hover img{transform:scale(1.04)}
+  .tile::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(23,38,43,.78) 0%,rgba(23,38,43,0) 55%)}
+  .tile .cap{position:absolute;left:0;right:0;bottom:0;padding:18px 20px;color:#fff;z-index:1}
+  .tile .cap b{display:block;font-size:1.08rem;font-weight:700}
+  .tile .cap span{font-size:.86rem;opacity:.88}
+  .tile.big{grid-row:span 2}
+  @media(max-width:900px){.life{grid-template-columns:1fr 1fr;grid-template-rows:auto}.tile{aspect-ratio:4/5}.tile.big{grid-column:span 2;grid-row:auto;aspect-ratio:16/10}}
+  @media(max-width:560px){.life{grid-template-columns:1fr}.tile.big{grid-column:auto}.tile{aspect-ratio:4/3}}
 
-  .dots{position:absolute; width:150px; height:150px; background-image:radial-gradient(var(--ink) 1.6px, transparent 1.6px); background-size:14px 14px; opacity:0.14; z-index:0;}
-  .half{position:absolute; width:90px; height:45px; border-radius:90px 90px 0 0; z-index:0;}
+  /* Pasos */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;counter-reset:s}
+  .step{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:30px 26px;box-shadow:var(--shadow)}
+  .step .n{width:44px;height:44px;border-radius:50%;background:var(--marine);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.05rem;margin-bottom:18px}
+  .step h3{font-size:1.18rem;margin-bottom:8px}
+  .step p{color:var(--muted);font-size:.95rem}
+  @media(max-width:860px){.steps{grid-template-columns:1fr}}
 
-  /* ---------- Buttons ---------- */
-  .btn{
-    display:inline-flex; align-items:center; gap:10px;
-    padding:15px 26px; border-radius:999px;
-    font-weight:700; font-size:0.98rem; text-decoration:none;
-    border:1.5px solid transparent; cursor:pointer;
-    transition:transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, color 0.15s ease;
-  }
-  .btn:focus-visible{outline:3px solid var(--teal); outline-offset:3px;}
-  .btn svg{width:16px; height:16px; flex-shrink:0;}
-  .btn-primary{background:var(--ink); color:var(--white);}
-  .btn-primary:hover{background:var(--teal-dark); transform:translateY(-2px);}
-  .btn-ghost{background:var(--white); color:var(--ink); border-color:var(--line);}
-  .btn-ghost:hover{border-color:var(--ink); transform:translateY(-2px);}
-  .btn-teal{background:var(--teal); color:var(--white);}
-  .btn-teal:hover{background:var(--teal-dark); transform:translateY(-2px);}
+  /* Funciones */
+  .features{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .feat{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px 22px;transition:transform .15s,box-shadow .15s}
+  .feat:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+  .feat .ic{width:44px;height:44px;border-radius:12px;background:var(--tint);color:var(--marine);display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+  .feat .ic .i{width:22px;height:22px}
+  .feat h3{font-size:1.02rem;margin-bottom:6px}
+  .feat p{font-size:.9rem;color:var(--muted);line-height:1.5}
+  @media(max-width:1000px){.features{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:560px){.features{grid-template-columns:1fr}}
 
-  /* ---------- Nav ---------- */
-  header{
-    position:sticky; top:0; z-index:50;
-    background:rgba(244,245,240,0.92);
-    backdrop-filter:blur(10px);
-    border-bottom:1px solid var(--line);
-  }
-  nav{display:flex; align-items:center; justify-content:space-between; padding:16px 24px; max-width:1160px; margin:0 auto;}
-  .brand{display:flex; align-items:center; gap:10px; font-family:var(--font-display); font-weight:800; font-size:1.22rem;}
-  .brand-mark{width:32px; height:32px; flex-shrink:0;}
-  nav .links{display:flex; gap:28px; align-items:center;}
-  nav .links a.nav-link{font-size:0.94rem; font-weight:600; text-decoration:none; color:var(--ink); opacity:0.68;}
-  nav .links a.nav-link:hover{opacity:1;}
-  @media (max-width:780px){nav .links a.nav-link{display:none;}}
+  /* Instalación */
+  .install{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .install-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:center}
+  .install-photo{border-radius:26px;overflow:hidden;aspect-ratio:4/5;box-shadow:var(--shadow);position:relative}
+  .install-photo img{width:100%;height:100%;object-fit:cover}
+  .install-photo .tag{position:absolute;left:16px;bottom:16px;background:#fff;border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:10px;font-weight:600;font-size:.9rem;box-shadow:0 10px 24px -8px rgba(23,38,43,.3)}
+  .install-photo .tag .i{color:var(--marine)}
+  .devices{display:grid;gap:14px;margin-top:28px}
+  .device{display:flex;gap:16px;align-items:flex-start;padding:20px;border:1px solid var(--line);border-radius:16px;background:var(--bg)}
+  .device .ic{width:48px;height:48px;border-radius:14px;background:var(--marine);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .device .ic .i{width:24px;height:24px}
+  .device b{display:block;font-size:1.02rem;margin-bottom:3px}
+  .device p{font-size:.9rem;color:var(--muted);line-height:1.5}
+  .device p strong{color:var(--ink);font-weight:600}
+  @media(max-width:900px){.install-grid{grid-template-columns:1fr}.install-photo{aspect-ratio:16/11}}
 
-  /* ---------- Hero ---------- */
-  .hero{padding:64px 0 40px; position:relative;}
-  .hero-grid{display:grid; grid-template-columns:1.05fr 0.95fr; gap:56px; align-items:center; position:relative; z-index:1;}
-  @media (max-width:900px){.hero-grid{grid-template-columns:1fr; text-align:center;} .hero-visual{order:-1;}}
-  .hero h1{font-size:clamp(2.3rem, 4.3vw, 3.4rem); line-height:1.08; margin:18px 0 18px;}
-  .hero p.lead{font-size:1.12rem; color:var(--muted); max-width:44ch; margin-bottom:26px;}
-  @media (max-width:900px){.hero p.lead{margin-left:auto; margin-right:auto;}}
-  .hero-ctas{display:flex; gap:14px; flex-wrap:wrap;}
-  @media (max-width:900px){.hero-ctas{justify-content:center;}}
-  .trust-line{margin-top:22px; font-size:0.88rem; color:var(--muted); display:flex; align-items:center; gap:8px;}
-  @media (max-width:900px){.trust-line{justify-content:center;}}
-  /* ---------- App card (signature) ---------- */
-  .hero-visual{position:relative;}
-  .app-card{
-    background:var(--white); border-radius:32px 32px 22px 22px; border:1px solid var(--line);
-    box-shadow:0 24px 60px -20px rgba(20,23,26,0.2); padding:22px;
-    animation:riseIn 0.9s ease both; animation-delay:0.1s; position:relative; z-index:1;
-  }
-  @keyframes riseIn{from{opacity:0; transform:translateY(18px);} to{opacity:1; transform:translateY(0);}}
-  .tabbar{display:flex; gap:6px; overflow-x:auto; padding-bottom:14px; margin-bottom:14px; border-bottom:1px solid var(--line);}
-  .tab{font-size:0.72rem; font-weight:700; padding:7px 13px; border-radius:999px; white-space:nowrap; color:var(--ink); opacity:0.45;}
-  .tab.active{background:var(--ink); color:var(--white); opacity:1;}
-  .app-date{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px;}
-  .app-date .d{font-family:var(--font-display); font-weight:800; font-size:1.05rem;}
-  .app-date .r{font-size:0.74rem; color:var(--teal-dark); font-weight:700; background:var(--teal-pale); padding:4px 10px; border-radius:999px;}
-  .glucose-row{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px;}
-  .g-pill{background:var(--lime-pale); border-radius:16px; padding:12px 14px;}
-  .g-pill .label{font-size:0.7rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.04em; font-weight:600;}
-  .g-pill .value{font-weight:800; font-size:1.05rem; color:var(--ink); margin-top:2px;}
-  .habit-list{display:flex; flex-direction:column; gap:8px; margin-bottom:14px;}
-  .habit-row{display:flex; align-items:center; gap:10px; font-size:0.86rem; font-weight:500;}
-  .check{width:19px; height:19px; border-radius:7px; flex-shrink:0; display:flex; align-items:center; justify-content:center;}
-  .check.on{background:var(--teal);}
-  .check.off{border:1.5px solid var(--line);}
-  .check svg{width:12px; height:12px;}
-  .chip-row{display:flex; gap:8px; flex-wrap:wrap;}
-  .chip{font-size:0.74rem; font-weight:600; padding:6px 12px; border-radius:999px; border:1.5px solid var(--line); opacity:0.55;}
-  .chip.on{background:var(--ink); color:var(--white); border-color:var(--ink); opacity:1;}
+  /* Seguridad */
+  .safe{background:linear-gradient(135deg,var(--marine) 0%,#2F6E78 55%,var(--teal) 100%);color:#fff;border-radius:32px;overflow:hidden;display:grid;grid-template-columns:1.1fr .9fr}
+  .safe-text{padding:60px 56px}
+  .safe h2{color:#fff}
+  .safe .eyebrow{color:#CFE3E1}
+  .safe .lead{color:rgba(255,255,255,.82);margin-top:14px}
+  .safe-list{list-style:none;margin-top:30px;display:grid;gap:18px}
+  .safe-list li{display:flex;gap:14px;align-items:flex-start}
+  .safe-list .ic{width:38px;height:38px;border-radius:11px;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .safe-list b{display:block;font-size:1rem}
+  .safe-list span{font-size:.9rem;color:rgba(255,255,255,.8);line-height:1.5;display:block}
+  .safe-photo{position:relative;min-height:420px}
+  .safe-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  @media(max-width:900px){.safe{grid-template-columns:1fr}.safe-text{padding:44px 28px}.safe-photo{min-height:300px;order:-1}}
 
-  .streak-badge{
-    position:absolute; bottom:-20px; left:-18px; z-index:2;
-    background:var(--lime); border-radius:18px;
-    padding:10px 14px; display:flex; align-items:center; gap:10px;
-    box-shadow:0 14px 30px -14px rgba(20,23,26,0.35);
-    font-size:0.8rem; font-weight:800; color:var(--ink);
-  }
-  .streak-badge svg{width:22px; height:22px;}
-  @media (max-width:520px){.streak-badge{left:8px; bottom:-16px;}}
+  /* Demo */
+  .demo-band{display:grid;grid-template-columns:1fr auto;gap:30px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:26px;padding:40px 44px;box-shadow:var(--shadow)}
+  .demo-band h2{font-size:clamp(1.5rem,2.6vw,2rem)}
+  .demo-band p{color:var(--muted);margin-top:8px;max-width:58ch}
+  @media(max-width:800px){.demo-band{grid-template-columns:1fr;padding:32px 24px}}
 
-  /* ---------- Ritmo strip (signature divider) ---------- */
-  .ritmo-strip{padding:36px 0 8px;}
-  .ritmo-strip .wrap{display:flex; align-items:center; gap:18px;}
-  .ritmo-strip svg{flex-shrink:0; width:100%; height:46px;}
-  .ritmo-caption{font-size:0.78rem; font-weight:600; color:var(--muted); white-space:nowrap;}
-  @media (max-width:700px){.ritmo-caption{display:none;}}
+  /* Preguntas */
+  .faq{max-width:820px;margin:0 auto;display:grid;gap:12px}
+  details{background:#fff;border:1px solid var(--line);border-radius:16px;padding:0 22px}
+  summary{list-style:none;cursor:pointer;padding:20px 0;font-weight:600;font-size:1.02rem;display:flex;justify-content:space-between;align-items:center;gap:16px}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";font-size:1.5rem;font-weight:400;color:var(--marine);line-height:1;transition:transform .2s}
+  details[open] summary::after{transform:rotate(45deg)}
+  details p{color:var(--muted);padding:0 0 20px;font-size:.96rem}
 
-  /* ---------- Section shell ---------- */
-  section{padding:60px 0; position:relative;}
-  .section-head{max-width:620px; margin-bottom:38px; position:relative; z-index:1;}
-  .section-head h2{font-size:clamp(1.7rem, 2.9vw, 2.3rem); margin-top:14px;}
-  .section-head p{margin-top:12px; font-size:1.01rem; color:var(--muted);}
+  /* CTA final */
+  .final{position:relative;border-radius:32px;overflow:hidden;min-height:440px;display:flex;align-items:center}
+  .final img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 35%}
+  .final::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(23,38,43,.88) 0%,rgba(42,98,108,.72) 45%,rgba(42,98,108,.15) 100%)}
+  .final-in{position:relative;z-index:1;padding:56px;max-width:600px;color:#fff}
+  .final h2{color:#fff;font-size:clamp(1.9rem,3.6vw,2.8rem)}
+  .final p{color:rgba(255,255,255,.86);margin:16px 0 28px;font-size:1.06rem}
+  .final small{display:flex;align-items:center;gap:8px;margin-top:18px;color:rgba(255,255,255,.75);font-size:.85rem}
+  @media(max-width:700px){.final::after{background:linear-gradient(0deg,rgba(23,38,43,.92) 20%,rgba(42,98,108,.55) 100%)}.final-in{padding:36px 24px}.final{align-items:flex-end;min-height:520px}}
 
-  /* ---------- Steps ---------- */
-  .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:26px; position:relative; z-index:1;}
-  @media (max-width:800px){.steps{grid-template-columns:1fr;}}
-  .step{background:var(--white); border:1px solid var(--line); border-radius:22px; padding:28px 24px;}
-  .step .num{display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:var(--lime); font-weight:800; font-size:0.85rem; color:var(--ink);}
-  .step h3{font-size:1.12rem; margin:14px 0 8px;}
-  .step p{color:var(--muted); font-size:0.9rem;}
-  /* ---------- Photo banner ---------- */
-  .photo-banner{position:relative; border-radius:28px; overflow:hidden; min-height:280px; display:flex; align-items:flex-end;}
-  .photo-banner img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;}
-  .photo-banner::after{content:""; position:absolute; inset:0; background:linear-gradient(0deg, rgba(20,23,26,0.82) 0%, rgba(31,174,142,0.25) 55%, rgba(20,23,26,0.05) 100%);}
-  .photo-banner .content{position:relative; z-index:1; padding:38px 40px; color:var(--white); max-width:560px;}
-  .photo-banner .content .badge{background:var(--lime);}
-  .photo-banner .content h2{color:var(--white); margin-top:12px;}
-  .photo-banner .content p{opacity:0.92; margin-top:10px; font-size:0.98rem;}
+  /* Footer */
+  footer{padding:56px 0 36px;border-top:1px solid var(--line);background:#fff}
+  .foot{display:flex;justify-content:space-between;align-items:flex-start;gap:28px;flex-wrap:wrap}
+  .foot-links{display:flex;gap:24px;flex-wrap:wrap}
+  .foot-links a{text-decoration:none;color:var(--muted);font-weight:500;font-size:.94rem}
+  .foot-links a:hover{color:var(--marine)}
+  .social{display:flex;gap:10px}
+  .social a{width:40px;height:40px;border-radius:12px;background:var(--tint);color:var(--marine);display:flex;align-items:center;justify-content:center;transition:background .15s,color .15s}
+  .social a:hover{background:var(--marine);color:#fff}
+  .social svg{width:19px;height:19px}
+  .legal{margin-top:28px;padding-top:22px;border-top:1px solid var(--line);font-size:.82rem;color:var(--muted);display:grid;gap:8px}
 
-  /* ---------- Vida diaria photo tiles ---------- */
-  .life-tiles{display:grid; grid-template-columns:repeat(4,1fr); gap:20px; position:relative; z-index:1;}
-  @media (max-width:900px){.life-tiles{grid-template-columns:repeat(2,1fr);}}
-  @media (max-width:560px){.life-tiles{grid-template-columns:1fr;}}
-  .life-tile{border-radius:22px 22px 14px 14px; overflow:hidden; position:relative; aspect-ratio:3/4; box-shadow:0 14px 30px -18px rgba(20,23,26,0.3); transition:transform 0.15s ease;}
-  .life-tile:hover{transform:translateY(-4px);}
-  .life-tile img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;}
-  .life-tile::after{content:""; position:absolute; inset:0; background:linear-gradient(0deg, rgba(20,23,26,0.85) 0%, rgba(20,23,26,0.05) 60%);}
-  .life-tile .tile-text{position:absolute; left:0; right:0; bottom:0; z-index:1; padding:16px; color:var(--white);}
-  .life-tile .tile-text h3{font-size:0.98rem; color:var(--white); margin-bottom:3px;}
-  .life-tile .tile-text p{font-size:0.78rem; opacity:0.85;}
-  .tiles-credit{font-size:0.74rem; color:var(--muted); opacity:0.7; margin-top:14px;}
-
-  /* ---------- Features ---------- */
-  .features-grid{display:grid; grid-template-columns:repeat(2, 1fr); gap:20px; position:relative; z-index:1;}
-  @media (max-width:760px){.features-grid{grid-template-columns:1fr;}}
-  .feature{display:flex; gap:16px; padding:22px; border-radius:20px; background:var(--white); border:1px solid var(--line); transition:transform 0.15s ease, box-shadow 0.15s ease;}
-  .feature:hover{transform:translateY(-3px); box-shadow:0 16px 30px -18px rgba(20,23,26,0.25);}
-  .feature .icon{width:44px; height:44px; border-radius:50%; background:var(--lime); display:flex; align-items:center; justify-content:center; flex-shrink:0;}
-  .feature .icon svg{width:21px; height:21px; stroke:var(--ink);}
-  .feature h3{font-size:1rem; margin-bottom:5px;}
-  .feature p{font-size:0.87rem; color:var(--muted);}
-
-  /* ---------- Stats band ---------- */
-  .stats-band{background:var(--teal); color:var(--white); border-radius:28px; position:relative; overflow:hidden;}
-  .stats-band::before{content:""; position:absolute; inset:0; background-image:radial-gradient(rgba(255,255,255,0.18) 1.6px, transparent 1.6px); background-size:16px 16px; opacity:0.5;}
-  .stats-inner{display:grid; grid-template-columns:repeat(3,1fr); gap:22px; padding:44px 24px; position:relative; z-index:1;}
-  @media (max-width:760px){.stats-inner{grid-template-columns:1fr; text-align:center;}}
-  .stat .value{font-family:var(--font-display); font-size:2.2rem; font-weight:800;}
-  .stat .label{font-size:0.86rem; opacity:0.92; margin-top:4px;}
-
-  /* ---------- Testimonials ---------- */
-  .testi-band{background:var(--lime); border-radius:28px; padding:6px 0; position:relative; overflow:hidden;}
-  .testi-band::before{content:""; position:absolute; inset:0; background-image:radial-gradient(var(--ink) 1.6px, transparent 1.6px); background-size:16px 16px; opacity:0.08;}
-  .testi-inner{position:relative; z-index:1; padding:34px 30px 8px;}
-  .quotes{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; position:relative; z-index:1;}
-  @media (max-width:900px){.quotes{grid-template-columns:1fr;}}
-  .quote{background:var(--white); border-radius:20px; padding:22px;}
-  .quote p.text{font-size:0.94rem; color:var(--ink); opacity:0.85; margin-bottom:16px;}
-  .quote .who{display:flex; align-items:center; gap:12px;}
-  .avatar{width:40px; height:40px; border-radius:50%; flex-shrink:0;}
-  .who .name{font-weight:800; font-size:0.9rem;}
-  .who .tag{font-size:0.79rem; opacity:0.6;}
-  .quotes-note{font-size:0.77rem; color:var(--ink); opacity:0.55; margin-top:16px; padding-bottom:26px;}
-  /* ---------- Final CTA ---------- */
-  .final-cta{background:var(--ink); border-radius:28px; padding:58px 40px; text-align:center; color:var(--bg); position:relative; overflow:hidden;}
-  .final-cta h2{color:var(--bg); font-size:clamp(1.8rem,3.2vw,2.5rem); position:relative; z-index:1;}
-  .final-cta p{opacity:0.72; max-width:48ch; margin:14px auto 26px; position:relative; z-index:1;}
-  .final-cta .hero-ctas{justify-content:center; position:relative; z-index:1;}
-  .final-cta .btn-ghost{background:transparent; border-color:rgba(244,245,240,0.35); color:var(--bg);}
-  .final-cta .btn-ghost:hover{border-color:var(--lime); color:var(--lime);}
-
-  /* ---------- Footer ---------- */
-  footer{padding:42px 0 32px; border-top:1px solid var(--line);}
-  footer .foot-grid{display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:22px;}
-  footer .links{display:flex; gap:24px; flex-wrap:wrap;}
-  footer .links a{font-size:0.9rem; font-weight:600; text-decoration:none; color:var(--ink); opacity:0.7;}
-  footer .links a:hover{opacity:1;}
-  footer .social{display:flex; gap:12px; align-items:center;}
-  footer .social a{width:38px; height:38px; border-radius:50%; background:var(--lime); display:flex; align-items:center; justify-content:center; color:var(--ink); transition:background 0.15s ease, transform 0.15s ease;}
-  footer .social a:hover{background:var(--lime-dark); transform:translateY(-2px);}
-  footer .social svg{width:18px; height:18px;}
-  footer .disclaimer{font-size:0.79rem; color:var(--muted); max-width:62ch; margin-top:16px;}
-
-  section[id]{scroll-margin-top:90px;}
-
-  @media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important;}}
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.reveal{opacity:1;transform:none}}
 </style>
 </head>
 <body>
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="logo" viewBox="0 0 500 500"><circle cx="250" cy="250" r="220" fill="none" stroke="#2A626C" stroke-width="24"/><path d="M250 70C232 88 215 125 215 160c0 40 17 70 35 82 18-12 35-42 35-82 0-35-17-72-35-90z" fill="#4F8B5C"/><path d="M285 240h45l20-40 20 40h35l17-28 18 28h20" fill="none" stroke="#367C87" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/><circle cx="350" cy="200" r="10" fill="#E8935B"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="m8.5 12 2.5 2.5 4.5-5"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="m10 8.5 5.5 3.5-5.5 3.5z"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10.5" width="16" height="10.5" rx="2.5"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.7 9a1 1 0 0 1-.6 0C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.2-2.7a1.2 1.2 0 0 1 1.6 0C14.5 3.8 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-steth" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3H4a2 2 0 0 0-2 2v4a6 6 0 0 0 12 0V5a2 2 0 0 0-2-2h-1"/><path d="M8 15a6 6 0 0 0 12 0v-3"/><circle cx="20" cy="10" r="2"/></symbol>
+    <symbol id="i-devices" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="14" height="11" rx="2"/><path d="M5 19h8M9 15v4"/><rect x="16.5" y="8" width="5.5" height="12" rx="1.5"/></symbol>
+    <symbol id="i-card" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2.5"/><path d="M2 10h20M6 15h4"/></symbol>
+    <symbol id="i-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16.5" rx="2.5"/><path d="M16 2.5v4M8 2.5v4M3 10h18"/></symbol>
+    <symbol id="i-drop" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.7s-6 6.4-6 11.3a6 6 0 0 0 12 0c0-4.9-6-11.3-6-11.3z"/></symbol>
+    <symbol id="i-dropplus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s-6 6.6-6 11.2a6 6 0 0 0 12 0C18 9.6 12 3 12 3z"/><path d="M12 11.5v5M9.5 14h5"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 3.5v17h17"/><path d="M7.5 15l3.5-4 3 2.5 5-6"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></symbol>
+    <symbol id="i-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="m15.5 8.5-2.2 4.8-4.8 2.2 2.2-4.8z"/></symbol>
+    <symbol id="i-pill" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7z"/><path d="m8.5 8.5 7 7"/></symbol>
+    <symbol id="i-leaf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10z"/><path d="M2 21c0-3 1.9-5.4 5.1-6"/></symbol>
+    <symbol id="i-print" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m21.7 18-8-14a2 2 0 0 0-3.4 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-3z"/><path d="M12 9v4M12 17h.01"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+    <symbol id="i-mobile" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2.5"/><path d="M11 18h2"/></symbol>
+    <symbol id="i-apple" viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.8-1.6 0-3.1 1-4 2.4-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.1-.8 1.5 0 1.9.8 3.2.8 1.3 0 2.1-1.2 2.9-2.4.9-1.4 1.3-2.7 1.3-2.8-.1 0-2.5-.9-2.4-3.9zM14 5.5c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1 .1 2.1-.6 2.8-1.4z"/></symbol>
+    <symbol id="i-android" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 10h14v8a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2z"/><path d="M5 10a7 7 0 0 1 14 0M7.5 4.5 9 6.5M16.5 4.5 15 6.5"/><path d="M9.5 8h.01M14.5 8h.01"/></symbol>
+    <symbol id="i-laptop" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="11" rx="2"/><path d="M2 19h20"/></symbol>
+  </defs>
+</svg>
+
 <header>
-  <nav>
-    <div class="brand">
-      <svg class="brand-mark" viewBox="0 0 32 32" fill="none">
-        <circle cx="16" cy="16" r="14" fill="#14171A"/>
-        <path d="M8 17h4l2.5-7 3 14 2.5-9 2 2h4" stroke="#C6F24E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-      </svg>
-      DiaRitmo 360
+  <nav class="wrap">
+    <a class="brand" href="#inicio" aria-label="DiaRitmo 360, inicio">
+      <svg aria-hidden="true"><use href="#logo"/></svg>DiaRitmo <span class="b360">360</span>
+    </a>
+    <div class="nav-links">
+      <a class="l" href="#como-funciona">Cómo funciona</a>
+      <a class="l" href="#funciones">Funciones</a>
+      <a class="l" href="#instalar">Instalación</a>
+      <a class="l" href="#seguridad">Seguridad</a>
+      <a class="l" href="#preguntas">Preguntas</a>
     </div>
-    <div class="links">
-      <a class="nav-link" href="#como-funciona">Cómo funciona</a>
-      <a class="nav-link" href="#vida-diaria">Vida diaria</a>
-      <a class="nav-link" href="#funciones">Funciones</a>
-      <a class="nav-link" href="#testimonios">Historias</a>
+    <div class="nav-cta">
       <a class="btn btn-ghost" href="demo.html" target="_blank" rel="noopener">Ver demo</a>
-      <a class="btn btn-primary" href="https://pay.hotmart.com/R106866950E" target="_blank" rel="noopener">Comprar ahora
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </a>
+      <a class="btn btn-primary" href="https://pay.hotmart.com/R106866950E" target="_blank" rel="noopener">Comprar ahora</a>
     </div>
   </nav>
 </header>
-<main>
+
+<main id="inicio">
+
   <!-- HERO -->
   <section class="hero">
-    <div class="dots" style="top:20px; right:0;"></div>
-    <div class="half" style="background:var(--lime); opacity:0.55; top:120px; left:-40px;"></div>
-
     <div class="wrap hero-grid">
       <div>
-        <span class="badge">Diario de control diario y preventivo</span>
-        <h1>Cada día tiene<br>su propio <span class="highlight">ritmo</span>.</h1>
-        <p class="lead">Anota tu glucosa, tus hábitos y tu actividad en un solo diario. Al final del mes, tu ritmo se ve claro — y llega listo para tu próxima cita.</p>
-        <div class="hero-ctas">
-          <a class="btn btn-primary" href="https://pay.hotmart.com/R106866950E" target="_blank" rel="noopener">Comprar ahora
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </a>
-          <a class="btn btn-ghost" href="demo.html" target="_blank" rel="noopener">Ver demo gratuita
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </a>
+        <span class="eyebrow">Diario digital para personas con diabetes</span>
+        <h1>Controla tu glucosa sin que ella <em>controle tu vida</em>.</h1>
+        <p class="lead">DiaRitmo 360 reúne tus mediciones, medicamentos, citas y hábitos en un solo lugar. Ves tu semáforo del día de un vistazo y llegas a la consulta con un reporte claro para tu médico.</p>
+        <div class="ctas">
+          <a class="btn btn-primary" href="https://pay.hotmart.com/R106866950E" target="_blank" rel="noopener">Comprar ahora <svg class="i"><use href="#i-arrow"/></svg></a>
+          <a class="btn btn-ghost" href="demo.html" target="_blank" rel="noopener"><svg class="i"><use href="#i-play"/></svg> Probar la demo gratis</a>
         </div>
-        <div class="trust-line">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1FAE8E" stroke-width="2"><path d="M12 2 L20 6 V12 C20 17 16.5 20.5 12 22 C7.5 20.5 4 17 4 12 V6 Z"/></svg>
-          Tus datos se guardan solo en este dispositivo.
-        </div>
+        <ul class="checks">
+          <li><svg class="i"><use href="#i-check"/></svg>Tus datos se quedan en tu dispositivo</li>
+          <li><svg class="i"><use href="#i-check"/></svg>Celular, tablet o computador</li>
+          <li><svg class="i"><use href="#i-check"/></svg>Pago seguro con Hotmart</li>
+        </ul>
       </div>
 
-      <div class="hero-visual">
-        <div class="half" style="background:var(--teal); width:70px; height:35px; top:-16px; right:20px;"></div>
-        <div class="app-card">
-          <div class="tabbar">
-            <span class="tab active">Diario</span>
-            <span class="tab">Hábitos</span>
-            <span class="tab">Actividad</span>
-            <span class="tab">Perfil</span>
-            <span class="tab">Reportes</span>
-          </div>
-          <div class="app-date">
-            <span class="d">Hoy, 7 de julio</span>
-            <span class="r">Racha: 12 días</span>
-          </div>
-          <div class="glucose-row">
-            <div class="g-pill">
-              <div class="label">Ayunas</div>
-              <div class="value">96 mg/dL</div>
-            </div>
-            <div class="g-pill">
-              <div class="label">Al dormir</div>
-              <div class="value">118 mg/dL</div>
-            </div>
-          </div>
-          <div class="habit-list">
-            <div class="habit-row"><span class="check on"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span> Medicación tomada</div>
-            <div class="habit-row"><span class="check on"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M4 12l6 6L20 6"/></svg></span> Agua suficiente</div>
-            <div class="habit-row"><span class="check off"></span> Cuidado de los pies</div>
-          </div>
-          <div class="chip-row">
-            <span class="chip on">Cardio</span>
-            <span class="chip">Fuerza</span>
-            <span class="chip on">Flexibilidad</span>
-          </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="hero-photo">
+          <img src="https://images.pexels.com/photos/8417438/pexels-photo-8417438.jpeg?auto=compress&cs=tinysrgb&w=1100&h=1300&fit=crop" alt="" fetchpriority="high">
+        </div>
+        <div class="float-card fc-1">
+          <div class="ic"><svg class="i"><use href="#i-check"/></svg></div>
+          <div><small>Ayunas · hoy 7:10 a. m.</small><b>112 mg/dL · En tu meta</b></div>
+        </div>
+        <div class="float-card fc-2">
+          <div class="ic"><svg class="i"><use href="#i-steth"/></svg></div>
+          <div><small>Próxima cita</small><b>Endocrinología · vie 9:30</b></div>
+        </div>
 
-          <div class="streak-badge">
-            <svg viewBox="0 0 48 48" fill="none">
-              <circle cx="24" cy="24" r="22" fill="#14171A" fill-opacity="0.08"/>
-              <path d="M24 34c8-3 12-9 12-16a12 12 0 0 0-12-3 12 12 0 0 0-12 3c0 7 4 13 12 16Z" fill="#14171A"/>
-              <path d="M24 15v19" stroke="#C6F24E" stroke-width="1.6"/>
-            </svg>
-            12 días seguidos
+        <div class="phone">
+          <div class="screen">
+            <div class="s-top">
+              <div class="s-brand"><svg><use href="#logo"/></svg>DiaRitmo<span>360</span></div>
+              <div class="s-month">Sep 2026</div>
+            </div>
+            <div class="s-tabs">
+              <div class="on"><svg><use href="#i-cal"/></svg>Calendario</div>
+              <div><svg><use href="#i-dropplus"/></svg>Registrar</div>
+              <div><svg><use href="#i-clock"/></svg>Agenda</div>
+              <div><svg><use href="#i-chart"/></svg>Reporte</div>
+              <div><svg><use href="#i-user"/></svg>Perfil</div>
+            </div>
+            <div class="s-body">
+              <div class="s-card">
+                <div class="s-row"><b style="font-size:10px">Hoy</b><span class="s-pill">✓ En rango</span></div>
+                <div class="s-read">
+                  <div><small>AYUNAS</small><b>112</b></div>
+                  <div><small>ANTES</small><b class="e">–</b></div>
+                  <div><small>DESPUÉS</small><b>152</b></div>
+                  <div><small>NOCHE</small><b class="e">–</b></div>
+                </div>
+                <div class="s-btn">+ Agregar lectura de hoy</div>
+              </div>
+              <div class="s-card">
+                <div class="s-cal">
+                  <i class="x"></i><i class="x"></i><i class="o">1</i><i>2</i><i class="o">3</i><i>4</i><i class="b">5</i>
+                  <i>6</i><i>7</i><i class="o">8</i><i>9</i><i class="w">10</i><i>11</i><i class="b">12</i>
+                  <i>13</i><i>14</i><i class="o">15</i><i>16</i><i class="o">17</i><i>18</i><i class="w">19</i>
+                  <i>20</i><i>21</i><i class="o">22</i><i class="t">23</i><i>24</i><i>25</i><i class="c">26</i>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
-  <!-- RITMO STRIP -->
-  <section class="ritmo-strip">
+
+  <!-- CONFIANZA -->
+  <section class="trust">
     <div class="wrap">
-      <svg viewBox="0 0 1100 46" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0 23 H140 L165 8 L190 38 L215 23 H1100" stroke="#E4E6DF" stroke-width="2" fill="none"/>
-        <g fill="#1FAE8E">
-          <circle cx="30" cy="23" r="4"/><circle cx="130" cy="23" r="4"/>
-          <circle cx="240" cy="23" r="4" fill="#C6F24E"/><circle cx="340" cy="23" r="4"/>
-          <circle cx="440" cy="23" r="4"/><circle cx="540" cy="23" r="4" fill="#14171A"/>
-          <circle cx="640" cy="23" r="4"/><circle cx="740" cy="23" r="4"/>
-          <circle cx="840" cy="23" r="4" fill="#C6F24E"/><circle cx="940" cy="23" r="4"/>
-          <circle cx="1040" cy="23" r="4"/>
-        </g>
-      </svg>
-      <span class="ritmo-caption">Un latido por cada día registrado</span>
+      <div class="trust-bar reveal">
+        <div class="trust-item"><div class="ic"><svg class="i"><use href="#i-lock"/></svg></div><div><b>Privado por diseño</b><span>Sin cuentas ni contraseñas. Tu información no se envía a ningún servidor.</span></div></div>
+        <div class="trust-item"><div class="ic"><svg class="i"><use href="#i-steth"/></svg></div><div><b>Con las metas de tu médico</b><span>El semáforo usa los rangos que te indicó tu equipo de salud.</span></div></div>
+        <div class="trust-item"><div class="ic"><svg class="i"><use href="#i-devices"/></svg></div><div><b>Se instala donde la uses</b><span>En tu celular, tablet o computador, como cualquier app.</span></div></div>
+        <div class="trust-item"><div class="ic"><svg class="i"><use href="#i-card"/></svg></div><div><b>Compra protegida</b><span>Pago seguro procesado por Hotmart.</span></div></div>
+      </div>
     </div>
   </section>
 
-  <!-- COMO FUNCIONA -->
-  <section id="como-funciona">
+  <!-- VIDA REAL -->
+  <section id="vida">
     <div class="wrap">
-      <div class="section-head">
-        <span class="badge">Cómo funciona</span>
-        <h2>Tres pasos, todos los días.</h2>
+      <div class="head reveal">
+        <span class="eyebrow">Tu vida, a tu ritmo</span>
+        <h2>La diabetes es parte de tu día, no todo tu día.</h2>
+        <p class="lead">Caminar, entrenar, compartir la mesa con tu familia. DiaRitmo 360 se encarga de ordenar tus registros para que tú te ocupes de vivir.</p>
+      </div>
+      <div class="life reveal">
+        <figure class="tile big">
+          <img src="https://images.pexels.com/photos/17979360/pexels-photo-17979360.jpeg?auto=compress&cs=tinysrgb&w=900&h=1100&fit=crop" alt="Hombre adulto trotando en un parque" loading="lazy">
+          <figcaption class="cap"><b>Muévete con confianza</b><span>Revisa tu glucosa antes de entrenar y anota tu actividad.</span></figcaption>
+        </figure>
+        <figure class="tile">
+          <img src="https://images.pexels.com/photos/8972326/pexels-photo-8972326.jpeg?auto=compress&cs=tinysrgb&w=700&h=560&fit=crop" alt="Pareja mayor caminando por la ciudad" loading="lazy">
+          <figcaption class="cap"><b>Sal a caminar</b><span>Cada paso cuenta y queda registrado.</span></figcaption>
+        </figure>
+        <figure class="tile">
+          <img src="https://images.pexels.com/photos/5990698/pexels-photo-5990698.jpeg?auto=compress&cs=tinysrgb&w=700&h=560&fit=crop" alt="Familia compartiendo la comida en casa" loading="lazy">
+          <figcaption class="cap"><b>Comparte la mesa</b><span>Antes y después de comer, en segundos.</span></figcaption>
+        </figure>
+        <figure class="tile">
+          <img src="https://images.pexels.com/photos/4587350/pexels-photo-4587350.jpeg?auto=compress&cs=tinysrgb&w=700&h=560&fit=crop" alt="Mujer haciendo ejercicio con pesas en casa" loading="lazy">
+          <figcaption class="cap"><b>Entrena en casa</b><span>Tus hábitos y tu actividad, día a día.</span></figcaption>
+        </figure>
+        <figure class="tile">
+          <img src="https://images.pexels.com/photos/11243426/pexels-photo-11243426.jpeg?auto=compress&cs=tinysrgb&w=700&h=560&fit=crop" alt="Mujer mayor paseando a su perro" loading="lazy">
+          <figcaption class="cap"><b>Tu rutina de siempre</b><span>Sin cuadernos ni papeles sueltos.</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- CÓMO FUNCIONA -->
+  <section id="como-funciona" style="padding-top:20px">
+    <div class="wrap">
+      <div class="head center reveal">
+        <span class="eyebrow">Cómo funciona</span>
+        <h2>Tres pasos simples, todos los días.</h2>
       </div>
       <div class="steps">
-        <div class="step">
-          <span class="num">01</span>
-          <h3>Registra tu día</h3>
-          <p>Glucosa, hábitos y actividad física, en menos de un minuto.</p>
-        </div>
-        <div class="step">
-          <span class="num">02</span>
-          <h3>Descubre tu ritmo</h3>
-          <p>Revisa el mes completo y nota qué días se repiten.</p>
-        </div>
-        <div class="step">
-          <span class="num">03</span>
-          <h3>Llega listo a tu cita</h3>
-          <p>Descarga un reporte PDF con tu historial y tus próximas citas.</p>
-        </div>
+        <div class="step reveal"><div class="n">1</div><h3>Registra en segundos</h3><p>Anota tu glucosa en ayunas, antes y después de comer o en la noche. También cómo te sentiste, tus hábitos y tu actividad.</p></div>
+        <div class="step reveal"><div class="n">2</div><h3>Mira tu semáforo</h3><p>El calendario se pinta de verde, ámbar o rojo según las metas de tu médico. Así ves tus patrones del mes de un vistazo.</p></div>
+        <div class="step reveal"><div class="n">3</div><h3>Llega listo a tu cita</h3><p>Genera un reporte mensual para imprimir o guardar en PDF, con tus lecturas, medicamentos y datos de contacto.</p></div>
       </div>
-    </div>
-  </section>
-
-  <!-- PHOTO BANNER -->
-  <section>
-    <div class="wrap">
-      <div class="photo-banner">
-        <img src="https://images.pexels.com/photos/28699944/pexels-photo-28699944.jpeg?auto=compress&cs=tinysrgb&w=1400&h=700&fit=crop" alt="Diario personal abierto junto a una taza de café en una mesa clara" loading="lazy">
-        <div class="content">
-          <span class="badge">Más que una app</span>
-          <h2>Un diario para tu vida real.</h2>
-          <p>No es otra pantalla más: es el mismo hábito de escribir cada día, ahora ordenado, privado y listo cuando lo necesites.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- VIDA DIARIA -->
-  <section id="vida-diaria">
-    <div class="wrap">
-      <div class="section-head">
-        <span class="badge">Más allá del registro</span>
-        <h2>Tu rutina también cuenta.</h2>
-        <p>Comer bien, moverte, escribir tu progreso y hablar con tu médico: todo cabe en el mismo ritmo diario.</p>
-      </div>
-      <div class="life-tiles">
-        <div class="life-tile">
-          <img src="https://images.pexels.com/photos/33103094/pexels-photo-33103094.jpeg?auto=compress&cs=tinysrgb&w=500&h=650&fit=crop" alt="Tazón de avena con frutos rojos y almendras" loading="lazy">
-          <div class="tile-text"><h3>Come con conciencia</h3><p>Registra cómo te sientes después de cada comida.</p></div>
-        </div>
-        <div class="life-tile">
-          <img src="https://images.pexels.com/photos/906111/pexels-photo-906111.jpeg?auto=compress&cs=tinysrgb&w=500&h=650&fit=crop" alt="Pareja mayor caminando de la mano al aire libre" loading="lazy">
-          <div class="tile-text"><h3>Muévete a tu paso</h3><p>Cardio, fuerza o flexibilidad: cada actividad suma.</p></div>
-        </div>
-        <div class="life-tile">
-          <img src="https://images.pexels.com/photos/19963069/pexels-photo-19963069.jpeg?auto=compress&cs=tinysrgb&w=500&h=650&fit=crop" alt="Manos usando un medidor de glucosa" loading="lazy">
-          <div class="tile-text"><h3>Registra tu rutina</h3><p>Glucosa en ayunas y al dormir, sin complicarte.</p></div>
-        </div>
-        <div class="life-tile">
-          <img src="https://images.pexels.com/photos/7579831/pexels-photo-7579831.jpeg?auto=compress&cs=tinysrgb&w=500&h=650&fit=crop" alt="Médica conversando con un paciente en consulta" loading="lazy">
-          <div class="tile-text"><h3>Habla con tu médico</h3><p>Llega a la cita con el reporte completo, sin buscar nada.</p></div>
-        </div>
-      </div>
-      <p class="tiles-credit">Fotos de stock libres de derechos, cortesía de Pexels y sus autores.</p>
     </div>
   </section>
 
   <!-- FUNCIONES -->
-  <section id="funciones">
+  <section id="funciones" style="padding-top:20px">
     <div class="wrap">
-      <div class="section-head">
-        <span class="badge">Funciones</span>
-        <h2>Todo lo que necesitas anotar, en un solo lugar.</h2>
+      <div class="head reveal">
+        <span class="eyebrow">Funciones</span>
+        <h2>Todo lo que necesitas para tu control, en un solo lugar.</h2>
       </div>
-      <div class="features-grid">
-        <div class="feature">
-          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 3v3M16 3v3"/></svg></div>
-          <div><h3>Diario diario</h3><p>Hábitos, glucosa y actividad, día por día.</p></div>
-        </div>
-        <div class="feature">
-          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/></svg></div>
-          <div><h3>Glucosa ayunas y al dormir</h3><p>Dos mediciones clave, siempre a la vista.</p></div>
-        </div>
-        <div class="feature">
-          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 L20 6 V12 C20 17 16.5 20.5 12 22 C7.5 20.5 4 17 4 12 V6 Z"/></svg></div>
-          <div><h3>Perfil y contacto de emergencia</h3><p>Tu tipo de sangre, peso y a quién llamar si hace falta.</p></div>
-        </div>
-        <div class="feature">
-          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg></div>
-          <div><h3>Citas médicas</h3><p>Hasta tres próximas consultas, siempre a mano.</p></div>
-        </div>
-        <div class="feature">
-          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19h16M8 19V9M14 19V5M20 19v-7"/></svg></div>
-          <div><h3>Reporte para tu cita</h3><p>Un PDF con tu historial completo, listo para imprimir.</p></div>
-        </div>
-        <div class="feature">
-          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M8 4v16M4 8h16"/></svg></div>
-          <div><h3>Privado por diseño</h3><p>Todo se guarda en tu propio dispositivo.</p></div>
-        </div>
+      <div class="features">
+        <div class="feat reveal"><div class="ic"><svg class="i"><use href="#i-drop"/></svg></div><h3>Glucosa en 4 momentos</h3><p>Ayunas, antes y después de comer y noche, con síntomas y notas para tu médico.</p></div>
+        <div class="feat reveal"><div class="ic"><svg class="i"><use href="#i-cal"/></svg></div><h3>Calendario semáforo</h3><p>Colores según las metas que te indicó tu médico, para ver el mes completo.</p></div>
+        <div class="feat reveal"><div class="ic"><svg class="i"><use href="#i-pill"/></svg></div><h3>Medicamentos y horarios</h3><p>Marca cada toma del día y recibe avisos mientras la app está abierta.</p></div>
+        <div class="feat reveal"><div class="ic"><svg class="i"><use href="#i-steth"/></svg></div><h3>Agenda de citas</h3><p>Guarda tus citas médicas y ve la próxima siempre en la pantalla principal.</p></div>
+        <div class="feat reveal"><div class="ic"><svg class="i"><use href="#i-leaf"/></svg></div><h3>Hábitos y actividad</h3><p>Agua, comidas, sueño, caminatas y ejercicio: el contexto que explica tus números.</p></div>
+        <div class="feat reveal"><div class="ic"><svg class="i"><use href="#i-compass"/></svg></div><h3>Guía práctica</h3><p>Qué revisar antes de hacer ejercicio y qué hacer ante una glucosa baja o alta.</p></div>
+        <div class="feat reveal"><div class="ic"><svg class="i"><use href="#i-print"/></svg></div><h3>Reporte para tu médico</h3><p>Resumen mensual listo para imprimir o guardar en PDF y llevar a tu consulta.</p></div>
+        <div class="feat reveal"><div class="ic"><svg class="i"><use href="#i-user"/></svg></div><h3>Perfil y emergencia</h3><p>Tipo de sangre, médico tratante y contacto de emergencia, siempre a mano.</p></div>
       </div>
     </div>
   </section>
-  <!-- STATS BAND -->
-  <section>
-    <div class="wrap">
-      <div class="stats-band">
-        <div class="stats-inner">
-          <div class="stat"><div class="value">3 hábitos</div><div class="label">clave para registrar cada día</div></div>
-          <div class="stat"><div class="value">2 mediciones</div><div class="label">de glucosa: ayunas y al dormir</div></div>
-          <div class="stat"><div class="value">1 reporte</div><div class="label">PDF listo para tu próxima cita</div></div>
+
+  <!-- INSTALACIÓN -->
+  <section id="instalar" class="install">
+    <div class="wrap install-grid">
+      <div class="install-photo reveal">
+        <img src="https://images.pexels.com/photos/7859172/pexels-photo-7859172.jpeg?auto=compress&cs=tinysrgb&w=900&h=1100&fit=crop" alt="Mujer revisando su celular" loading="lazy">
+        <div class="tag"><svg class="i"><use href="#i-devices"/></svg>Funciona en todos tus dispositivos</div>
+      </div>
+      <div class="reveal">
+        <span class="eyebrow">Instálala en segundos</span>
+        <h2 style="margin-top:12px">Llévala en tu celular o úsala en tu computador.</h2>
+        <p class="lead" style="margin-top:14px">DiaRitmo 360 se instala como una app: queda con su propio ícono en tu pantalla de inicio o en tu escritorio. No necesitas descargar nada de una tienda de aplicaciones.</p>
+        <div class="devices">
+          <div class="device"><div class="ic"><svg class="i"><use href="#i-android"/></svg></div><div><b>Celular o tablet Android</b><p>Ábrela en Chrome, toca el menú <strong>⋮</strong> y elige <strong>«Agregar a la pantalla principal»</strong> o <strong>«Instalar app»</strong>.</p></div></div>
+          <div class="device"><div class="ic"><svg class="i"><use href="#i-apple"/></svg></div><div><b>iPhone o iPad</b><p>Ábrela en Safari, toca <strong>Compartir</strong> y luego <strong>«Agregar a inicio»</strong>.</p></div></div>
+          <div class="device"><div class="ic"><svg class="i"><use href="#i-laptop"/></svg></div><div><b>Computador Windows o Mac</b><p>Ábrela en Chrome o Edge y usa el botón <strong>«Instalar»</strong> de la barra de direcciones, o crea un acceso directo en tu escritorio.</p></div></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- TESTIMONIOS -->
-  <section id="testimonios">
+  <!-- SEGURIDAD -->
+  <section id="seguridad">
     <div class="wrap">
-      <div class="testi-band">
-        <div class="testi-inner">
-          <span class="badge" style="background:var(--white);">Historias</span>
-          <h2 style="margin-top:14px;">Personas que ya encontraron su ritmo.</h2>
-          <div class="quotes" style="margin-top:28px;">
-            <div class="quote">
-              <p class="text">"Antes anotaba en cualquier papel. Ahora abro el diario y todo está en su lugar, incluso mis próximas citas."</p>
-              <div class="who">
-                <svg class="avatar" viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#EEFACB"/><circle cx="20" cy="16" r="6" fill="#14171A"/><path d="M8 33c1-7 6-11 12-11s11 4 12 11" fill="#14171A"/></svg>
-                <div><div class="name">Lucía</div><div class="tag">Diabetes tipo 2</div></div>
-              </div>
-            </div>
-            <div class="quote">
-              <p class="text">"El reporte en PDF le ahorra tiempo a mi médico y a mí me da tranquilidad antes de la consulta."</p>
-              <div class="who">
-                <svg class="avatar" viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#E1F5F0"/><circle cx="20" cy="16" r="6" fill="#1FAE8E"/><path d="M8 33c1-7 6-11 12-11s11 4 12 11" fill="#1FAE8E"/></svg>
-                <div><div class="name">Andrés</div><div class="tag">Prediabetes</div></div>
-              </div>
-            </div>
-            <div class="quote">
-              <p class="text">"Ver mi racha de días seguidos me ayudó a no dejarlo a la mitad, como pasaba con el cuaderno."</p>
-              <div class="who">
-                <svg class="avatar" viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#FBE3D2"/><circle cx="20" cy="16" r="6" fill="#F0955C"/><path d="M8 33c1-7 6-11 12-11s11 4 12 11" fill="#F0955C"/></svg>
-                <div><div class="name">Marta</div><div class="tag">Diabetes tipo 1</div></div>
-              </div>
-            </div>
-          </div>
-          <p class="quotes-note">Testimonios ilustrativos de personas usuarias.</p>
+      <div class="safe reveal">
+        <div class="safe-text">
+          <span class="eyebrow">Seguridad y confianza</span>
+          <h2 style="margin-top:12px">Un producto pensado con responsabilidad.</h2>
+          <p class="lead">Tu salud merece una herramienta seria. Por eso DiaRitmo 360 cuida tu información y siempre te orienta hacia tu equipo médico.</p>
+          <ul class="safe-list">
+            <li><div class="ic"><svg class="i"><use href="#i-lock"/></svg></div><div><b>Tu información es solo tuya</b><span>Todo se guarda en tu propio dispositivo. No pedimos cuentas, correos ni contraseñas para usar la app.</span></div></li>
+            <li><div class="ic"><svg class="i"><use href="#i-alert"/></svg></div><div><b>Alertas claras</b><span>Los valores bajos (menos de 70) y altos (más de 180) se destacan para que no pasen desapercibidos.</span></div></li>
+            <li><div class="ic"><svg class="i"><use href="#i-steth"/></svg></div><div><b>Tu médico siempre primero</b><span>La app no diagnostica ni cambia tu tratamiento: organiza tu información para que converses mejor con tu equipo de salud.</span></div></li>
+            <li><div class="ic"><svg class="i"><use href="#i-download"/></svg></div><div><b>Respaldo en tus manos</b><span>Descarga una copia de tus datos cuando quieras y restáurala si cambias de dispositivo.</span></div></li>
+          </ul>
+        </div>
+        <div class="safe-photo">
+          <img src="https://images.pexels.com/photos/7579831/pexels-photo-7579831.jpeg?auto=compress&cs=tinysrgb&w=900&h=1100&fit=crop" alt="Médica sonriente conversando con un paciente en consulta" loading="lazy">
         </div>
       </div>
     </div>
   </section>
-  <!-- FINAL CTA -->
-  <section id="empezar">
+
+  <!-- DEMO -->
+  <section style="padding-top:0">
     <div class="wrap">
-      <div class="final-cta">
-        <div class="half" style="background:var(--lime); opacity:0.16; bottom:-30px; left:-30px; width:180px; height:90px;"></div>
-        <h2>Empieza a llevar tu ritmo hoy.</h2>
-        <p>Consigue tu diario completo de DiaRitmo 360. Funciona sin conexión y tus datos se quedan contigo.</p>
-        <div class="hero-ctas">
-          <a class="btn btn-teal" href="https://pay.hotmart.com/R106866950E" target="_blank" rel="noopener">Comprar ahora
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </a>
-          <a class="btn btn-ghost" href="demo.html" target="_blank" rel="noopener">Ver demo gratuita
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </a>
+      <div class="demo-band reveal">
+        <div>
+          <span class="eyebrow">Pruébala sin compromiso</span>
+          <h2 style="margin-top:10px">Usa la demo gratuita antes de decidir.</h2>
+          <p>Es la misma app, con todas sus funciones. Los datos de la demo se borran automáticamente cada 3 días; con la versión completa tu historial se guarda sin límite.</p>
+        </div>
+        <a class="btn btn-ghost" href="demo.html" target="_blank" rel="noopener"><svg class="i"><use href="#i-play"/></svg> Abrir la demo</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PREGUNTAS -->
+  <section id="preguntas" style="padding-top:20px">
+    <div class="wrap">
+      <div class="head center reveal">
+        <span class="eyebrow">Preguntas frecuentes</span>
+        <h2>Resolvemos tus dudas.</h2>
+      </div>
+      <div class="faq">
+        <details class="reveal"><summary>¿Dónde se guardan mis datos?</summary><p>En tu propio dispositivo, dentro del navegador. No se envían a ningún servidor. Te recomendamos descargar un respaldo de vez en cuando desde tu perfil; así puedes restaurar tus datos si cambias de celular o computador.</p></details>
+        <details class="reveal"><summary>¿Puedo instalarla en mi celular y en mi computador?</summary><p>Sí. Funciona en celulares y tablets Android o iPhone y en computadores Windows o Mac. Se instala como una app desde el navegador y queda con su propio ícono. Cada dispositivo guarda sus propios datos; con el respaldo puedes pasarlos de uno a otro.</p></details>
+        <details class="reveal"><summary>¿Reemplaza a mi médico?</summary><p>No. DiaRitmo 360 es una herramienta de registro y organización. No diagnostica ni modifica tu tratamiento. Su objetivo es que llegues a tu consulta con información clara y completa.</p></details>
+        <details class="reveal"><summary>¿Sirve para diabetes tipo 1, tipo 2 o prediabetes?</summary><p>Sí. Puedes configurar tu tipo de diabetes y las metas de glucosa que te indicó tu médico; el semáforo se ajusta a esas metas.</p></details>
+        <details class="reveal"><summary>¿Es difícil de usar?</summary><p>No. Registrar una lectura toma segundos y todo está en español, con letras claras y botones grandes. Puedes probarlo tú mismo en la demo gratuita.</p></details>
+        <details class="reveal"><summary>¿Cómo recibo la app después de comprar?</summary><p>El pago se hace de forma segura en Hotmart. Al confirmarse, recibes en tu correo el acceso a tu DiaRitmo 360.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section style="padding-top:20px">
+    <div class="wrap">
+      <div class="final reveal">
+        <img src="https://images.pexels.com/photos/8972326/pexels-photo-8972326.jpeg?auto=compress&cs=tinysrgb&w=1600&h=900&fit=crop" alt="" loading="lazy">
+        <div class="final-in">
+          <h2>Empieza hoy a llevar tu control con tranquilidad.</h2>
+          <p>Tus mediciones, medicamentos y citas, ordenados y listos para tu médico. En tu celular y en tu computador.</p>
+          <div class="ctas">
+            <a class="btn btn-light" href="https://pay.hotmart.com/R106866950E" target="_blank" rel="noopener">Comprar DiaRitmo 360 <svg class="i"><use href="#i-arrow"/></svg></a>
+            <a class="btn btn-outline-light" href="demo.html" target="_blank" rel="noopener">Probar la demo</a>
+          </div>
+          <small><svg class="i"><use href="#i-shield"/></svg> Pago seguro procesado por Hotmart</small>
         </div>
       </div>
     </div>
@@ -522,34 +554,41 @@
 
 <footer>
   <div class="wrap">
-    <div class="foot-grid">
-      <div class="brand">
-        <svg class="brand-mark" viewBox="0 0 32 32" fill="none">
-          <circle cx="16" cy="16" r="14" fill="#14171A"/>
-          <path d="M8 17h4l2.5-7 3 14 2.5-9 2 2h4" stroke="#C6F24E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-        </svg>
-        DiaRitmo 360
+    <div class="foot">
+      <div>
+        <a class="brand" href="#inicio"><svg aria-hidden="true"><use href="#logo"/></svg>DiaRitmo <span class="b360">360</span></a>
+        <p style="color:var(--muted);font-size:.92rem;margin-top:10px;max-width:36ch">Tu diario digital para el control de la glucosa, claro y privado.</p>
       </div>
-      <div class="links">
+      <div class="foot-links">
         <a href="#como-funciona">Cómo funciona</a>
-        <a href="#vida-diaria">Vida diaria</a>
-        <a href="#testimonios">Historias</a>
+        <a href="#funciones">Funciones</a>
+        <a href="#instalar">Instalación</a>
+        <a href="#preguntas">Preguntas</a>
+        <a href="demo.html" target="_blank" rel="noopener">Demo</a>
       </div>
       <div class="social">
-        <a href="https://wa.me/573052384189" target="_blank" rel="noopener" aria-label="WhatsApp DiaRitmo 360">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.39 1.26 4.81L2 22l5.42-1.35c1.37.72 2.93 1.13 4.62 1.13 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.8 13.98c-.24.68-1.19 1.25-1.95 1.4-.53.11-1.21.19-3.53-.76-2.96-1.23-4.86-4.23-5.01-4.43-.15-.2-1.2-1.6-1.2-3.05 0-1.45.76-2.16 1.03-2.46.27-.3.59-.37.79-.37.2 0 .4 0 .57.01.18.01.43-.07.67.51.24.6.83 2.08.9 2.23.07.15.12.33.02.53-.1.2-.15.32-.3.5-.15.17-.31.39-.44.52-.15.15-.3.31-.13.61.17.3.76 1.25 1.63 2.03 1.12 1 2.06 1.31 2.36 1.46.3.15.48.13.65-.08.18-.2.75-.87.95-1.17.2-.3.4-.25.67-.15.27.1 1.73.82 2.02.97.3.15.5.22.57.35.07.13.07.75-.17 1.43z"/></svg>
-        </a>
-        <a href="https://www.facebook.com/diaritmo360?locale=es_LA" target="_blank" rel="noopener" aria-label="Facebook DiaRitmo 360">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7.6h2.55l.38-2.96h-2.93V8.53c0-.86.24-1.44 1.47-1.44h1.57V4.44C15.94 4.31 15 4.23 13.9 4.23c-2.28 0-3.84 1.39-3.84 3.94v2.27H7.5v2.96h2.56V21h3.44z"/></svg>
-        </a>
-        <a href="https://www.instagram.com/diaritmo360/" target="_blank" rel="noopener" aria-label="Instagram DiaRitmo 360">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg>
-        </a>
+        <a href="https://wa.me/573052384189" target="_blank" rel="noopener" aria-label="WhatsApp DiaRitmo 360"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.39 1.26 4.81L2 22l5.42-1.35c1.37.72 2.93 1.13 4.62 1.13 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.8 13.98c-.24.68-1.19 1.25-1.95 1.4-.53.11-1.21.19-3.53-.76-2.96-1.23-4.86-4.23-5.01-4.43-.15-.2-1.2-1.6-1.2-3.05 0-1.45.76-2.16 1.03-2.46.27-.3.59-.37.79-.37.2 0 .4 0 .57.01.18.01.43-.07.67.51.24.6.83 2.08.9 2.23.07.15.12.33.02.53-.1.2-.15.32-.3.5-.15.17-.31.39-.44.52-.15.15-.3.31-.13.61.17.3.76 1.25 1.63 2.03 1.12 1 2.06 1.31 2.36 1.46.3.15.48.13.65-.08.18-.2.75-.87.95-1.17.2-.3.4-.25.67-.15.27.1 1.73.82 2.02.97.3.15.5.22.57.35.07.13.07.75-.17 1.43z"/></svg></a>
+        <a href="https://www.facebook.com/diaritmo360?locale=es_LA" target="_blank" rel="noopener" aria-label="Facebook DiaRitmo 360"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7.6h2.55l.38-2.96h-2.93V8.53c0-.86.24-1.44 1.47-1.44h1.57V4.44C15.94 4.31 15 4.23 13.9 4.23c-2.28 0-3.84 1.39-3.84 3.94v2.27H7.5v2.96h2.56V21h3.44z"/></svg></a>
+        <a href="https://www.instagram.com/diaritmo360/" target="_blank" rel="noopener" aria-label="Instagram DiaRitmo 360"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg></a>
       </div>
     </div>
-    <p class="disclaimer">DiaRitmo 360 es una herramienta de seguimiento personal y no sustituye el diagnóstico, tratamiento ni consejo de un profesional de la salud. Consulta siempre a tu médico ante cualquier duda sobre tu condición. Tus datos se guardan únicamente en este dispositivo.</p>
+    <div class="legal">
+      <p>DiaRitmo 360 es una herramienta de registro y seguimiento personal. No sustituye el diagnóstico, el tratamiento ni el consejo de un profesional de la salud. Ante una emergencia o síntomas intensos, busca atención médica inmediata.</p>
+      <p>Fotografías: Pexels (licencia libre). © <span id="y">2026</span> DiaRitmo 360.</p>
+    </div>
   </div>
 </footer>
 
+<script>
+  document.getElementById('y').textContent = new Date().getFullYear();
+  (function(){
+    var els = document.querySelectorAll('.reveal');
+    if(!('IntersectionObserver' in window)){ els.forEach(function(e){ e.classList.add('in'); }); return; }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+    }, { rootMargin: '0px 0px -8% 0px' });
+    els.forEach(function(e){ io.observe(e); });
+  })();
+</script>
 </body>
 </html>
