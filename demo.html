@@ -69,38 +69,6 @@
   }
   .app-logo-text { font-size: 20px; font-weight: 700; color: var(--blue); letter-spacing: -0.5px; }
   .app-logo-sub { font-size: 11px; color: var(--text-soft); margin-top: -2px; }
-  .demo-banner {
-    background: #FFF4E0;
-    border-bottom: 1px solid #F0D9A8;
-    color: #8A5A00;
-    font-size: 11.5px;
-    font-weight: 600;
-    text-align: center;
-    padding: 7px 14px;
-    line-height: 1.4;
-  }
-  .demo-banner a { color: #2A6EBB; text-decoration: underline; font-weight: 700; }
-  .demo-modal-overlay {
-    position: fixed; inset: 0; background: rgba(20,28,40,0.55);
-    display: none; align-items: center; justify-content: center; z-index: 999; padding: 20px;
-  }
-  .demo-modal-overlay.open { display: flex; }
-  .demo-modal {
-    background: #fff; border-radius: 16px; max-width: 340px; width: 100%;
-    padding: 26px 22px 22px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-  }
-  .demo-modal h3 { font-size: 17px; margin-bottom: 10px; color: var(--text); }
-  .demo-modal p { font-size: 13.5px; color: var(--text-soft); line-height: 1.5; margin-bottom: 18px; }
-  .demo-modal .btn-buy {
-    display: inline-block; width: 100%; background: var(--blue); color: #fff;
-    padding: 12px; border-radius: 10px; font-weight: 700; font-size: 14px;
-    text-decoration: none; margin-bottom: 8px;
-  }
-  .demo-modal .btn-continue {
-    display: inline-block; width: 100%; background: none; color: var(--text-soft);
-    padding: 10px; border-radius: 10px; font-weight: 600; font-size: 13px;
-    border: 1px solid var(--border); cursor: pointer;
-  }
   .month-nav {
     display: flex; align-items: center; gap: 8px;
     font-size: 15px; font-weight: 600; color: var(--text);
@@ -236,7 +204,7 @@
     outline: 2.5px solid var(--blue);
     outline-offset: 1px;
   }
-  .cal-day.today .cal-day-num { 
+  .cal-day.today .cal-day-num {
     background: var(--blue); color: white;
     width: 22px; height: 22px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
@@ -379,11 +347,6 @@
   }
   .picker-digit.sel {
     color: var(--text); font-size: 42px;
-  }
-  .picker-sep {
-    font-size: 42px; font-weight: 900; color: var(--text);
-    padding: 0 2px; line-height: 156px;
-    display: none; /* oculto, solo usamos espaciado */
   }
   .picker-col-label {
     font-size: 10px; font-weight: 700; color: var(--text-xsoft);
@@ -538,6 +501,24 @@
     display: flex; align-items: center; justify-content: center;
     font-size: 36px;
     border: 3px solid rgba(255,255,255,0.4);
+    overflow: hidden;
+  }
+  .avatar-circle img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .profile-avatar-card.editing .avatar-circle { width: 88px; height: 88px; }
+
+  /* Foto de perfil: botones de cámara / galería (solo en modo edición) */
+  .photo-actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 14px; }
+  .photo-btn {
+    background: rgba(255,255,255,0.2); border: none; border-radius: 8px;
+    color: white; font-size: 13px; font-weight: 600; padding: 8px 12px;
+    cursor: pointer; transition: background 0.15s; font-family: inherit;
+  }
+  .photo-btn:hover { background: rgba(255,255,255,0.32); }
+  .photo-btn.ghost { background: transparent; border: 1px solid rgba(255,255,255,0.5); }
+  .cam-video {
+    width: 100%; max-width: 320px; aspect-ratio: 1; object-fit: cover;
+    border-radius: 50%; background: #000; margin: 0 auto 14px; display: block;
+    transform: scaleX(-1);  /* como un espejo, igual que la foto que se guarda */
   }
   .avatar-name { font-size: 20px; font-weight: 800; }
   .avatar-since { font-size: 12px; opacity: 0.75; margin-top: 4px; }
@@ -707,6 +688,7 @@
     border-radius: var(--radius) var(--radius) 0 0;
     width: 100%; max-width: 480px;
     padding: 24px 20px;
+    max-height: 90vh; overflow-y: auto;
     animation: slideUp 0.25s ease;
   }
   @keyframes slideUp {
@@ -726,9 +708,117 @@
     background: var(--text); color: white; padding: 10px 20px;
     border-radius: 20px; font-size: 14px; font-weight: 500;
     z-index: 300; opacity: 0; transition: opacity 0.3s;
-    white-space: nowrap;
+    max-width: 90vw; text-align: center;
   }
   .toast.show { opacity: 1; }
+
+  /* ══════════════════════════════
+     SCREEN: AGENDA
+  ══════════════════════════════ */
+  .agenda-wrap { padding: 16px; flex: 1; overflow-y: auto; }
+  .agenda-card {
+    background: var(--surface); border-radius: var(--radius);
+    padding: 16px; margin-bottom: 12px; box-shadow: var(--shadow);
+  }
+  .agenda-card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .agenda-card-title { font-size: 14px; font-weight: 700; color: var(--text); }
+  .agenda-progress { font-size: 12px; font-weight: 700; color: var(--blue); background: var(--blue-light); padding: 3px 10px; border-radius: 20px; }
+  .agenda-progress:empty { display: none; }
+  .agenda-hint { font-size: 12px; color: var(--text-soft); margin-bottom: 10px; line-height: 1.4; }
+  .agenda-empty { font-size: 13px; color: var(--text-xsoft); font-style: italic; padding: 6px 0 2px; }
+  .link-btn { background: none; border: none; color: var(--blue); font-weight: 700; font-size: 13px; cursor: pointer; font-style: normal; padding: 0; }
+
+  .dose-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .dose-item:last-child { border-bottom: none; }
+  .dose-time { font-size: 15px; font-weight: 800; color: var(--text); width: 50px; flex-shrink: 0; }
+  .dose-info { flex: 1; min-width: 0; }
+  .dose-name { font-size: 14px; font-weight: 600; color: var(--text); }
+  .dose-dose { font-size: 11px; color: var(--text-soft); margin-top: 1px; }
+  .dose-tag { font-size: 10px; font-weight: 700; padding: 1px 7px; border-radius: 10px; margin-left: 4px; background: var(--blue-light); color: var(--blue); white-space: nowrap; }
+  .dose-tag.late { background: var(--amber-bg); color: var(--amber); }
+  .dose-item.late .dose-time { color: var(--amber); }
+  .dose-item.taken .dose-name, .dose-item.taken .dose-time { color: var(--text-xsoft); text-decoration: line-through; }
+  .dose-check {
+    width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+    border: 2px solid var(--border); background: var(--surface);
+    font-size: 16px; font-weight: 900; color: white; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; transition: all 0.15s;
+  }
+  .dose-item.next .dose-check { border-color: var(--blue); }
+  .dose-item.taken .dose-check { background: var(--green); border-color: var(--green); }
+
+  .cita-card { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .cita-card:last-child { border-bottom: none; }
+  .cita-card.past { opacity: 0.6; }
+  .cita-date { width: 48px; flex-shrink: 0; background: var(--blue-light); border-radius: 10px; text-align: center; padding: 6px 0; color: var(--blue); }
+  .cita-day { font-size: 20px; font-weight: 800; line-height: 1; }
+  .cita-mon { font-size: 10px; font-weight: 700; text-transform: uppercase; margin-top: 2px; }
+  .cita-info { flex: 1; min-width: 0; }
+  .cita-title { font-size: 14px; font-weight: 700; color: var(--text); }
+  .cita-meta { font-size: 12px; color: var(--text-soft); margin-top: 2px; }
+  .cita-note { font-size: 12px; color: var(--text-soft); margin-top: 4px; background: var(--bg); border-radius: 6px; padding: 4px 8px; }
+  .cita-side { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; }
+  .cita-when { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; background: var(--surface2); color: var(--text-soft); white-space: nowrap; }
+  .cita-when.soon { background: var(--amber-bg); color: var(--amber); }
+  .cita-del { background: none; border: none; font-size: 15px; cursor: pointer; opacity: 0.55; padding: 2px; }
+  .cita-del:hover { opacity: 1; }
+  .past-toggle { width: 100%; margin-top: 10px; background: none; border: none; color: var(--text-soft); font-size: 12px; font-weight: 600; cursor: pointer; padding: 6px; }
+
+  .sched-med { padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .sched-med:last-child { border-bottom: none; }
+  .sched-name { font-size: 14px; font-weight: 700; color: var(--blue); margin-bottom: 8px; }
+  .sched-dose { font-size: 12px; font-weight: 500; color: var(--text-soft); }
+  .sched-none { font-size: 12px; color: var(--text-xsoft); font-style: italic; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .chip { display: inline-flex; align-items: center; gap: 4px; background: var(--blue-light); color: var(--blue); border-radius: 14px; padding: 4px 4px 4px 10px; font-size: 13px; font-weight: 700; }
+  .chip button { background: none; border: none; color: var(--text-soft); font-size: 16px; line-height: 1; cursor: pointer; padding: 0 4px; }
+  .chip button:hover { color: var(--red); }
+  .add-time-row { display: flex; gap: 8px; }
+  .time-input { flex: 1; padding: 8px 10px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-size: 14px; font-family: inherit; color: var(--text); background: var(--bg); outline: none; }
+  .time-input:focus { border-color: var(--blue); }
+
+  /* Citas en el calendario y en el resumen del día */
+  /* Día con cita: enmarcado en un cuadrado azul, con el estetoscopio dentro */
+  .cal-day.has-cita {
+    border: 2.5px solid var(--blue);
+    box-shadow: 0 2px 8px rgba(42,110,187,0.25);
+  }
+  .cal-day.has-cita.no-data { background: var(--blue-light); }
+  .cal-day.has-cita.no-data .cal-day-num { color: var(--blue); font-weight: 800; }
+  .cal-cita { font-size: 16px; line-height: 1; margin-top: 2px; }
+  .cal-day.has-cita .cal-dot { position: absolute; top: 4px; right: 4px; margin: 0; }
+  /* Vista previa de próximas citas (debajo de "Agregar lectura de hoy") */
+  .up-citas { margin-top: 14px; border-top: 1px solid var(--border); padding-top: 12px; }
+  .up-citas-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+  .up-citas-title { white-space: nowrap; font-size: 12px; font-weight: 700; color: var(--text-soft); text-transform: uppercase; letter-spacing: 0.6px; }
+  .up-citas-more { background: none; border: none; color: var(--blue); font-size: 12px; font-weight: 700; cursor: pointer; padding: 0; }
+  .up-cita {
+    display: flex; align-items: center; gap: 10px; width: 100%;
+    background: var(--surface); border: 2px solid var(--blue); border-radius: var(--radius-sm);
+    padding: 8px 10px; margin-bottom: 8px; cursor: pointer; text-align: left;
+    font-family: inherit; transition: background 0.15s;
+  }
+  .up-cita:last-child { margin-bottom: 0; }
+  .up-cita:hover { background: var(--blue-light); }
+  .up-cita-date { width: 42px; flex-shrink: 0; background: var(--blue-light); border-radius: 8px; text-align: center; padding: 4px 0; color: var(--blue); }
+  .up-cita-day { font-size: 17px; font-weight: 800; line-height: 1; }
+  .up-cita-mon { font-size: 9px; font-weight: 700; text-transform: uppercase; margin-top: 2px; }
+  .up-cita-info { flex: 1; min-width: 0; }
+  .up-cita-title { font-size: 13px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .up-cita-meta { font-size: 11px; color: var(--text-soft); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .up-cita .cita-when { flex-shrink: 0; }
+  .up-citas-title .cita-when { margin-left: 4px; text-transform: none; letter-spacing: 0; }
+  .up-cita-split { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .up-cita.half { flex-direction: column; align-items: stretch; gap: 6px; margin-bottom: 0; min-width: 0; }
+  .up-cita.half .up-cita-title { white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .up-half-top { display: flex; align-items: center; gap: 8px; }
+  .up-half-hora { font-size: 13px; font-weight: 800; color: var(--blue); }
+  .up-citas-empty { font-size: 12px; color: var(--text-xsoft); text-align: center; }
+  .legend-cita { width: 12px; height: 12px; border-radius: 3px; border: 2px solid var(--blue); background: var(--blue-light); }
+  .ds-citas:empty { display: none; }
+  .ds-citas { margin-top: 12px; display: flex; flex-direction: column; gap: 6px; }
+  .ds-cita { background: var(--blue-light); color: var(--blue-dark); border-radius: var(--radius-sm); padding: 8px 10px; font-size: 12px; }
+  .ds-cita b { font-weight: 800; }
 
   /* Scrollbar */
   ::-webkit-scrollbar { width: 4px; }
@@ -742,6 +832,38 @@
   }
   .empty-state-icon { font-size: 40px; margin-bottom: 10px; }
   .empty-state-text { font-size: 14px; }
+  .demo-banner {
+    background: #FFF4E0;
+    border-bottom: 1px solid #F0D9A8;
+    color: #8A5A00;
+    font-size: 11.5px;
+    font-weight: 600;
+    text-align: center;
+    padding: 7px 14px;
+    line-height: 1.4;
+  }
+  .demo-banner a { color: #2A6EBB; text-decoration: underline; font-weight: 700; }
+  .demo-modal-overlay {
+    position: fixed; inset: 0; background: rgba(20,28,40,0.55);
+    display: none; align-items: center; justify-content: center; z-index: 999; padding: 20px;
+  }
+  .demo-modal-overlay.open { display: flex; }
+  .demo-modal {
+    background: #fff; border-radius: 16px; max-width: 340px; width: 100%;
+    padding: 26px 22px 22px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  }
+  .demo-modal h3 { font-size: 17px; margin-bottom: 10px; color: var(--text); }
+  .demo-modal p { font-size: 13.5px; color: var(--text-soft); line-height: 1.5; margin-bottom: 18px; }
+  .demo-modal .btn-buy {
+    display: inline-block; width: 100%; background: var(--blue); color: #fff;
+    padding: 12px; border-radius: 10px; font-weight: 700; font-size: 14px;
+    text-decoration: none; margin-bottom: 8px;
+  }
+  .demo-modal .btn-continue {
+    display: inline-block; width: 100%; background: none; color: var(--text-soft);
+    padding: 10px; border-radius: 10px; font-weight: 600; font-size: 13px;
+    border: 1px solid var(--border); cursor: pointer;
+  }
 </style>
 </head>
 <body>
@@ -760,6 +882,7 @@
     <button class="btn-continue" onclick="document.getElementById('demoResetModal').classList.remove('open')">Seguir probando la demo</button>
   </div>
 </div>
+
 
 <!-- TOP BAR -->
 <div class="topbar">
@@ -786,6 +909,9 @@
   </button>
   <button class="nav-tab" onclick="showScreen('register',this)">
     <span class="tab-icon">✏️</span>Registrar
+  </button>
+  <button class="nav-tab" onclick="showScreen('agenda',this)">
+    <span class="tab-icon">🗓️</span>Agenda
   </button>
   <button class="nav-tab" onclick="showScreen('report',this)">
     <span class="tab-icon">📊</span>Reporte
@@ -831,9 +957,11 @@
           <div class="reading-dot dot-empty" id="rd-noche"></div>
         </div>
       </div>
+      <div class="ds-citas" id="dsCitas"></div>
       <button class="add-reading-btn" onclick="goRegisterToday()">
         + Agregar lectura de hoy
       </button>
+      <div class="up-citas" id="upCitas"></div>
     </div>
 
     <!-- Calendario -->
@@ -846,10 +974,11 @@
       </div>
       <div class="cal-grid" id="calGrid"></div>
       <div class="cal-legend">
-        <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Normal</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>En meta</div>
         <div class="legend-item"><div class="legend-dot" style="background:var(--amber)"></div>Precaución</div>
         <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div>Fuera de rango</div>
         <div class="legend-item"><div class="legend-dot" style="background:var(--border)"></div>Sin registro</div>
+        <div class="legend-item"><div class="legend-cita"></div>🩺 Cita</div>
       </div>
     </div>
 
@@ -893,7 +1022,7 @@
       <div class="input-section-title">📍 Medida de glucosa</div>
 
       <div class="picker-wrap">
-        <div class="picker-hint">↕ Deslizá cada columna para ingresar tu medida</div>
+        <div class="picker-hint">↕ Desliza cada columna para ingresar tu medida</div>
         <div class="picker-body" id="pickerBody">
           <!-- Centenas -->
           <div class="picker-col">
@@ -920,11 +1049,11 @@
         <div class="picker-unit">mg/dL</div>
       </div>
 
-      <div class="glc-bar"><div class="glc-marker" id="glcMarker"></div></div>
+      <div class="glc-bar" id="glcBar"><div class="glc-marker" id="glcMarker"></div></div>
       <div class="glc-range-labels">
-        <span>Bajo &lt;70</span>
-        <span>Normal 70–140</span>
-        <span>Alto &gt;180</span>
+        <span id="glcLblLow">Bajo &lt;70</span>
+        <span id="glcLblOk">Meta 80–130</span>
+        <span id="glcLblHigh">Alto &gt;180</span>
       </div>
       <div class="glc-status-msg" id="glcStatusMsg"></div>
       <button class="save-btn" style="margin-top:14px;" onclick="saveReading()">💾 Guardar lectura</button>
@@ -934,22 +1063,22 @@
     <div class="input-section">
       <div class="input-section-title">💬 ¿Cómo te sentiste? <span style="font-weight:400;color:var(--text-soft)">(opcional)</span></div>
       <div class="symptoms-grid">
-        <button class="symptom-btn" onclick="toggleSymptom(this,'Mareo')">
+        <button class="symptom-btn" data-sym="Mareo" onclick="toggleSymptom(this,'Mareo')">
           <span class="sym-icon">😵</span>Mareo
         </button>
-        <button class="symptom-btn" onclick="toggleSymptom(this,'Mucha sed')">
+        <button class="symptom-btn" data-sym="Mucha sed" onclick="toggleSymptom(this,'Mucha sed')">
           <span class="sym-icon">🥤</span>Mucha sed
         </button>
-        <button class="symptom-btn" onclick="toggleSymptom(this,'Cansancio')">
+        <button class="symptom-btn" data-sym="Cansancio" onclick="toggleSymptom(this,'Cansancio')">
           <span class="sym-icon">😴</span>Cansancio
         </button>
-        <button class="symptom-btn" onclick="toggleSymptom(this,'Hambre')">
+        <button class="symptom-btn" data-sym="Hambre" onclick="toggleSymptom(this,'Hambre')">
           <span class="sym-icon">🍎</span>Mucha hambre
         </button>
-        <button class="symptom-btn" onclick="toggleSymptom(this,'Temblor')">
+        <button class="symptom-btn" data-sym="Temblor" onclick="toggleSymptom(this,'Temblor')">
           <span class="sym-icon">🫨</span>Temblor
         </button>
-        <button class="symptom-btn" onclick="toggleSymptom(this,'Me sentí bien')">
+        <button class="symptom-btn" data-sym="Me sentí bien" onclick="toggleSymptom(this,'Me sentí bien')">
           <span class="sym-icon">😊</span>Me sentí bien
         </button>
       </div>
@@ -962,6 +1091,42 @@
         placeholder="Ej: Comí tarde, olvidé la pastilla, hice ejercicio…"></textarea>
     </div>
 
+  </div>
+</div>
+
+<!-- ══ SCREEN: AGENDA ══ -->
+<div class="screen" id="screen-agenda">
+  <div class="agenda-wrap">
+
+    <div class="agenda-card">
+      <div class="agenda-card-head">
+        <div class="agenda-card-title">💊 Medicamentos de hoy</div>
+        <div class="agenda-progress" id="dosisProgress"></div>
+      </div>
+      <div id="dosisList"></div>
+    </div>
+
+    <div class="agenda-card">
+      <div class="agenda-card-head">
+        <div class="agenda-card-title">🩺 Próximas citas</div>
+      </div>
+      <div id="citasList"></div>
+      <button class="add-reading-btn" onclick="openCitaModal()">+ Nueva cita</button>
+      <div id="citasPasadasWrap" style="display:none;">
+        <button class="past-toggle" onclick="togglePasadas()">Citas anteriores (<span id="citasPasadasCount">0</span>) <span id="pastArrow">▾</span></button>
+        <div id="citasPasadas" style="display:none;"></div>
+      </div>
+    </div>
+
+    <div class="agenda-card">
+      <div class="agenda-card-head">
+        <div class="agenda-card-title">⏰ Horarios de medicamentos</div>
+      </div>
+      <div class="agenda-hint">Define a qué horas tomas cada medicamento. Cada día aparecerán en "Medicamentos de hoy".</div>
+      <div id="horariosList"></div>
+    </div>
+
+    <div class="agenda-hint" style="text-align:center;">🔔 Los recordatorios aparecen mientras la app esté abierta.</div>
   </div>
 </div>
 
@@ -1015,6 +1180,13 @@
       <div class="avatar-circle" id="avatarIcon">👤</div>
       <div class="avatar-name" id="profileNameDisplay">Tu nombre</div>
       <div class="avatar-since" id="profileSinceDisplay">Registrado desde –</div>
+      <div class="photo-actions" id="photoActions" style="display:none;">
+        <button class="photo-btn" onclick="abrirCamara()">📷 Cámara</button>
+        <button class="photo-btn" onclick="document.getElementById('fotoGaleria').click()">🖼️ Galería</button>
+        <button class="photo-btn ghost" id="fotoQuitarBtn" onclick="quitarFoto()">Quitar foto</button>
+      </div>
+      <input type="file" id="fotoGaleria" accept="image/*" style="display:none;" onchange="fotoDesdeArchivo(event)">
+      <input type="file" id="fotoCamara" accept="image/*" capture="user" style="display:none;" onchange="fotoDesdeArchivo(event)">
     </div>
 
     <!-- Vista: datos personales -->
@@ -1109,7 +1281,7 @@
         <span class="backup-alert-icon">⚠️</span>
         <div>
           <div class="backup-alert-title">Tus datos pueden perderse</div>
-          <div class="backup-alert-desc">Si borras el historial del navegador o cambias de dispositivo, perderás todas tus mediciones. Guardá un respaldo regularmente.</div>
+          <div class="backup-alert-desc">Si borras el historial del navegador o cambias de dispositivo, perderás todas tus mediciones. Guarda un respaldo regularmente.</div>
         </div>
       </div>
       <div class="backup-last" id="backupLastSaved">Último respaldo: nunca</div>
@@ -1264,10 +1436,60 @@
   </div>
 </div>
 
+<!-- MODAL: Nueva cita -->
+<div class="modal-overlay" id="citaModal">
+  <div class="modal" style="position:relative;">
+    <button class="modal-close" onclick="closeCitaModal()">×</button>
+    <div class="modal-title">🩺 Nueva cita médica</div>
+    <div class="pform-row">
+      <div class="pform-field">
+        <label class="pform-label">Fecha</label>
+        <input class="pform-input" id="cita-fecha" type="date">
+      </div>
+      <div class="pform-field">
+        <label class="pform-label">Hora</label>
+        <input class="pform-input" id="cita-hora" type="time">
+      </div>
+    </div>
+    <div class="pform-field">
+      <label class="pform-label">Médico o especialidad</label>
+      <input class="pform-input" id="cita-titulo" type="text" maxlength="60" placeholder="Ej: Endocrinología – Dr. Ramírez">
+    </div>
+    <div class="pform-field">
+      <label class="pform-label">Lugar</label>
+      <input class="pform-input" id="cita-lugar" type="text" maxlength="60" placeholder="Ej: Clínica Sura, consultorio 204">
+    </div>
+    <div class="pform-field">
+      <label class="pform-label">Nota (opcional)</label>
+      <input class="pform-input" id="cita-nota" type="text" maxlength="120" placeholder="Ej: Llevar exámenes de laboratorio">
+    </div>
+    <button class="save-btn" onclick="saveCita()">💾 Guardar cita</button>
+  </div>
+</div>
+
+<!-- MODAL: Cámara (computador) -->
+<div class="modal-overlay" id="camModal">
+  <div class="modal" style="position:relative;text-align:center;">
+    <button class="modal-close" onclick="cerrarCamara()">×</button>
+    <div class="modal-title">📷 Tomar foto</div>
+    <video id="camVideo" class="cam-video" autoplay playsinline muted></video>
+    <button class="save-btn" onclick="capturarFoto()">📸 Capturar</button>
+  </div>
+</div>
+
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
+// Almacenamiento: usa localStorage y, si el navegador lo bloquea, guarda en memoria
+const store = (()=>{ const mem={}; let ls=null;
+  try{ ls=window.localStorage; ls.setItem('__t','1'); ls.removeItem('__t'); }catch(e){ ls=null; }
+  return {
+    getItem:k=>{ try{ if(ls) return ls.getItem(k); }catch(e){} return (k in mem?mem[k]:null); },
+    setItem:(k,v)=>{ try{ if(ls){ ls.setItem(k,v); return; } }catch(e){} mem[k]=String(v); },
+    removeItem:k=>{ try{ if(ls) ls.removeItem(k); }catch(e){} delete mem[k]; }
+  }; })();
+
 // ═══════════════════════════════════════
 // ESTADO GLOBAL
 // ═══════════════════════════════════════
@@ -1285,27 +1507,109 @@ let currentMoment = 'ayunas';
 let activeSymptoms = [];
 
 // Datos: { 'YYYY-MM-DD': { ayunas:N, antes:N, despues:N, noche:N, symptoms:[], notes:'' } }
-let data = JSON.parse(localStorage.getItem('diaritmo_data') || '{}');
+// Claves que la app guarda en el navegador
+const STORAGE_KEYS = ['diaritmo_data','diaritmo_profile','diaritmo_meds','diaritmo_citas',
+                      'diaritmo_tomas','diaritmo_last_backup','diaritmo_seeded'];
+
+// LIMPIEZA DE LANZAMIENTO — se ejecuta UNA sola vez por navegador.
+// Borra lo que quedó guardado durante las pruebas; después nunca vuelve a borrar nada.
+// (Un usuario nuevo no tiene datos, así que no le afecta.)
+const LIMPIEZA_LANZAMIENTO = 'diaritmo_lanzamiento_v1';
+if(!store.getItem(LIMPIEZA_LANZAMIENTO)){
+  STORAGE_KEYS.forEach(k=>store.removeItem(k));
+  store.setItem(LIMPIEZA_LANZAMIENTO, new Date().toISOString());
+}
+
+// ═══════════════════════════════════════
+// DEMO — borrado automático de datos cada 3 días
+// ═══════════════════════════════════════
+const DEMO_LIMIT_MS = 3 * 24 * 60 * 60 * 1000; // 3 días
+(function(){
+  const inicio = parseInt(store.getItem('diaritmo_demo_start') || '0', 10);
+  const ahora = Date.now();
+  if(!inicio){
+    // Primera vez que se abre la demo en este navegador
+    store.setItem('diaritmo_demo_start', String(ahora));
+  } else if(ahora - inicio >= DEMO_LIMIT_MS){
+    // Pasaron 3 días o más: se borran todos los datos (glucosa, perfil, medicamentos,
+    // citas, tomas) y se reinicia el conteo
+    STORAGE_KEYS.forEach(k=>store.removeItem(k));
+    store.setItem('diaritmo_demo_start', String(ahora));
+    setTimeout(function(){
+      const modal = document.getElementById('demoResetModal');
+      if(modal) modal.classList.add('open');
+    }, 400);
+  }
+})();
+
+let data = JSON.parse(store.getItem('diaritmo_data') || '{}');
+let profile = JSON.parse(store.getItem('diaritmo_profile') || '{}');
+let medications = JSON.parse(store.getItem('diaritmo_meds') || '[]');
+// Citas: [{id, fecha:'YYYY-MM-DD', hora:'HH:MM', titulo, lugar, nota}]
+let citas = JSON.parse(store.getItem('diaritmo_citas') || '[]');
+// Tomas marcadas: { 'YYYY-MM-DD': { 'idMedicamento@HH:MM': true } }
+let tomas = JSON.parse(store.getItem('diaritmo_tomas') || '{}');
+// Cada medicamento necesita un id y su lista de horarios
+medications = medications.map(m=>({ ...m, id: m.id || newId(), horas: Array.isArray(m.horas) ? m.horas : [] }));
+
+const MOMENTOS = ['ayunas','antes','despues','noche'];
+const MOMENTO_CORTO = {ayunas:'Ayunas', antes:'Antes', despues:'Después', noche:'Noche'};
+const META_DEFAULT = { ayunas:'80–130', post:'< 180', noche:'100–140' };
+const HIPO = 70;    // por debajo: siempre fuera de rango (hipoglucemia)
+const HIPER = 180;  // por encima: siempre fuera de rango
 
 // ═══════════════════════════════════════
 // HELPERS
 // ═══════════════════════════════════════
 function dateKey(y,m,d){ return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`; }
-function todayKey(){ return dateKey(today.getFullYear(),today.getMonth(),today.getDate()); }
+function esHoy(y,m,d){ return y===today.getFullYear() && m===today.getMonth() && d===today.getDate(); }
+function esFuturo(y,m,d){ return new Date(y,m,d) > new Date(today.getFullYear(), today.getMonth(), today.getDate()); }
 
-function glucoseStatus(v){
+function newId(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
+
+// Escapa texto del usuario antes de insertarlo como HTML
+function esc(v){
+  return String(v==null?'':v).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+// Convierte el texto de una meta ("80–130", "< 180", "> 90") en {min,max}
+function parseMeta(txt){
+  if(!txt) return null;
+  const t = String(txt).replace(/\s/g,'');
+  const nums = (t.match(/\d+/g)||[]).map(Number).filter(n=>n>=40 && n<=400);
+  if(nums.length>=2) return {min:Math.min(nums[0],nums[1]), max:Math.max(nums[0],nums[1])};
+  if(nums.length===1){
+    if(/^(<|≤|<=|menos|menor)/i.test(t)) return {min:HIPO, max:nums[0]};
+    if(/^(>|≥|>=|mas|más|mayor)/i.test(t)) return {min:nums[0], max:HIPER};
+  }
+  return null;
+}
+
+// Meta del médico para cada momento (antes de comer usa la meta de ayunas)
+function metaFor(moment){
+  const p = profile || {};
+  let txt;
+  if(moment==='ayunas' || moment==='antes') txt = p.metaAyunas || META_DEFAULT.ayunas;
+  else if(moment==='despues') txt = p.metaPost || META_DEFAULT.post;
+  else txt = p.metaNoche || META_DEFAULT.noche;
+  return parseMeta(txt) || parseMeta(moment==='despues'?META_DEFAULT.post:moment==='noche'?META_DEFAULT.noche:META_DEFAULT.ayunas);
+}
+
+// ok = dentro de la meta · warn = fuera de la meta pero entre 70 y 180 · bad = <70 o >180
+// Sin momento (promedios) se usa el rango general 70–140.
+function glucoseStatus(v, moment){
   if(!v) return null;
-  if(v < 70) return 'bad';
-  if(v <= 140) return 'ok';
-  if(v <= 180) return 'warn';
-  return 'bad';
+  if(v < HIPO) return 'bad';
+  const meta = moment ? metaFor(moment) : {min:HIPO, max:140};
+  if(v >= meta.min && v <= meta.max) return 'ok';
+  if(v < meta.min) return 'warn';
+  return v <= HIPER ? 'warn' : 'bad';
 }
 
 function dayStatus(record){
   if(!record) return 'nodata';
-  const vals = [record.ayunas, record.antes, record.despues, record.noche].filter(Boolean);
-  if(vals.length === 0) return 'nodata';
-  const statuses = vals.map(glucoseStatus);
+  const statuses = MOMENTOS.filter(mo=>record[mo]).map(mo=>glucoseStatus(record[mo], mo));
+  if(statuses.length === 0) return 'nodata';
   if(statuses.includes('bad')) return 'bad';
   if(statuses.includes('warn')) return 'warn';
   return 'ok';
@@ -1324,7 +1628,7 @@ function showToast(msg){
   setTimeout(()=>t.classList.remove('show'), 2200);
 }
 
-function saveData(){ localStorage.setItem('diaritmo_data', JSON.stringify(data)); }
+function saveData(){ store.setItem('diaritmo_data', JSON.stringify(data)); }
 
 // ═══════════════════════════════════════
 // NAVEGACIÓN
@@ -1337,7 +1641,8 @@ function showScreen(name, btn){
   if(name==='calendar') renderCalendar();
   if(name==='register') renderRegister();
   if(name==='report') renderReport();
-  if(name==='profile'){ profileEditing=false; document.getElementById('profileViewMode').style.display='block'; document.getElementById('profileEditMode').style.display='none'; document.querySelector('.avatar-edit-btn').textContent='✏️ Editar'; renderProfile(); }
+  if(name==='agenda') renderAgenda();
+  if(name==='profile'){ profileEditing=false; setFotoEdicion(false); document.getElementById('profileViewMode').style.display='block'; document.getElementById('profileEditMode').style.display='none'; document.querySelector('.avatar-edit-btn').textContent='✏️ Editar'; renderProfile(); }
 }
 
 // ═══════════════════════════════════════
@@ -1368,7 +1673,7 @@ function renderCalendar(){
     const key = dateKey(y,m,d);
     const rec = data[key];
     const st = dayStatus(rec);
-    const isToday = (d===today.getDate()&&m===today.getMonth()&&y===today.getFullYear());
+    const isToday = esHoy(y,m,d);
     const isSelected = (d===selectedDay&&m===selectedMonth&&y===selectedYear);
 
     const el = document.createElement('div');
@@ -1378,6 +1683,7 @@ function renderCalendar(){
     else if(st==='bad') cls+=' has-bad';
     else cls+=' no-data';
     if(isToday) cls+=' today';
+    if(citas.some(c=>c.fecha===key)) cls+=' has-cita';
     if(isSelected) cls+=' selected';
     el.className = cls;
 
@@ -1392,10 +1698,18 @@ function renderCalendar(){
       el.appendChild(dot);
     }
 
-    const isFuture = new Date(y,m,d) > new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    if(isFuture){
-      el.style.opacity='0.35';
-      el.style.cursor='not-allowed';
+    const nCitas = citas.filter(c=>c.fecha===key).length;
+    if(nCitas){
+      const ci = document.createElement('div');
+      ci.className = 'cal-cita'; ci.textContent = '🩺';
+      el.appendChild(ci);
+    }
+
+    if(esFuturo(y,m,d)){
+      // Días futuros: solo se pueden abrir si tienen citas (no se registran lecturas)
+      el.style.opacity = nCitas ? '1' : '0.35';
+      if(nCitas) el.addEventListener('click', ()=>selectDay(d,m,y));
+      else el.style.cursor='not-allowed';
     } else {
       el.addEventListener('click', ()=>selectDay(d,m,y));
     }
@@ -1406,9 +1720,7 @@ function renderCalendar(){
 }
 
 function selectDay(d,m,y){
-  const clicked = new Date(y,m,d);
-  const todayMid = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-  if(clicked > todayMid){ showToast('⛔ No se puede registrar en fechas futuras'); return; }
+  if(esFuturo(y,m,d) && !citas.some(c=>c.fecha===dateKey(y,m,d))){ showToast('⛔ No se puede registrar en fechas futuras'); return; }
   selectedDay=d; selectedMonth=m; selectedYear=y;
   renderCalendar();
 }
@@ -1416,7 +1728,7 @@ function selectDay(d,m,y){
 function updateDaySummary(){
   const key = dateKey(selectedYear,selectedMonth,selectedDay);
   const rec = data[key];
-  const isToday = (selectedDay===today.getDate()&&selectedMonth===today.getMonth()&&selectedYear===today.getFullYear());
+  const isToday = esHoy(selectedYear, selectedMonth, selectedDay);
 
   const label = isToday ? 'Hoy' : `${selectedDay} de ${MESES[selectedMonth]}`;
   document.getElementById('summaryDate').textContent = label;
@@ -1430,7 +1742,7 @@ function updateDaySummary(){
     const valEl = document.getElementById(labels[mo]);
     const dotEl = document.getElementById(dots[mo]);
     if(val){
-      const st = glucoseStatus(val);
+      const st = glucoseStatus(val, mo);
       valEl.textContent = val;
       valEl.style.color = colorForStatus(st);
       dotEl.className = 'reading-dot dot-'+st;
@@ -1447,6 +1759,82 @@ function updateDaySummary(){
   else if(st==='warn'){ statusEl.className='day-summary-status status-warn'; statusEl.textContent='⚠ Precaución'; }
   else if(st==='bad'){ statusEl.className='day-summary-status status-bad'; statusEl.textContent='⚡ Fuera de rango'; }
   else { statusEl.className='day-summary-status status-empty'; statusEl.textContent='Sin registro'; }
+
+  // Citas del día seleccionado
+  document.getElementById('dsCitas').innerHTML = citas.filter(c=>c.fecha===key).sort(cmpCita).map(c=>
+    `<div class="ds-cita">🩺 <b>${c.hora?esc(c.hora)+' · ':''}${esc(c.titulo)}</b>${c.lugar?' — '+esc(c.lugar):''}</div>`
+  ).join('');
+
+  renderUpCitas();
+}
+
+// Momento en que una cita se considera cumplida: su fecha y hora
+// (si no tiene hora, al terminar ese día)
+function citaFin(c){
+  const [y,m,d] = c.fecha.split('-').map(Number);
+  if(c.hora){ const [hh,mm] = c.hora.split(':').map(Number); return new Date(y, m-1, d, hh, mm); }
+  return new Date(y, m-1, d, 23, 59, 59);
+}
+
+// Vista previa de la PRÓXIMA cita en la pantalla del calendario.
+// Solo se muestra la más cercana; cuando pasa su hora, aparece la siguiente.
+// Si hay varias el mismo día, se muestran lado a lado.
+function renderUpCitas(){
+  const cont = document.getElementById('upCitas');
+  if(!cont) return;
+  const ahora = new Date();
+  const pendientes = citas.filter(c=>citaFin(c) > ahora).sort(cmpCita);
+  if(!pendientes.length){
+    cont.innerHTML = '<div class="up-citas-empty">Sin citas próximas · <button class="link-btn" style="font-size:12px;" onclick="irAAgendaNuevaCita()">+ Agendar una cita</button></div>';
+    return;
+  }
+  const fecha = pendientes[0].fecha;
+  const delDia = pendientes.filter(c=>c.fecha===fecha);
+  const [y,m,d] = fecha.split('-').map(Number);
+  const dd = diasHasta(fecha);
+  const dia = DIAS[new Date(y,m-1,d).getDay()];
+  const when = `<span class="cita-when${dd<=1?' soon':''}">${cuando(fecha)}</span>`;
+  const badge = `<div class="up-cita-date"><div class="up-cita-day">${d}</div><div class="up-cita-mon">${MESES[m-1].substring(0,3)}</div></div>`;
+
+  let cuerpo;
+  if(delDia.length === 1){
+    const c = delDia[0];
+    cuerpo = `<button class="up-cita" onclick="irADiaCita('${c.fecha}')">
+      ${badge}
+      <div class="up-cita-info">
+        <div class="up-cita-title">${esc(c.titulo)}</div>
+        <div class="up-cita-meta">${dia}${c.hora?' · 🕐 '+esc(c.hora):''}${c.lugar?' · 📍 '+esc(c.lugar):''}</div>
+      </div>
+      ${when}
+    </button>`;
+  } else {
+    // Varias el mismo día: el espacio se divide en partes iguales
+    cuerpo = `<div class="up-cita-split">${delDia.map(c=>`
+      <button class="up-cita half" onclick="irADiaCita('${c.fecha}')">
+        <div class="up-half-top">${badge}<div class="up-half-hora">${c.hora?'🕐 '+esc(c.hora):'Sin hora'}</div></div>
+        <div class="up-cita-title">${esc(c.titulo)}</div>
+        ${c.lugar?`<div class="up-cita-meta">📍 ${esc(c.lugar)}</div>`:''}
+      </button>`).join('')}</div>`;
+  }
+
+  cont.innerHTML = `
+    <div class="up-citas-head">
+      <div class="up-citas-title">🩺 Próxima cita${delDia.length>1?` ${when}`:''}</div>
+      <button class="up-citas-more" onclick="document.querySelectorAll('.nav-tab')[2].click()">Ver agenda ›</button>
+    </div>
+    ${cuerpo}`;
+}
+
+// Al tocar una cita de la vista previa: el calendario salta a ese mes y selecciona el día
+function irADiaCita(fecha){
+  const [y,m,d] = fecha.split('-').map(Number);
+  viewDate = new Date(y, m-1, 1);
+  selectedYear = y; selectedMonth = m-1; selectedDay = d;
+  renderCalendar();
+}
+function irAAgendaNuevaCita(){
+  document.querySelectorAll('.nav-tab')[2].click();
+  openCitaModal();
 }
 
 function goRegisterToday(){
@@ -1609,29 +1997,46 @@ function initColDrag(col){
 }
 
 /* ── Estado semáforo y barra ── */
+// La barra usa la misma escala (40–300 mg/dL) para el marcador y para los colores
+const BAR_MIN = 40, BAR_MAX = 300;
+function barPct(v){ return Math.min(100, Math.max(0, ((v-BAR_MIN)/(BAR_MAX-BAR_MIN))*100)); }
+
+function updateGlcBar(){
+  const bar = document.getElementById('glcBar');
+  if(!bar) return;
+  const meta = metaFor(currentMoment);
+  const pLow = barPct(HIPO), pMin = barPct(meta.min), pMax = barPct(meta.max), pHigh = barPct(Math.max(HIPER, meta.max));
+  const R='var(--red)', A='var(--amber)', G='var(--green)';
+  bar.style.background = `linear-gradient(to right, ${R} 0%, ${R} ${pLow}%, ${A} ${pLow}%, ${A} ${pMin}%, ${G} ${pMin}%, ${G} ${pMax}%, ${A} ${pMax}%, ${A} ${pHigh}%, ${R} ${pHigh}%, ${R} 100%)`;
+  document.getElementById('glcLblLow').textContent  = `Bajo <${HIPO}`;
+  document.getElementById('glcLblOk').textContent   = `Meta ${meta.min}–${meta.max}`;
+  document.getElementById('glcLblHigh').textContent = `Alto >${Math.max(HIPER, meta.max)}`;
+}
+
 function refreshStatusUI(){
   const msgEl  = document.getElementById('glcStatusMsg');
   const marker = document.getElementById('glcMarker');
   const body   = document.getElementById('pickerBody');
   if(!msgEl) return;
+  updateGlcBar();
 
   body.classList.remove('st-ok','st-warn','st-bad');
 
   if(pickerVal === null || pickerVal === 0){
     marker.style.left = '0%';
     msgEl.style.background = 'var(--surface2)'; msgEl.style.color = 'var(--text-soft)';
-    msgEl.textContent = '↕ Deslizá las ruedas para ingresar tu medida';
+    msgEl.textContent = '↕ Desliza las ruedas para ingresar tu medida';
     return;
   }
-  const v=pickerVal, st=glucoseStatus(v);
-  const pct = Math.min(100, Math.max(0, ((v-30)/570)*100));
-  marker.style.left = pct+'%';
+  const v=pickerVal, st=glucoseStatus(v, currentMoment), meta=metaFor(currentMoment);
+  marker.style.left = barPct(v)+'%';
   body.classList.add('st-'+st);
 
-  if(st==='ok')        { msgEl.style.background='var(--green-bg)'; msgEl.style.color='var(--green)'; msgEl.textContent='✓ Nivel en rango normal'; }
-  else if(st==='warn') { msgEl.style.background='var(--amber-bg)'; msgEl.style.color='var(--amber)'; msgEl.textContent='⚠ Un poco elevado – llevá registro'; }
-  else if(v<70)        { msgEl.style.background='var(--red-bg)';   msgEl.style.color='var(--red)';   msgEl.textContent='⚡ Nivel bajo – consultá tu médico'; }
-  else                 { msgEl.style.background='var(--red-bg)';   msgEl.style.color='var(--red)';   msgEl.textContent='⚡ Nivel alto – consultá tu médico'; }
+  if(st==='ok')        { msgEl.style.background='var(--green-bg)'; msgEl.style.color='var(--green)'; msgEl.textContent='✓ Dentro de tu meta'; }
+  else if(st==='warn' && v<meta.min) { msgEl.style.background='var(--amber-bg)'; msgEl.style.color='var(--amber)'; msgEl.textContent='⚠ Por debajo de tu meta'; }
+  else if(st==='warn') { msgEl.style.background='var(--amber-bg)'; msgEl.style.color='var(--amber)'; msgEl.textContent='⚠ Por encima de tu meta'; }
+  else if(v<70)        { msgEl.style.background='var(--red-bg)';   msgEl.style.color='var(--red)';   msgEl.textContent='⚡ Nivel bajo – consulta a tu médico'; }
+  else                 { msgEl.style.background='var(--red-bg)';   msgEl.style.color='var(--red)';   msgEl.textContent='⚡ Nivel alto – consulta a tu médico'; }
 }
 
 /* ── Render + carga de momento ── */
@@ -1644,7 +2049,7 @@ function updateMomentTabs(){
     const val   = rec && rec[mo];
     tab.classList.remove('has-ok','has-warn','has-bad');
     if(val){
-      tab.classList.add('has-'+glucoseStatus(val));
+      tab.classList.add('has-'+glucoseStatus(val, mo));
       badge.textContent = val+' mg/dL';
     } else {
       badge.textContent = '';
@@ -1653,6 +2058,10 @@ function updateMomentTabs(){
 }
 
 function renderRegister(){
+  // Si en el calendario se eligió un día futuro (por una cita), se registra en hoy
+  if(esFuturo(selectedYear, selectedMonth, selectedDay)){
+    selectedDay=today.getDate(); selectedMonth=today.getMonth(); selectedYear=today.getFullYear();
+  }
   updateRegDateLabel();
   if(!pickerBuilt) buildPicker();
   loadExistingForMoment();
@@ -1660,7 +2069,7 @@ function renderRegister(){
 }
 
 function updateRegDateLabel(){
-  const isToday = (selectedDay===today.getDate()&&selectedMonth===today.getMonth()&&selectedYear===today.getFullYear());
+  const isToday = esHoy(selectedYear, selectedMonth, selectedDay);
   document.getElementById('regDateLabel').textContent =
     isToday
       ? `Hoy, ${selectedDay} de ${MESES[selectedMonth]}`
@@ -1672,8 +2081,6 @@ function setMoment(m, btn){
   document.querySelectorAll('.moment-tab').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   loadExistingForMoment();
-  activeSymptoms = [];
-  document.querySelectorAll('.symptom-btn').forEach(b=>b.classList.remove('selected'));
 }
 
 function loadExistingForMoment(){
@@ -1681,20 +2088,24 @@ function loadExistingForMoment(){
   const rec  = data[key];
   const val  = rec && rec[currentMoment];
   setPickerValue(val || null);
-  document.getElementById('notesInput').value = (rec && rec.notes) || '';
+  // Nota y síntomas propios de este momento del día
+  document.getElementById('notesInput').value = (rec && rec.notas && rec.notas[currentMoment]) || '';
+  activeSymptoms = ((rec && rec.sintomas && rec.sintomas[currentMoment]) || []).slice();
+  document.querySelectorAll('.symptom-btn').forEach(b=>b.classList.toggle('selected', activeSymptoms.includes(b.dataset.sym)));
 }
 
 function saveReading(){
-  const selDate = new Date(selectedYear, selectedMonth, selectedDay);
-  const todayMid = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-  if(selDate > todayMid){ showToast('⛔ No se puede registrar en fechas futuras'); return; }
-  if(!pickerVal || pickerVal < 30){ showToast('↕ Deslizá las ruedas para ingresar tu medida'); return; }
+  if(esFuturo(selectedYear, selectedMonth, selectedDay)){ showToast('⛔ No se puede registrar en fechas futuras'); return; }
+  if(!pickerVal || pickerVal < 30){ showToast('↕ Desliza las ruedas para ingresar tu medida'); return; }
   if(pickerVal > 599){ showToast('El valor debe estar entre 30 y 599 mg/dL'); return; }
   const key = dateKey(selectedYear,selectedMonth,selectedDay);
   if(!data[key]) data[key] = {};
   data[key][currentMoment] = pickerVal;
-  data[key].notes = document.getElementById('notesInput').value;
-  if(activeSymptoms.length) data[key].symptoms = [...activeSymptoms];
+  const nota = document.getElementById('notesInput').value.trim();
+  data[key].notas    = data[key].notas    || {};
+  data[key].sintomas = data[key].sintomas || {};
+  if(nota) data[key].notas[currentMoment] = nota; else delete data[key].notas[currentMoment];
+  if(activeSymptoms.length) data[key].sintomas[currentMoment] = [...activeSymptoms]; else delete data[key].sintomas[currentMoment];
   saveData();
   showToast('✓ Lectura guardada correctamente');
   updateDaySummary();
@@ -1710,7 +2121,6 @@ function toggleSymptom(btn, name){
   }
 }
 
-function saveCurrentMomentTemp(){}
 
 // ═══════════════════════════════════════
 // REPORTE
@@ -1794,16 +2204,16 @@ function renderLogList(y,m,days){
     ['noche','despues','antes','ayunas'].forEach(mo=>{
       if(rec[mo]) entries.push({d,mo,val:rec[mo],key});
     });
-    if(entries.length>=12) return;
+    if(entries.length>=12) break;
   }
 
   if(!entries.length){
-    container.innerHTML=`<div class="empty-state"><div class="empty-state-icon">📭</div><div class="empty-state-text">No hay lecturas este mes.<br>¡Empezá a registrar hoy!</div></div>`;
+    container.innerHTML=`<div class="empty-state"><div class="empty-state-icon">📭</div><div class="empty-state-text">No hay lecturas este mes.<br>¡Empieza a registrar hoy!</div></div>`;
     return;
   }
 
   entries.slice(0,12).forEach(e=>{
-    const st=glucoseStatus(e.val);
+    const st=glucoseStatus(e.val, e.mo);
     const colors={ok:'var(--green)',warn:'var(--amber)',bad:'var(--red)'};
     const item=document.createElement('div');
     item.className='log-item';
@@ -1822,16 +2232,16 @@ function renderLogList(y,m,days){
   });
 }
 
-function cellColor(val){
+function cellColor(val, mo){
   if(!val) return '#f5f5f5';
-  const st = glucoseStatus(val);
+  const st = glucoseStatus(val, mo);
   if(st==='ok') return '#e8f8f0';
   if(st==='warn') return '#fff4e0';
   return '#fdeaea';
 }
-function cellTextColor(val){
+function cellTextColor(val, mo){
   if(!val) return '#999';
-  const st = glucoseStatus(val);
+  const st = glucoseStatus(val, mo);
   if(st==='ok') return '#1e9e5e';
   if(st==='warn') return '#d97b0f';
   return '#d63b3b';
@@ -1849,33 +2259,48 @@ function exportReport(){
   for(let i=1;i<=totalDays;i++){
     const key=dateKey(y,m,i);
     const rec=data[key];
-    const dow = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'][new Date(y,m,i).getDay()];
+    const dow = DIAS[new Date(y,m,i).getDay()];
     const tiene = rec && [rec.ayunas,rec.antes,rec.despues,rec.noche].some(Boolean);
     const bgRow = tiene ? '' : 'background:#fafafa;';
 
-    const cell = (val) => val
-      ? `<td style="background:${cellColor(val)};color:${cellTextColor(val)};font-weight:700;text-align:center;">${val}</td>`
+    const cell = (val, mo) => val
+      ? `<td style="background:${cellColor(val,mo)};color:${cellTextColor(val,mo)};font-weight:700;text-align:center;">${val}</td>`
       : `<td style="color:#bbb;text-align:center;">–</td>`;
 
-    const notas = (rec&&rec.notes) ? rec.notes : '';
-    const sintomas = (rec&&rec.symptoms&&rec.symptoms.length) ? rec.symptoms.join(', ') : '';
-    const extra = [notas, sintomas].filter(Boolean).join(' · ');
+    // Notas y síntomas: por momento (nuevo) y por día (registros anteriores)
+    const partes = [];
+    if(rec){
+      if(rec.notes) partes.push(esc(rec.notes));
+      if(rec.symptoms && rec.symptoms.length) partes.push(esc(rec.symptoms.join(', ')));
+      MOMENTOS.forEach(mo=>{
+        const n = rec.notas && rec.notas[mo];
+        const sy = rec.sintomas && rec.sintomas[mo];
+        const t = [n, (sy&&sy.length) ? sy.join(', ') : ''].filter(Boolean).join(' · ');
+        if(t) partes.push(`<b>${MOMENTO_CORTO[mo]}:</b> ${esc(t)}`);
+      });
+    }
+    const extra = partes.join('<br>');
 
     filas += `<tr style="${bgRow}">
       <td style="text-align:center;color:#666;">${dow}</td>
       <td style="text-align:center;font-weight:600;">${i} ${MESES[m].substring(0,3)}</td>
-      ${cell(rec&&rec.ayunas)}
-      ${cell(rec&&rec.antes)}
-      ${cell(rec&&rec.despues)}
-      ${cell(rec&&rec.noche)}
+      ${cell(rec&&rec.ayunas,'ayunas')}
+      ${cell(rec&&rec.antes,'antes')}
+      ${cell(rec&&rec.despues,'despues')}
+      ${cell(rec&&rec.noche,'noche')}
       <td style="font-size:10px;color:#888;">${extra}</td>
     </tr>`;
   }
 
   // Bloque de medicamentos
   const medsHtml = medications.length
-    ? medications.map(med=>`<span style="background:#ebf3ff;color:#2a6ebb;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;margin-right:4px;">${med.name}${med.dose?' '+med.dose:''}</span>`).join('')
+    ? medications.map(med=>`<span style="background:#ebf3ff;color:#2a6ebb;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;margin-right:4px;">${esc(med.name)}${med.dose?' '+esc(med.dose):''}${med.horas&&med.horas.length?' · 🕐 '+med.horas.map(esc).join(', '):''}</span>`).join('')
     : '<span style="color:#aaa;font-size:11px;">Sin medicamentos registrados</span>';
+
+  const proxCitas = citas.filter(c=>c.fecha>=nowKey()).sort(cmpCita).slice(0,5);
+  const citasHtml = proxCitas.length
+    ? proxCitas.map(c=>`<div style="font-size:11px;margin-bottom:2px;"><b>${fechaLarga(c.fecha)}${c.hora?' · '+esc(c.hora):''}</b> — ${esc(c.titulo)}${c.lugar?' · '+esc(c.lugar):''}</div>`).join('')
+    : '<span style="color:#aaa;font-size:11px;">Sin citas programadas</span>';
 
   const html = `<!DOCTYPE html>
 <html lang="es">
@@ -1902,7 +2327,6 @@ function exportReport(){
   .patient-card { background: #f0f6ff; border-radius: 10px; padding: 14px 16px; margin-bottom: 14px; border-left: 4px solid #2a6ebb; }
   .patient-name { font-size: 16px; font-weight: 900; color: #1a2332; margin-bottom: 8px; }
   .patient-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; }
-  .patient-item { }
   .patient-label { font-size: 9px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
   .patient-value { font-size: 12px; font-weight: 600; color: #1a2332; }
   .meds-row { margin-top: 10px; border-top: 1px solid #dde6f0; padding-top: 8px; }
@@ -1957,48 +2381,52 @@ function exportReport(){
 
 <!-- DATOS DEL PACIENTE -->
 <div class="patient-card">
-  <div class="patient-name">${profile.nombre || 'Paciente sin nombre'}</div>
+  <div class="patient-name" style="display:flex;align-items:center;gap:12px;">${fotoValida(profile.foto)?`<img src="${profile.foto}" alt="" style="width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid #2a6ebb;">`:''}<span>${esc(profile.nombre) || 'Paciente sin nombre'}</span></div>
   <div class="patient-grid">
     <div class="patient-item">
       <div class="patient-label">Edad</div>
-      <div class="patient-value">${profile.edad ? profile.edad+' años' : '–'}</div>
+      <div class="patient-value">${profile.edad ? esc(profile.edad)+' años' : '–'}</div>
     </div>
     <div class="patient-item">
       <div class="patient-label">Sexo</div>
-      <div class="patient-value">${profile.sexo||'–'}</div>
+      <div class="patient-value">${esc(profile.sexo)||'–'}</div>
     </div>
     <div class="patient-item">
       <div class="patient-label">Tipo diabetes</div>
-      <div class="patient-value">${profile.tipo||'–'}</div>
+      <div class="patient-value">${esc(profile.tipo)||'–'}</div>
     </div>
     <div class="patient-item">
       <div class="patient-label">Peso</div>
-      <div class="patient-value">${profile.peso ? profile.peso+' kg' : '–'}</div>
+      <div class="patient-value">${profile.peso ? esc(profile.peso)+' kg' : '–'}</div>
     </div>
     <div class="patient-item">
       <div class="patient-label">Estatura</div>
-      <div class="patient-value">${profile.estatura ? profile.estatura+' cm' : '–'}</div>
+      <div class="patient-value">${profile.estatura ? esc(profile.estatura)+' cm' : '–'}</div>
     </div>
     <div class="patient-item">
       <div class="patient-label">Diagnóstico</div>
-      <div class="patient-value">${profile.diagnostico||'–'}</div>
+      <div class="patient-value">${esc(profile.diagnostico)||'–'}</div>
     </div>
     <div class="patient-item">
       <div class="patient-label">Médico tratante</div>
-      <div class="patient-value">${profile.medico||'–'}</div>
+      <div class="patient-value">${esc(profile.medico)||'–'}</div>
     </div>
     <div class="patient-item">
       <div class="patient-label">EPS / Clínica</div>
-      <div class="patient-value">${profile.eps||'–'}</div>
+      <div class="patient-value">${esc(profile.eps)||'–'}</div>
     </div>
     <div class="patient-item">
       <div class="patient-label">Teléfono médico</div>
-      <div class="patient-value">${profile.telmedico||'–'}</div>
+      <div class="patient-value">${esc(profile.telmedico)||'–'}</div>
     </div>
   </div>
   <div class="meds-row">
     <div class="meds-label">Medicamentos actuales</div>
     <div>${medsHtml}</div>
+  </div>
+  <div class="meds-row">
+    <div class="meds-label">Próximas citas</div>
+    <div>${citasHtml}</div>
   </div>
 </div>
 
@@ -2014,7 +2442,7 @@ function exportReport(){
   </div>
   <div class="stat-box">
     <div class="stat-val" style="color:#1e9e5e;">${pct}</div>
-    <div class="stat-label">En rango normal</div>
+    <div class="stat-label">Días en meta</div>
   </div>
   <div class="stat-box">
     <div class="stat-val">${totalDays}</div>
@@ -2041,9 +2469,14 @@ function exportReport(){
 
 <!-- LEYENDA -->
 <div class="legend">
-  <div class="legend-item"><div class="legend-dot" style="background:#1e9e5e;"></div>En rango normal (70–140 mg/dL)</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#d97b0f;"></div>Precaución (141–180 mg/dL)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#1e9e5e;"></div>Dentro de la meta</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#d97b0f;"></div>Fuera de la meta (entre 70 y 180 mg/dL)</div>
   <div class="legend-item"><div class="legend-dot" style="background:#d63b3b;"></div>Fuera de rango (&lt;70 o &gt;180 mg/dL)</div>
+</div>
+<div style="font-size:10px;color:#666;margin-top:6px;">
+  Metas usadas (mg/dL): Ayunas y antes de comer ${metaFor('ayunas').min}–${metaFor('ayunas').max} ·
+  Después de comer ${metaFor('despues').min}–${metaFor('despues').max} ·
+  Noche ${metaFor('noche').min}–${metaFor('noche').max}
 </div>
 
 <!-- FOOTER -->
@@ -2065,13 +2498,220 @@ function exportReport(){
 }
 
 // ═══════════════════════════════════════
+// AGENDA — citas y horarios de medicamentos
+// ═══════════════════════════════════════
+function saveAgenda(){
+  store.setItem('diaritmo_citas', JSON.stringify(citas));
+  store.setItem('diaritmo_tomas', JSON.stringify(tomas));
+}
+function nowKey(){ const n=new Date(); return dateKey(n.getFullYear(), n.getMonth(), n.getDate()); }
+function hhmm(d){ return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`; }
+function cmpCita(a,b){ return (a.fecha+(a.hora||'99:99')).localeCompare(b.fecha+(b.hora||'99:99')); }
+function fechaLarga(key){ const [y,m,d]=key.split('-').map(Number); return `${DIAS[new Date(y,m-1,d).getDay()]} ${d} de ${MESES[m-1]}`; }
+function diasHasta(key){
+  const [y,m,d]=key.split('-').map(Number); const n=new Date();
+  return Math.round((new Date(y,m-1,d) - new Date(n.getFullYear(),n.getMonth(),n.getDate())) / 86400000);
+}
+function cuando(key){
+  const d = diasHasta(key);
+  if(d===0) return 'Hoy'; if(d===1) return 'Mañana'; if(d>1) return `En ${d} días`;
+  if(d===-1) return 'Ayer'; return `Hace ${-d} días`;
+}
+
+// Tomas programadas para hoy, ordenadas por hora
+function dosisHoy(){
+  const out = [];
+  medications.forEach(m=>(m.horas||[]).forEach(h=>out.push({med:m, hora:h, k:m.id+'@'+h})));
+  return out.sort((a,b)=>a.hora.localeCompare(b.hora));
+}
+
+function renderAgenda(){ renderDosis(); renderCitas(); renderHorarios(); }
+
+function renderDosis(){
+  const cont = document.getElementById('dosisList');
+  const prog = document.getElementById('dosisProgress');
+  const hechas = tomas[nowKey()] || {};
+  const lista = dosisHoy();
+  if(!lista.length){
+    prog.textContent = '';
+    cont.innerHTML = medications.length
+      ? '<div class="agenda-empty">Agrega los horarios de tus medicamentos más abajo.</div>'
+      : '<div class="agenda-empty">Primero agrega tus medicamentos. <button class="link-btn" onclick="irAPerfilEditar()">Ir a Mi perfil</button></div>';
+    return;
+  }
+  const ahora = hhmm(new Date());
+  prog.textContent = `${lista.filter(x=>hechas[x.k]).length} de ${lista.length} tomas`;
+  let proximaMarcada = false;
+  cont.innerHTML = lista.map(x=>{
+    const ok = !!hechas[x.k];
+    const tarde = !ok && x.hora < ahora;
+    let cls = 'dose-item' + (ok?' taken':'') + (tarde?' late':'');
+    let tag = '';
+    if(tarde) tag = '<span class="dose-tag late">Pendiente</span>';
+    else if(!ok && !proximaMarcada){ proximaMarcada = true; cls += ' next'; tag = '<span class="dose-tag">Próxima</span>'; }
+    return `<div class="${cls}">
+      <div class="dose-time">${esc(x.hora)}</div>
+      <div class="dose-info">
+        <div class="dose-name">💊 ${esc(x.med.name)} ${tag}</div>
+        ${x.med.dose?`<div class="dose-dose">${esc(x.med.dose)}</div>`:''}
+      </div>
+      <button class="dose-check" onclick="toggleToma('${x.k}')" aria-label="Marcar como tomada">${ok?'✓':''}</button>
+    </div>`;
+  }).join('');
+}
+
+function toggleToma(k){
+  const d = nowKey();
+  tomas[d] = tomas[d] || {};
+  if(tomas[d][k]) delete tomas[d][k]; else { tomas[d][k] = true; showToast('✓ Toma registrada'); }
+  saveAgenda(); renderDosis();
+}
+
+function citaCard(c, pasada){
+  const [y,m,d] = c.fecha.split('-').map(Number);
+  const dd = diasHasta(c.fecha);
+  return `<div class="cita-card${pasada?' past':''}">
+    <div class="cita-date"><div class="cita-day">${d}</div><div class="cita-mon">${MESES[m-1].substring(0,3)}</div></div>
+    <div class="cita-info">
+      <div class="cita-title">${esc(c.titulo)}</div>
+      <div class="cita-meta">${DIAS[new Date(y,m-1,d).getDay()]}${c.hora?' · 🕐 '+esc(c.hora):''}${c.lugar?' · 📍 '+esc(c.lugar):''}</div>
+      ${c.nota?`<div class="cita-note">${esc(c.nota)}</div>`:''}
+    </div>
+    <div class="cita-side">
+      ${pasada?'':`<span class="cita-when${dd<=1?' soon':''}">${cuando(c.fecha)}</span>`}
+      <button class="cita-del" onclick="deleteCita('${c.id}')" aria-label="Eliminar cita">🗑</button>
+    </div>
+  </div>`;
+}
+
+function renderCitas(){
+  const hoy = nowKey();
+  const prox = citas.filter(c=>c.fecha>=hoy).sort(cmpCita);
+  const pas  = citas.filter(c=>c.fecha<hoy).sort(cmpCita).reverse();
+  document.getElementById('citasList').innerHTML = prox.length
+    ? prox.map(c=>citaCard(c,false)).join('')
+    : '<div class="agenda-empty">No tienes citas programadas.</div>';
+  document.getElementById('citasPasadasWrap').style.display = pas.length ? 'block' : 'none';
+  document.getElementById('citasPasadasCount').textContent = pas.length;
+  document.getElementById('citasPasadas').innerHTML = pas.map(c=>citaCard(c,true)).join('');
+}
+
+function togglePasadas(){
+  const el = document.getElementById('citasPasadas');
+  const abrir = el.style.display === 'none';
+  el.style.display = abrir ? 'block' : 'none';
+  document.getElementById('pastArrow').textContent = abrir ? '▴' : '▾';
+}
+
+function openCitaModal(){
+  const sel = dateKey(selectedYear, selectedMonth, selectedDay);
+  document.getElementById('cita-fecha').value = sel >= nowKey() ? sel : nowKey();
+  ['cita-hora','cita-titulo','cita-lugar','cita-nota'].forEach(id=>document.getElementById(id).value='');
+  const tit = document.getElementById('cita-titulo');
+  if(profile.medico) tit.placeholder = `Ej: ${profile.medico}`;
+  document.getElementById('citaModal').classList.add('open');
+}
+function closeCitaModal(){ document.getElementById('citaModal').classList.remove('open'); }
+
+function saveCita(){
+  const fecha  = document.getElementById('cita-fecha').value;
+  const hora   = document.getElementById('cita-hora').value;
+  const titulo = document.getElementById('cita-titulo').value.trim();
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(fecha)){ showToast('Elige la fecha de la cita'); return; }
+  if(!titulo){ showToast('Escribe el médico o la especialidad'); return; }
+  citas.push({
+    id: newId(), fecha, hora: /^\d{2}:\d{2}$/.test(hora) ? hora : '', titulo,
+    lugar: document.getElementById('cita-lugar').value.trim(),
+    nota:  document.getElementById('cita-nota').value.trim()
+  });
+  saveAgenda(); closeCitaModal(); renderAgenda(); renderCalendar();
+  showToast(`✓ Cita guardada para ${cuando(fecha).toLowerCase()}`);
+}
+
+function deleteCita(id){
+  const c = citas.find(x=>x.id===id); if(!c) return;
+  if(!confirm(`¿Eliminar la cita "${c.titulo}" del ${fechaLarga(c.fecha)}?`)) return;
+  citas = citas.filter(x=>x.id!==id);
+  saveAgenda(); renderAgenda(); renderCalendar();
+  showToast('🗑 Cita eliminada');
+}
+
+function renderHorarios(){
+  const cont = document.getElementById('horariosList');
+  if(!medications.length){
+    cont.innerHTML = '<div class="agenda-empty">No hay medicamentos registrados. <button class="link-btn" onclick="irAPerfilEditar()">Agregar en Mi perfil</button></div>';
+    return;
+  }
+  cont.innerHTML = medications.map(m=>`
+    <div class="sched-med">
+      <div class="sched-name">💊 ${esc(m.name)}${m.dose?` <span class="sched-dose">${esc(m.dose)}</span>`:''}</div>
+      <div class="chips">
+        ${(m.horas||[]).length
+          ? m.horas.map(h=>`<span class="chip">🕐 ${esc(h)}<button onclick="removeHora('${m.id}','${h}')" aria-label="Quitar horario">×</button></span>`).join('')
+          : '<span class="sched-none">Sin horario</span>'}
+      </div>
+      <div class="add-time-row">
+        <input type="time" class="time-input" id="t-${m.id}">
+        <button class="add-med-btn" onclick="addHora('${m.id}')">+ Hora</button>
+      </div>
+    </div>`).join('');
+}
+
+function addHora(id){
+  const h = document.getElementById('t-'+id).value;
+  if(!/^\d{2}:\d{2}$/.test(h)){ showToast('Elige una hora'); return; }
+  const m = medications.find(x=>x.id===id); if(!m) return;
+  if(m.horas.includes(h)){ showToast('Ese horario ya existe'); return; }
+  m.horas.push(h); m.horas.sort();
+  saveProfileData(); renderAgenda();
+  showToast('✓ Horario agregado');
+}
+function removeHora(id, h){
+  const m = medications.find(x=>x.id===id); if(!m) return;
+  m.horas = m.horas.filter(x=>x!==h);
+  saveProfileData(); renderAgenda();
+}
+function irAPerfilEditar(){
+  document.querySelectorAll('.nav-tab')[4].click();
+  if(!profileEditing) toggleProfileEdit();
+}
+
+// Recordatorios dentro de la app (funcionan mientras esté abierta)
+const avisados = {};
+function revisarRecordatorios(){
+  // Si la app sigue abierta después de medianoche, "hoy" pasa al nuevo día
+  if(nowKey() !== dateKey(today.getFullYear(), today.getMonth(), today.getDate())){
+    const eraHoy = esHoy(selectedYear, selectedMonth, selectedDay);
+    today = new Date();
+    if(eraHoy){ selectedDay = today.getDate(); selectedMonth = today.getMonth(); selectedYear = today.getFullYear(); }
+    renderCalendar();
+  }
+  const n = new Date(), k = nowKey(), h = hhmm(n), hechas = tomas[k] || {};
+  dosisHoy().forEach(x=>{
+    const id = k + x.k;
+    if(x.hora === h && !hechas[x.k] && !avisados[id]){ avisados[id] = 1; showToast(`💊 Hora de tomar ${x.med.name}${x.med.dose?' '+x.med.dose:''}`); }
+  });
+  citas.filter(c=>c.fecha===k && c.hora).forEach(c=>{
+    const [hh,mm] = c.hora.split(':').map(Number);
+    const faltan = (hh*60+mm) - (n.getHours()*60+n.getMinutes());
+    if(faltan === 60 && !avisados['c'+c.id]){ avisados['c'+c.id] = 1; showToast(`🩺 Cita en 1 hora: ${c.titulo}`); }
+  });
+  if(document.getElementById('screen-agenda').classList.contains('active')) renderDosis();
+  if(document.getElementById('screen-calendar').classList.contains('active')) renderUpCitas();
+}
+setInterval(revisarRecordatorios, 30000);
+
+document.getElementById('citaModal').addEventListener('click', function(e){
+  if(e.target === this) closeCitaModal();
+});
+
+// ═══════════════════════════════════════
 // MODAL FECHA
 // ═══════════════════════════════════════
 function openDateModal(){
-  const key=`${selectedYear}-${String(selectedMonth+1).padStart(2,'0')}-${String(selectedDay).padStart(2,'0')}`;
-  const todayStr=`${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
-  document.getElementById('datePickerInput').max=todayStr;
-  document.getElementById('datePickerInput').value=key;
+  const input = document.getElementById('datePickerInput');
+  input.max   = dateKey(today.getFullYear(), today.getMonth(), today.getDate());
+  input.value = dateKey(selectedYear, selectedMonth, selectedDay);
   document.getElementById('dateModal').classList.add('open');
 }
 function closeDateModal(){
@@ -2081,9 +2721,7 @@ function applyDateChange(){
   const v=document.getElementById('datePickerInput').value;
   if(!v) return;
   const [y,m,d]=v.split('-').map(Number);
-  const chosen = new Date(y,m-1,d);
-  const todayMid = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-  if(chosen > todayMid){ showToast('⛔ No se puede registrar en fechas futuras'); return; }
+  if(esFuturo(y, m-1, d)){ showToast('⛔ No se puede registrar en fechas futuras'); return; }
   selectedYear=y; selectedMonth=m-1; selectedDay=d;
   closeDateModal();
   updateRegDateLabel();
@@ -2097,19 +2735,17 @@ document.getElementById('dateModal').addEventListener('click',function(e){
 // ═══════════════════════════════════════
 // PERFIL
 // ═══════════════════════════════════════
-let profile = JSON.parse(localStorage.getItem('diaritmo_profile') || '{}');
-let medications = JSON.parse(localStorage.getItem('diaritmo_meds') || '[]');
 let profileEditing = false;
 
 function saveProfileData(){
-  localStorage.setItem('diaritmo_profile', JSON.stringify(profile));
-  localStorage.setItem('diaritmo_meds', JSON.stringify(medications));
+  store.setItem('diaritmo_profile', JSON.stringify(profile));
+  store.setItem('diaritmo_meds', JSON.stringify(medications));
 }
 
 function renderProfile(){
   // Avatar y cabecera
   const nombre = profile.nombre || '';
-  document.getElementById('avatarIcon').textContent = nombre ? nombre.charAt(0).toUpperCase() : '👤';
+  renderAvatar(profile.foto, nombre);
   document.getElementById('profileNameDisplay').textContent = nombre || 'Tu nombre';
   const since = profile.diagnostico ? `Desde ${profile.diagnostico}` : 'Registrado desde –';
   document.getElementById('profileSinceDisplay').textContent = since;
@@ -2141,8 +2777,9 @@ function renderProfile(){
     medsView.innerHTML = medications.map(m=>`
       <div class="med-tag" style="margin-bottom:6px;">
         <div>
-          <div class="med-tag-name">💊 ${m.name}</div>
-          ${m.dose?`<div class="med-tag-dose">${m.dose}</div>`:''}
+          <div class="med-tag-name">💊 ${esc(m.name)}</div>
+          ${m.dose?`<div class="med-tag-dose">${esc(m.dose)}</div>`:''}
+          ${m.horas&&m.horas.length?`<div class="med-tag-dose">🕐 ${m.horas.map(esc).join(' · ')}</div>`:''}
         </div>
       </div>
     `).join('');
@@ -2151,11 +2788,103 @@ function renderProfile(){
   }
 }
 
+// ── FOTO DE PERFIL ──────────────────────
+// La foto se recorta en cuadrado, se reduce a 320×320 px (JPEG) y se guarda en el perfil.
+let fotoTemp = undefined;   // foto mientras se edita (undefined = sin cambios)
+let camStream = null;
+
+function fotoValida(f){
+  return typeof f==='string' && f.length < 400000 && /^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+\/=]+$/.test(f);
+}
+
+function renderAvatar(foto, nombre){
+  const c = document.getElementById('avatarIcon');
+  c.innerHTML = '';
+  if(fotoValida(foto)){
+    const img = document.createElement('img');
+    img.src = foto; img.alt = 'Foto de perfil';
+    c.appendChild(img);
+  } else {
+    c.textContent = nombre ? nombre.charAt(0).toUpperCase() : '👤';
+  }
+}
+
+// Muestra u oculta los botones de foto; al salir sin guardar se descarta la foto nueva
+function setFotoEdicion(activo){
+  document.getElementById('photoActions').style.display = activo ? 'flex' : 'none';
+  document.getElementById('profileHeader').classList.toggle('editing', activo);
+  if(activo){ fotoTemp = profile.foto || ''; actualizarBotonQuitar(); }
+  else { fotoTemp = undefined; cerrarCamara(); renderAvatar(profile.foto, profile.nombre); }
+}
+function actualizarBotonQuitar(){
+  document.getElementById('fotoQuitarBtn').style.display = fotoTemp ? '' : 'none';
+}
+
+function procesarFoto(fuente, w, h, espejo){
+  const S = 320, lado = Math.min(w, h);
+  const c = document.createElement('canvas'); c.width = c.height = S;
+  const ctx = c.getContext('2d');
+  if(espejo){ ctx.translate(S, 0); ctx.scale(-1, 1); }
+  ctx.drawImage(fuente, (w-lado)/2, (h-lado)/2, lado, lado, 0, 0, S, S);
+  fotoTemp = c.toDataURL('image/jpeg', 0.85);
+  renderAvatar(fotoTemp, document.getElementById('pf-nombre').value.trim());
+  actualizarBotonQuitar();
+  showToast('✓ Foto lista — toca "Guardar perfil"');
+}
+
+function fotoDesdeArchivo(e){
+  const f = e.target.files[0];
+  e.target.value = '';
+  if(!f) return;
+  if(!f.type.startsWith('image/')){ showToast('El archivo no es una imagen'); return; }
+  const url = URL.createObjectURL(f);
+  const img = new Image();
+  img.onload  = ()=>{ procesarFoto(img, img.naturalWidth, img.naturalHeight, false); URL.revokeObjectURL(url); };
+  img.onerror = ()=>{ showToast('No se pudo abrir la imagen'); URL.revokeObjectURL(url); };
+  img.src = url;
+}
+
+// En celular abre la cámara del teléfono; en computador usa la cámara web
+async function abrirCamara(){
+  const esCelular = window.matchMedia('(pointer: coarse)').matches;
+  if(esCelular || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+    document.getElementById('fotoCamara').click();
+    return;
+  }
+  try{
+    camStream = await navigator.mediaDevices.getUserMedia({ video:{ facingMode:'user', width:{ideal:720}, height:{ideal:720} }, audio:false });
+    document.getElementById('camVideo').srcObject = camStream;
+    document.getElementById('camModal').classList.add('open');
+  }catch(err){
+    showToast('No se pudo abrir la cámara. Revisa el permiso del navegador o usa Galería.');
+  }
+}
+function cerrarCamara(){
+  if(camStream){ camStream.getTracks().forEach(t=>t.stop()); camStream = null; }
+  const v = document.getElementById('camVideo'); if(v) v.srcObject = null;
+  document.getElementById('camModal').classList.remove('open');
+}
+function capturarFoto(){
+  const v = document.getElementById('camVideo');
+  if(!v.videoWidth){ showToast('La cámara aún no está lista'); return; }
+  procesarFoto(v, v.videoWidth, v.videoHeight, true);
+  cerrarCamara();
+}
+function quitarFoto(){
+  fotoTemp = '';
+  renderAvatar('', document.getElementById('pf-nombre').value.trim());
+  actualizarBotonQuitar();
+}
+document.getElementById('camModal').addEventListener('click', function(e){
+  if(e.target === this) cerrarCamara();
+});
+
 function toggleProfileEdit(){
   profileEditing = !profileEditing;
   document.getElementById('profileViewMode').style.display = profileEditing ? 'none' : 'block';
   document.getElementById('profileEditMode').style.display = profileEditing ? 'block' : 'none';
   document.querySelector('.avatar-edit-btn').textContent = profileEditing ? '✕ Cancelar' : '✏️ Editar';
+  setFotoEdicion(profileEditing);
 
   if(profileEditing){
     // Llenar formulario con datos actuales
@@ -2181,8 +2910,8 @@ function renderMedsEdit(){
   container.innerHTML = medications.map((m,i)=>`
     <div class="med-tag">
       <div>
-        <div class="med-tag-name">💊 ${m.name}</div>
-        ${m.dose?`<div class="med-tag-dose">${m.dose}</div>`:''}
+        <div class="med-tag-name">💊 ${esc(m.name)}</div>
+        ${m.dose?`<div class="med-tag-dose">${esc(m.dose)}</div>`:''}
       </div>
       <button class="med-remove-btn" onclick="removeMed(${i})">×</button>
     </div>
@@ -2193,7 +2922,7 @@ function addMed(){
   const name = document.getElementById('newMedName').value.trim();
   if(!name){ showToast('Escribe el nombre del medicamento'); return; }
   const dose = document.getElementById('newMedDose').value.trim();
-  medications.push({name, dose});
+  medications.push({id:newId(), name, dose, horas:[]});
   document.getElementById('newMedName').value='';
   document.getElementById('newMedDose').value='';
   renderMedsEdit();
@@ -2205,6 +2934,12 @@ function removeMed(i){
 }
 
 function saveProfile(){
+  // Las metas deben poder leerse como números para usarlas en el semáforo
+  const metas = [['pf-meta-ayunas','En ayunas'],['pf-meta-post','Después de comer'],['pf-meta-noche','Noche']];
+  for(const [id,lbl] of metas){
+    const v = document.getElementById(id).value.trim();
+    if(v && !parseMeta(v)){ showToast(`Meta "${lbl}" no válida. Ej: 80–130 o < 180`); return; }
+  }
   profile.nombre = document.getElementById('pf-nombre').value.trim();
   profile.edad = document.getElementById('pf-edad').value;
   profile.sexo = document.getElementById('pf-sexo').value;
@@ -2218,17 +2953,29 @@ function saveProfile(){
   profile.metaAyunas = document.getElementById('pf-meta-ayunas').value.trim();
   profile.metaPost = document.getElementById('pf-meta-post').value.trim();
   profile.metaNoche = document.getElementById('pf-meta-noche').value.trim();
+  if(fotoTemp !== undefined) profile.foto = fotoTemp;
   saveProfileData();
   toggleProfileEdit();
   renderProfile();
   showToast('✓ Perfil guardado');
 }
 
+// Borra TODO lo guardado en este navegador: lecturas, perfil, medicamentos, citas y tomas
+function borrarTodo(){
+  STORAGE_KEYS.forEach(k=>store.removeItem(k));
+  data = {}; profile = {}; medications = []; citas = []; tomas = {};
+}
+
 function confirmClearData(){
-  if(confirm('¿Seguro que querés borrar todos los datos de glucosa? Esta acción no se puede deshacer.')){
-    data = {};
-    saveData();
-    showToast('🗑 Datos eliminados');
+  if(confirm('¿Seguro que quieres borrar TODOS tus datos (lecturas, perfil, medicamentos y citas)? Esta acción no se puede deshacer.')){
+    borrarTodo();
+    profileEditing = false;
+    setFotoEdicion(false);
+    document.getElementById('profileViewMode').style.display = 'block';
+    document.getElementById('profileEditMode').style.display = 'none';
+    document.querySelector('.avatar-edit-btn').textContent = '✏️ Editar';
+    renderCalendar(); renderProfile(); updateBackupLastSaved();
+    showToast('🗑 Todos los datos fueron eliminados');
   }
 }
 
@@ -2237,14 +2984,76 @@ function confirmClearData(){
 // ═══════════════════════════════════════
 let importPendingData = null;
 
+// Limpia un respaldo: solo acepta fechas válidas, lecturas numéricas y textos
+function cleanStr(v, max){ return (typeof v==='string' || typeof v==='number') ? String(v).slice(0, max||200) : ''; }
+function sanitizeData(raw){
+  const out = {};
+  if(!raw || typeof raw!=='object') return out;
+  Object.keys(raw).forEach(k=>{
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(k)) return;
+    const r = raw[k]; if(!r || typeof r!=='object') return;
+    const rec = {};
+    MOMENTOS.forEach(mo=>{ const v = Number(r[mo]); if(Number.isFinite(v) && v>=30 && v<=599) rec[mo] = Math.round(v); });
+    if(r.notes) rec.notes = cleanStr(r.notes, 500);
+    if(Array.isArray(r.symptoms)) rec.symptoms = r.symptoms.map(x=>cleanStr(x,40)).filter(Boolean).slice(0,10);
+    if(r.notas && typeof r.notas==='object'){
+      rec.notas = {}; MOMENTOS.forEach(mo=>{ if(r.notas[mo]) rec.notas[mo] = cleanStr(r.notas[mo], 500); });
+    }
+    if(r.sintomas && typeof r.sintomas==='object'){
+      rec.sintomas = {}; MOMENTOS.forEach(mo=>{ if(Array.isArray(r.sintomas[mo])) rec.sintomas[mo] = r.sintomas[mo].map(x=>cleanStr(x,40)).filter(Boolean).slice(0,10); });
+    }
+    if(MOMENTOS.some(mo=>rec[mo])) out[k] = rec;
+  });
+  return out;
+}
+function sanitizeProfile(raw){
+  const out = {};
+  if(!raw || typeof raw!=='object') return out;
+  ['nombre','edad','sexo','peso','estatura','tipo','diagnostico','medico','telmedico','eps','metaAyunas','metaPost','metaNoche']
+    .forEach(f=>{ if(raw[f]) out[f] = cleanStr(raw[f], 80); });
+  if(fotoValida(raw.foto)) out.foto = raw.foto;
+  return out;
+}
+function sanitizeMeds(raw){
+  if(!Array.isArray(raw)) return [];
+  return raw.filter(m=>m && typeof m==='object' && m.name)
+            .map(m=>({
+              id: String(m.id||'').replace(/[^a-z0-9]/gi,'').slice(0,20) || newId(),
+              name: cleanStr(m.name, 60), dose: cleanStr(m.dose, 30),
+              horas: Array.isArray(m.horas) ? [...new Set(m.horas.filter(h=>/^\d{2}:\d{2}$/.test(h)))].sort().slice(0,8) : []
+            })).slice(0, 30);
+}
+function sanitizeCitas(raw){
+  if(!Array.isArray(raw)) return [];
+  return raw.filter(c=>c && typeof c==='object' && /^\d{4}-\d{2}-\d{2}$/.test(c.fecha) && c.titulo)
+            .map(c=>({
+              id: String(c.id||'').replace(/[^a-z0-9]/gi,'').slice(0,20) || newId(),
+              fecha: c.fecha, hora: /^\d{2}:\d{2}$/.test(c.hora) ? c.hora : '',
+              titulo: cleanStr(c.titulo, 60), lugar: cleanStr(c.lugar, 60), nota: cleanStr(c.nota, 120)
+            })).slice(0, 300);
+}
+function sanitizeTomas(raw){
+  const out = {};
+  if(!raw || typeof raw!=='object') return out;
+  Object.keys(raw).forEach(k=>{
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(k) || !raw[k] || typeof raw[k]!=='object') return;
+    const d = {};
+    Object.keys(raw[k]).forEach(t=>{ if(/^[a-z0-9]+@\d{2}:\d{2}$/i.test(t) && raw[k][t]) d[t] = true; });
+    out[k] = d;
+  });
+  return out;
+}
+
 function exportBackup(){
   const backup = {
-    version: 1,
+    version: 2,
     exportedAt: new Date().toISOString(),
     appName: 'DiaRitmo',
     data: data,
     profile: profile,
-    medications: medications
+    medications: medications,
+    citas: citas,
+    tomas: tomas
   };
   const json = JSON.stringify(backup, null, 2);
   const blob = new Blob([json], {type: 'application/json'});
@@ -2256,16 +3065,16 @@ function exportBackup(){
   a.click();
   // Guardar fecha del último respaldo
   const fechaStr = `${fecha.getDate()} de ${MESES[fecha.getMonth()]} ${fecha.getFullYear()}, ${String(fecha.getHours()).padStart(2,'0')}:${String(fecha.getMinutes()).padStart(2,'0')}`;
-  localStorage.setItem('diaritmo_last_backup', fechaStr);
+  store.setItem('diaritmo_last_backup', fechaStr);
   updateBackupLastSaved();
-  showToast('✓ Respaldo descargado — guardalo en un lugar seguro');
+  showToast('✓ Respaldo descargado — guárdalo en un lugar seguro');
 }
 
 function updateBackupLastSaved(){
   const el = document.getElementById('backupLastSaved');
   if(!el) return;
-  const last = localStorage.getItem('diaritmo_last_backup');
-  el.textContent = last ? `Último respaldo: ${last}` : 'Último respaldo: nunca — ¡descargá uno ahora!';
+  const last = store.getItem('diaritmo_last_backup');
+  el.textContent = last ? `Último respaldo: ${last}` : 'Último respaldo: nunca — ¡descarga uno ahora!';
   el.style.color = last ? 'var(--green)' : 'var(--red)';
 }
 
@@ -2290,9 +3099,10 @@ function importBackup(event){
 
       document.getElementById('importPreview').innerHTML = `
         <div style="font-size:12px;line-height:1.8;color:var(--text);">
-          <div><strong>Paciente:</strong> ${nombre}</div>
+          <div><strong>Paciente:</strong> ${esc(nombre)}</div>
           <div><strong>Días con registro:</strong> ${dias}</div>
           <div><strong>Total de lecturas:</strong> ${lecturas}</div>
+          <div><strong>Citas:</strong> ${Array.isArray(backup.citas) ? backup.citas.length : 0}</div>
           <div><strong>Respaldo creado:</strong> ${exportado}</div>
         </div>
       `;
@@ -2309,11 +3119,14 @@ function importBackup(event){
 
 function confirmImport(){
   if(!importPendingData) return;
-  data        = importPendingData.data        || {};
-  profile     = importPendingData.profile     || {};
-  medications = importPendingData.medications || [];
+  data        = sanitizeData(importPendingData.data);
+  profile     = sanitizeProfile(importPendingData.profile);
+  medications = sanitizeMeds(importPendingData.medications);
+  citas       = sanitizeCitas(importPendingData.citas);
+  tomas       = sanitizeTomas(importPendingData.tomas);
   saveData();
   saveProfileData();
+  saveAgenda();
   importPendingData = null;
   closeImportModal();
   renderCalendar();
@@ -2330,54 +3143,15 @@ document.getElementById('importModal').addEventListener('click', function(e){
   if(e.target === this) closeImportModal();
 });
 // ═══════════════════════════════════════
-// INIT — arranque limpio total
+// ARRANQUE
 // ═══════════════════════════════════════
 (function init(){
-  const APP_VERSION = '2.1-clean';
-  if(localStorage.getItem('diaritmo_version') !== APP_VERSION){
-    // Primera vez con esta versión — borrar TODO
-    localStorage.removeItem('diaritmo_data');
-    localStorage.removeItem('diaritmo_profile');
-    localStorage.removeItem('diaritmo_meds');
-    localStorage.removeItem('diaritmo_seeded');
-    localStorage.removeItem('diaritmo_last_backup');
-    localStorage.setItem('diaritmo_version', APP_VERSION);
-    data        = {};
-    profile     = {};
-    medications = [];
+  const APP_VERSION = '2.3';
+  // Al cambiar de versión NO se borran los datos del usuario: solo se registra la versión.
+  // Si en el futuro cambia la estructura de los datos, aquí va una migración que los convierta.
+  if(store.getItem('diaritmo_version') !== APP_VERSION){
+    store.setItem('diaritmo_version', APP_VERSION);
   }
-
-  // ═══════════════════════════════════════
-  // DEMO — reinicio automático cada 3 días
-  // ═══════════════════════════════════════
-  const DEMO_LIMIT_MS = 3 * 24 * 60 * 60 * 1000; // 3 días
-  const demoStartRaw = localStorage.getItem('diaritmo_demo_start');
-  const now = Date.now();
-
-  if(!demoStartRaw){
-    // Primera vez que se abre la demo en este navegador
-    localStorage.setItem('diaritmo_demo_start', String(now));
-  } else {
-    const demoStart = parseInt(demoStartRaw, 10);
-    if(now - demoStart >= DEMO_LIMIT_MS){
-      // Pasaron 3 días o más: borrar todos los datos de la demo
-      localStorage.removeItem('diaritmo_data');
-      localStorage.removeItem('diaritmo_profile');
-      localStorage.removeItem('diaritmo_meds');
-      localStorage.removeItem('diaritmo_seeded');
-      localStorage.removeItem('diaritmo_last_backup');
-      localStorage.setItem('diaritmo_demo_start', String(now));
-      data        = {};
-      profile     = {};
-      medications = [];
-      window.addEventListener('DOMContentLoaded', function(){}); // no-op guard
-      setTimeout(function(){
-        const modal = document.getElementById('demoResetModal');
-        if(modal) modal.classList.add('open');
-      }, 400);
-    }
-  }
-
   renderCalendar();
   renderRegister();
   renderProfile();
