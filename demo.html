@@ -479,9 +479,11 @@
     border: 2px solid var(--blue); border-radius: var(--radius);
     font-size: 15px; font-weight: 700; cursor: pointer;
     display: flex; align-items: center; justify-content: center; gap: 8px;
-    transition: all 0.15s; margin-top: 4px;
+    transition: all 0.15s; margin: 0 0 6px;
+    background: var(--blue); color: #fff;
   }
-  .export-btn:hover { background: var(--blue-light); }
+  .export-btn:hover { background: #1F4B53; border-color: #1F4B53; }
+  .export-hint { font-size: 12px; color: var(--text-soft); text-align: center; margin-bottom: 18px; }
 
   /* ══════════════════════════════
      SCREEN 4: PERFIL
@@ -1311,6 +1313,11 @@
       </div>
     </div>
 
+    <button class="export-btn" onclick="exportReport()">
+      <svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> Generar reporte para el médico
+    </button>
+    <div class="export-hint">Desde ahí puedes imprimirlo, guardarlo en PDF o compartirlo.</div>
+
     <div class="report-section">
       <div class="report-section-title">Promedio por semana</div>
       <div class="week-bars" id="weekBars"></div>
@@ -1321,9 +1328,6 @@
       <div class="log-list" id="logList"></div>
     </div>
 
-    <button class="export-btn" onclick="exportReport()">
-      <svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> Preparar para el médico
-    </button>
 
   </div>
 </div>
@@ -2594,13 +2598,15 @@ function exportReport(){
 
   /* ── TABLA ── */
   .section-title { font-size: 10px; font-weight: 800; color: #888; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
-  table { width: 100%; border-collapse: collapse; font-size: 11px; }
+  .table-wrap { width: 100%; overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 11px; border: 1.5px solid #5E7F84; }
+  thead { display: table-header-group; }
   thead tr { background: #2A626C; color: white; }
-  thead th { padding: 7px 6px; text-align: center; font-size: 10px; font-weight: 700; letter-spacing: 0.3px; }
+  thead th { padding: 8px 6px; text-align: center; font-size: 10.5px; font-weight: 700; letter-spacing: 0.3px; border: 1px solid #1F4B53; }
   thead th:last-child { text-align: left; }
-  tbody tr { border-bottom: 1px solid #EDF1EF; }
-  tbody tr:hover { background: #F4F8F7; }
-  tbody td { padding: 6px 6px; vertical-align: middle; }
+  tbody tr { page-break-inside: avoid; }
+  tbody td { padding: 6px 6px; vertical-align: middle; border: 1px solid #B9C7C9; }
+  tbody td:first-child, tbody td:nth-child(2) { background: #F2F6F6; }
 
   /* ── LEYENDA ── */
   .legend { display: flex; gap: 16px; margin-top: 14px; font-size: 10px; color: #666; }
@@ -2610,12 +2616,27 @@ function exportReport(){
   /* ── FOOTER ── */
   .footer { margin-top: 18px; border-top: 1px solid #E1E7E4; padding-top: 10px; font-size: 9px; color: #bbb; display: flex; justify-content: space-between; }
 
+  /* ── BARRA DE ACCIONES (solo pantalla) ── */
+  .toolbar { position: sticky; top: 0; z-index: 10; background: #FFFFFF; border-bottom: 1px solid #E1E7E4; padding: 10px 0; margin-bottom: 16px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .tb-btn { font-family: inherit; font-size: 14px; font-weight: 700; padding: 11px 16px; border-radius: 10px; cursor: pointer; border: 2px solid #2A626C; display: inline-flex; align-items: center; gap: 7px; }
+  .tb-primary { background: #2A626C; color: #FFFFFF; }
+  .tb-ghost { background: #FFFFFF; color: #2A626C; }
+  .tb-msg { font-size: 12px; color: #5E6B6D; flex-basis: 100%; }
+  @media screen { body { padding: 0 16px 28px; max-width: 900px; margin: 0 auto; } }
   @media print {
     body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .toolbar { display: none !important; }
   }
 </style>
 </head>
-<body>
+<body data-file="Reporte_DiaRitmo_${MESES[m]}_${y}.html">
+
+<!-- BARRA DE ACCIONES -->
+<div class="toolbar" id="tb">
+  <button class="tb-btn tb-primary" onclick="window.print()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Imprimir o guardar PDF</button>
+  <button class="tb-btn tb-ghost" onclick="compartirReporte()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg>Compartir</button>
+  <div class="tb-msg" id="tbMsg">Para enviarlo como PDF: toca "Imprimir o guardar PDF" y elige "Guardar como PDF".</div>
+</div>
 
 <!-- ENCABEZADO -->
 <div class="header">
@@ -2718,7 +2739,7 @@ function exportReport(){
 
 <!-- TABLA DE LECTURAS -->
 <div class="section-title">Registro diario de glucosa (mg/dL)</div>
-<table>
+<div class="table-wrap"><table>
   <thead>
     <tr>
       <th style="width:36px;">Día</th>
@@ -2731,7 +2752,7 @@ function exportReport(){
     </tr>
   </thead>
   <tbody>${filas}</tbody>
-</table>
+</table></div>
 
 <!-- LEYENDA -->
 <div class="legend">
@@ -2752,7 +2773,25 @@ function exportReport(){
   <span>${MESES[m]} ${y}</span>
 </div>
 
-<script>window.onload=()=>{ window.print(); }<\/script>
+<script>
+function compartirReporte(){
+  var clon = document.documentElement.cloneNode(true);
+  var tb = clon.querySelector('#tb'); if(tb) tb.remove();
+  clon.querySelectorAll('script').forEach(function(x){ x.remove(); });
+  var html = '<!DOCTYPE html>' + clon.outerHTML;
+  var nombre = document.body.getAttribute('data-file') || 'Reporte_DiaRitmo.html';
+  var archivo = new File([html], nombre, { type: 'text/html' });
+  var msg = document.getElementById('tbMsg');
+  if(navigator.canShare && navigator.canShare({ files: [archivo] })){
+    navigator.share({ files: [archivo], title: document.title }).catch(function(){});
+  } else {
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(archivo); a.download = nombre;
+    document.body.appendChild(a); a.click(); a.remove();
+    msg.textContent = 'Se descargó el reporte (' + nombre + '). Adjúntalo en WhatsApp o en un correo.';
+  }
+}
+<\/script>
 </body>
 </html>`;
 
@@ -2760,7 +2799,7 @@ function exportReport(){
   if(!win){ showToast('Permite ventanas emergentes para imprimir'); return; }
   win.document.write(html);
   win.document.close();
-  showToast('✓ Reporte listo para imprimir / guardar como PDF');
+  showToast('✓ Reporte listo: imprímelo, guárdalo en PDF o compártelo');
 }
 
 // ═══════════════════════════════════════
@@ -3579,7 +3618,7 @@ function renderFaq(){
 // ARRANQUE
 // ═══════════════════════════════════════
 (function init(){
-  const APP_VERSION = '2.3';
+  const APP_VERSION = '2.4';
   // Al cambiar de versión NO se borran los datos del usuario: solo se registra la versión.
   // Si en el futuro cambia la estructura de los datos, aquí va una migración que los convierta.
   if(store.getItem('diaritmo_version') !== APP_VERSION){
