@@ -700,7 +700,12 @@
   function day(y, m, d){ return new Date(y, m, d); }
   function endOf(d){ return new Date(d.getFullYear(), d.getMonth(), d.getDate(), 23, 59, 59); }
 
-  var now = new Date(), Y = now.getFullYear();
+  // Vista previa de otra fecha: añade ?fecha=2026-10-21T10:00 a la URL (hora de Bogotá)
+  var fq = (location.search.match(/[?&]fecha=([0-9T:-]+)/) || [])[1];
+  var skew = fq ? (new Date((fq.length <= 10 ? fq + 'T00:00:00' : fq.length === 16 ? fq + ':00' : fq) + '-05:00') - Date.now()) : 0;
+  if (isNaN(skew)) skew = 0;
+  function ahora(){ return new Date(Date.now() + skew); }
+  var now = ahora(), Y = now.getFullYear();
   var blackFriday = nthWeekday(Y, 10, 4, 4); blackFriday.setDate(blackFriday.getDate() + 1); // viernes después del 4.º jueves de nov.
   var cyberMonday = new Date(Y, 10, blackFriday.getDate() + 3);
   var nextYear = now.getMonth() === 0 ? Y : Y + 1;
@@ -746,6 +751,34 @@
   if (!key) for (var k in TEMAS){ var t = TEMAS[k]; if (t.match ? t.match(now) : (now >= t.start && now <= t.end)){ key = k; break; } }
   if (!key) return;
   var T = TEMAS[key];
+
+  /* ---------- PROMOCIÓN 50% OFF — cambia aquí el cupón, las fechas o los precios ---------- */
+  var PROMO = {
+    cupon:   'DIARITMO50',                            // código del cupón creado en Hotmart
+    anuncio: new Date('2026-10-01T00:00:00-05:00'),   // desde cuándo se anuncia en la página
+    inicio:  new Date('2026-10-20T00:00:00-05:00'),   // empieza el descuento (hora de Bogotá)
+    fin:     new Date('2026-10-26T23:59:59-05:00'),   // termina el descuento: 7 días exactos
+    precio: '$92.000', precioPromo: '$46.000'
+  };
+  var fase = (now < PROMO.anuncio || now > PROMO.fin) ? null : (now < PROMO.inicio ? 'antes' : 'durante');
+  if (fase){
+    T = Object.assign({}, T);
+    T.todayLabel = null; T.target2 = null;
+    if (fase === 'antes'){
+      T.text = '<b>¡Se viene el 50% OFF!</b> Del 20 al 26 de octubre, DiaRitmo 360 a mitad de precio.';
+      T.cdLabel = 'Empieza en'; T.target = PROMO.inicio;
+      T.target2 = PROMO.fin; T.cd2Label = 'Termina en';
+      T.reloadAt = PROMO.inicio;
+      T.cta = 'Probar la demo gratis'; T.href = DEMO;
+      T.badge = (T.decor === 'halloween' ? 'Edición Halloween · ' : '') + '50% OFF del 20 al 26 de octubre';
+    } else {
+      T.text = '<b>50% OFF solo por 7 días:</b> DiaRitmo 360 de <s>' + PROMO.precio + '</s> a <b>' + PROMO.precioPromo + '</b>.';
+      T.cdLabel = 'Termina en'; T.target = PROMO.fin;
+      T.reloadAt = PROMO.fin;
+      T.cta = 'Comprar con 50% OFF'; T.href = HOTMART;
+      T.badge = '50% OFF · solo hasta el 26 de octubre';
+    }
+  }
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var small = window.innerWidth < 700;
 
@@ -790,15 +823,23 @@
     var cd = inner.querySelector('.tp-cd');
     if (cd){
       var tick = function(){
-        var n = new Date(), target = T.target, label = T.cdLabel;
+        if (T.reloadAt && !skew && ahora() >= T.reloadAt){ location.reload(); return; }
+        var n = ahora(), target = T.target, label = T.cdLabel;
         if (n >= T.target && T.target2){ target = T.target2; label = T.cd2Label; }
         var ms = target - n;
         if (ms <= 0){ cd.innerHTML = T.todayLabel ? '<span>' + T.todayLabel + '</span>' : ''; return; }
-        var d = Math.floor(ms/864e5), h = Math.floor(ms/36e5)%24, m = Math.floor(ms/6e4)%60;
-        cd.innerHTML = label + ' <span>' + d + ' d</span><span>' + ('0'+h).slice(-2) + ' h</span><span>' + ('0'+m).slice(-2) + ' min</span>';
+        var d = Math.floor(ms/864e5), h = Math.floor(ms/36e5)%24, m = Math.floor(ms/6e4)%60, sg = Math.floor(ms/1e3)%60;
+        cd.innerHTML = label + ' <span>' + d + ' d</span><span>' + ('0'+h).slice(-2) + ' h</span><span>' + ('0'+m).slice(-2) + ' min</span><span>' + ('0'+sg).slice(-2) + ' s</span>';
       };
-      tick(); setInterval(tick, 30000);
+      tick(); setInterval(tick, 1000);
     }
+  }
+
+  /* ---------- Durante la promo: todos los botones de compra llevan el cupón ---------- */
+  if (fase === 'durante'){
+    var conCupon = HOTMART + '&offDiscount=' + encodeURIComponent(PROMO.cupon);
+    var compras = document.querySelectorAll('a.hotmart-fb');
+    for (var c = 0; c < compras.length; c++) compras[c].href = conCupon;
   }
 
   /* ---------- Insignia en el hero ---------- */
