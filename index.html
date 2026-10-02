@@ -313,7 +313,7 @@
     </div>
     <div class="nav-cta">
       <a class="btn btn-ghost" href="demo.html" target="_blank" rel="noopener">Ver demo</a>
-      <a class="btn btn-primary" href="https://pay.hotmart.com/R106866950E" target="_blank" rel="noopener">Comprar ahora</a>
+      <a class="btn btn-primary hotmart-fb hotmart__button-checkout" href="https://pay.hotmart.com/R106866950E?checkoutMode=2">Comprar ahora</a>
     </div>
   </nav>
 </header>
@@ -328,7 +328,7 @@
         <h1>Controla tu glucosa sin que ella <em>controle tu vida</em>.</h1>
         <p class="lead">DiaRitmo 360 reúne tus mediciones, medicamentos, citas y hábitos en un solo lugar. Ves tu semáforo del día de un vistazo y llegas a la consulta con un reporte claro para tu médico.</p>
         <div class="ctas">
-          <a class="btn btn-primary" href="https://pay.hotmart.com/R106866950E" target="_blank" rel="noopener">Comprar ahora <svg class="i"><use href="#i-arrow"/></svg></a>
+          <a class="btn btn-primary hotmart-fb hotmart__button-checkout" href="https://pay.hotmart.com/R106866950E?checkoutMode=2">Comprar ahora <svg class="i"><use href="#i-arrow"/></svg></a>
           <a class="btn btn-ghost" href="demo.html" target="_blank" rel="noopener"><svg class="i"><use href="#i-play"/></svg> Probar la demo gratis</a>
         </div>
         <ul class="checks">
@@ -553,7 +553,7 @@
           <h2>Empieza hoy a llevar tu control con tranquilidad.</h2>
           <p>Tus mediciones, medicamentos y citas, ordenados y listos para tu médico. En tu celular y en tu computador.</p>
           <div class="ctas">
-            <a class="btn btn-light" href="https://pay.hotmart.com/R106866950E" target="_blank" rel="noopener">Comprar DiaRitmo 360 <svg class="i"><use href="#i-arrow"/></svg></a>
+            <a class="btn btn-light hotmart-fb hotmart__button-checkout" href="https://pay.hotmart.com/R106866950E?checkoutMode=2">Comprar DiaRitmo 360 <svg class="i"><use href="#i-arrow"/></svg></a>
             <a class="btn btn-outline-light" href="demo.html" target="_blank" rel="noopener">Probar la demo</a>
           </div>
           <small><svg class="i"><use href="#i-shield"/></svg> Pago seguro procesado por Hotmart</small>
@@ -692,7 +692,7 @@
 <script id="temporada-js">
 (function(){
   'use strict';
-  var HOTMART = 'https://pay.hotmart.com/R106866950E';
+  var HOTMART = 'https://pay.hotmart.com/R106866950E?checkoutMode=2';
   var DEMO = 'demo.html';
 
   /* ---------- Fechas de referencia (se recalculan cada año) ---------- */
@@ -778,7 +778,7 @@
     inner.innerHTML = (key === 'halloween' ? SVG.pumpkinIco : '') +
       '<span>' + T.text + '</span>' +
       (T.target ? '<span class="tp-cd" aria-live="off"></span>' : '') +
-      '<a class="tp-go" href="' + T.href + '"' + (T.href === HOTMART ? ' target="_blank" rel="noopener"' : '') + '>' + T.cta + ' &rarr;</a>' +
+      '<a class="tp-go' + (T.href === HOTMART ? ' hotmart-fb hotmart__button-checkout' : '') + '" href="' + T.href + '">' + T.cta + ' &rarr;</a>' +
       '<button class="tp-x" type="button" aria-label="Cerrar aviso">&times;</button>';
     bar.appendChild(inner);
     if (key === 'halloween' || key === 'navidad' || key === 'blackfriday'){
@@ -892,5 +892,15 @@
 </script>
 <!-- ===================== FIN TEMPORADAS ===================== -->
 
+<!-- Pago de Hotmart en ventana emergente (sin la hoja de estilos de Hotmart para no alterar el diseño de los botones).
+     Si el script no carga, los enlaces abren el pago de Hotmart normalmente. -->
+<script>
+  (function(){
+    var s = document.createElement('script');
+    s.src = 'https://static.hotmart.com/checkout/widget.min.js';
+    s.async = true;
+    document.head.appendChild(s);
+  })();
+</script>
 </body>
 </html>
