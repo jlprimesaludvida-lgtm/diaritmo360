@@ -1011,6 +1011,13 @@
     padding: 10px; border-radius: 10px; font-weight: 600; font-size: 13px;
     border: 1px solid var(--border); cursor: pointer;
   }
+/* Recomendación: recetario (afiliado) */
+.reco-card{display:flex;gap:14px;align-items:center}
+.reco-card img{width:72px;height:auto;flex:none;border-radius:6px;transform:rotate(-4deg);box-shadow:0 8px 16px rgba(23,38,43,.18)}
+.reco-card p{font-size:14px;color:var(--text-soft);line-height:1.5;margin:0}
+.reco-btn{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px;padding:12px;border-radius:10px;border:1.5px solid var(--blue);color:var(--blue);background:var(--surface);font-weight:700;font-size:14px;text-decoration:none}
+.reco-btn:hover{background:var(--blue-light)}
+.reco-note{font-size:11.5px;color:var(--text-xsoft);line-height:1.45;margin-top:10px}
 </style>
 </head>
 <body>
@@ -1655,6 +1662,16 @@
       <div class="agenda-card-head"><div class="agenda-card-title"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01"/></svg> ¿Qué hago si…?</div></div>
       <div class="agenda-hint">Abre la situación que se parece a lo que te pasa.</div>
       <div id="faqList"></div>
+    </div>
+
+    <div class="agenda-card">
+      <div class="agenda-card-head"><div class="agenda-card-title"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10Z"/><path d="M2 21c0-3 1.9-5.4 5.1-6"/></svg> Recetas para tu día a día</div></div>
+      <div class="reco-card">
+        <img src="https://jlprimesaludvida-lgtm.github.io/diaritmo360/recetario/img/libro-200.webp" alt="Portada del recetario de más de 200 recetas" width="72" height="112" loading="lazy">
+        <p>¿No sabes qué cocinar? Te recomendamos un recetario digital con más de 200 recetas sin azúcar añadida para desayunos, almuerzos, cenas y postres, más 5 bonos. Pruébalas y anota en DiaRitmo tu glucosa antes y 2 horas después.</p>
+      </div>
+      <a class="reco-btn" href="https://jlprimesaludvida-lgtm.github.io/diaritmo360/recetario/" target="_blank" rel="noopener">Ver el recetario <svg class="i" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <div class="reco-note">Recomendación de afiliado: el recetario es de otro autor y se vende en Hotmart; si lo compras con este enlace, DiaRitmo 360 recibe una comisión sin costo adicional para ti. No reemplaza las indicaciones de tu médico o nutricionista.</div>
     </div>
 
   </div>
