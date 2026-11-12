@@ -449,6 +449,30 @@
   }
 
 
+  /* ── Perfiles (v2.6) ── */
+  .perfil-bar { display: none; width: 100%; align-items: center; justify-content: center; gap: 6px; background: var(--blue-light); color: var(--blue-dark); border: 0; border-bottom: 1px solid var(--border); padding: 8px 14px; font: inherit; font-size: 12.5px; cursor: pointer; }
+  .perfil-bar.on { display: flex; }
+  .perfil-bar .i { width: 15px; height: 15px; }
+  .perfil-bar b { font-weight: 700; }
+  .perfil-bar span { text-decoration: underline; font-weight: 600; margin-left: 4px; }
+  .pfm-overlay { position: fixed; inset: 0; background: rgba(20,28,40,0.55); display: none; align-items: center; justify-content: center; z-index: 998; padding: 20px; }
+  .pfm-overlay.open { display: flex; }
+  .pfm { background: var(--surface); border-radius: 16px; max-width: 360px; width: 100%; padding: 22px 20px 18px; box-shadow: 0 20px 60px rgba(0,0,0,0.25); max-height: 90vh; overflow-y: auto; }
+  .pfm h3 { font-size: 17px; margin-bottom: 4px; color: var(--text); }
+  .pfm-sub { font-size: 12.5px; color: var(--text-soft); line-height: 1.45; margin-bottom: 14px; }
+  .pfm-row { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: 12px; margin-bottom: 8px; }
+  .pfm-row.activo { border-color: var(--blue); background: var(--blue-light); }
+  .pfm-nombre { flex: 1; font-size: 14px; font-weight: 600; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .pfm-chip { font-size: 10.5px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 0.4px; }
+  .pfm-btn { border: 1.5px solid var(--blue); background: var(--surface); color: var(--blue); border-radius: 9px; padding: 6px 10px; font: inherit; font-size: 12.5px; font-weight: 700; cursor: pointer; }
+  .pfm-btn.del { border-color: var(--border); color: var(--text-soft); }
+  .pfm-btn.del.seguro { border-color: var(--red); color: var(--red); }
+  .pfm-add { display: flex; gap: 8px; margin-top: 12px; }
+  .pfm-add input { flex: 1; min-width: 0; border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 12px; font: inherit; font-size: 14px; color: var(--text); background: var(--surface); }
+  .pfm-add input:focus { outline: none; border-color: var(--blue); }
+  .pfm-add button { background: var(--blue); color: #fff; border: 0; border-radius: 10px; padding: 0 16px; font: inherit; font-size: 13.5px; font-weight: 700; cursor: pointer; }
+  .pfm-close { width: 100%; margin-top: 14px; background: none; border: 1px solid var(--border); border-radius: 10px; padding: 10px; font: inherit; font-size: 13px; font-weight: 600; color: var(--text-soft); cursor: pointer; }
+
   /* ── Tendencia (v2.5) ── */
   .trend-card { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); padding: 14px; position: relative; overflow: hidden; }
   .trend-tabs { display: flex; gap: 6px; margin-bottom: 12px; }
@@ -1069,6 +1093,7 @@
       <li>Respaldo de tus datos para no perderlos</li>
       <li>Recordatorios de medicamentos y citas</li>
       <li>Gráficas de tendencia de 7, 30 y 90 días</li>
+      <li>Varios perfiles para cuidar a un familiar</li>
     </ul>
     <a class="btn-buy" href="https://pay.hotmart.com/R106866950E" target="_blank" rel="noopener">Pasar a DiaRitmo 360 Pro</a>
     <button class="btn-continue" onclick="document.getElementById('proModal').classList.remove('open')">Seguir con la demo</button>
@@ -1086,6 +1111,7 @@
       <li>Respaldo de tus datos</li>
       <li>Recordatorios de medicamentos y citas</li>
       <li>Gráficas de tendencia</li>
+      <li>Varios perfiles para cuidar a un familiar</li>
     </ul>
     <p style="font-size:12.5px;">Importante: el regalo queda guardado en este navegador. Abre siempre la app desde aquí y descarga un respaldo de vez en cuando en Mi perfil.</p>
     <button class="btn-continue" style="background:var(--blue);color:#fff;border-color:var(--blue);" onclick="document.getElementById('regaloModal').classList.remove('open')">Empezar a usarla</button>
@@ -1141,6 +1167,23 @@
   <button class="nav-tab" onclick="showScreen('guia',this)">
     <span class="tab-icon"><svg class="tab-svg" viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2.2 4.8-4.8 2.2 2.2-4.8z"/></svg></span>Guía
   </button>
+</div>
+
+<!-- Barra de perfil activo (solo aparece cuando hay más de un perfil) -->
+<button class="perfil-bar" id="perfilBar" onclick="abrirPerfiles()"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17.5" cy="9" r="2.5"/><path d="M17 14.2a5 5 0 0 1 4.5 5.3"/></svg> Estás viendo a <b id="perfilBarNombre"></b> <span>Cambiar</span></button>
+
+<!-- MODAL: PERFILES -->
+<div class="pfm-overlay" id="perfilesModal" onclick="if(event.target===this) cerrarPerfiles()">
+  <div class="pfm">
+    <h3>Perfiles</h3>
+    <div class="pfm-sub">Cada perfil tiene su propio calendario, medicamentos, citas y reporte.</div>
+    <div id="perfilesLista"></div>
+    <div class="pfm-add">
+      <input type="text" id="perfilNuevoNombre" maxlength="30" placeholder="Nombre, por ejemplo: Mamá" onkeydown="if(event.key==='Enter') agregarPerfil()">
+      <button onclick="agregarPerfil()">Agregar</button>
+    </div>
+    <button class="pfm-close" onclick="cerrarPerfiles()">Cerrar</button>
+  </div>
 </div>
 
 <!-- ══ SCREEN: CALENDARIO ══ -->
@@ -1548,6 +1591,14 @@
 
     </div><!-- /profileViewMode -->
 
+    <!-- ── PERFILES (v2.6) ── -->
+    <div class="agenda-card">
+      <div class="agenda-card-head"><div class="agenda-card-title"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17.5" cy="9" r="2.5"/><path d="M17 14.2a5 5 0 0 1 4.5 5.3"/></svg> Perfiles <span class="pro-tag"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg> Pro</span></div></div>
+      <div class="agenda-hint">¿Cuidas a un familiar? Lleva su control en esta misma app, con su propio calendario, medicamentos, citas y reporte.</div>
+      <div class="agenda-hint" id="perfilesResumen" style="color:var(--text);font-weight:600;"></div>
+      <button class="add-reading-btn" onclick="abrirPerfiles()">Administrar perfiles</button>
+    </div>
+
     <!-- ── BACKUP — siempre visible ── -->
     <div class="backup-card" id="backupCard">
       <div class="backup-alert">
@@ -1887,6 +1938,7 @@ const PRO_TEXTOS = {
   reporte: ['El reporte para el médico es Pro', 'Con la versión Pro generas el reporte del mes para llevarlo a tu cita, imprimirlo, guardarlo en PDF o compartirlo.'],
   respaldo: ['El respaldo es Pro', 'Con la versión Pro descargas y restauras un respaldo de todos tus datos, para no perderlos si cambias de celular.'],
   tendencia: ['Las gráficas de tendencia son Pro', 'Con la versión Pro ves cómo cambia tu glucosa en 7, 30 y 90 días y en qué momento del día sube más.'],
+  perfiles: ['Varios perfiles es Pro', 'Con la versión Pro llevas en la misma app el control de un familiar, cada uno con su calendario, medicamentos, citas y reporte.'],
   recordatorios: ['Los recordatorios son Pro', 'Con la versión Pro la app te avisa a la hora de cada medicamento y una hora antes de tus citas.']
 };
 function abrirPro(cual){
@@ -3049,6 +3101,175 @@ function compartirReporte(){
 // ═══════════════════════════════════════
 // AGENDA — citas y horarios de medicamentos
 // ═══════════════════════════════════════
+
+// ═══════════════════════════════════════
+// PERFILES (v2.6) — varias personas en la misma app
+// El perfil activo vive en las claves de siempre (diaritmo_data, diaritmo_profile...).
+// Los demás perfiles se guardan completos en 'diaritmo_p_<id>'. Así, quien ya tenía
+// datos no necesita ninguna migración: sus datos son el primer perfil.
+// ═══════════════════════════════════════
+const PERFIL_KEYS = ['diaritmo_data','diaritmo_profile','diaritmo_meds','diaritmo_citas','diaritmo_tomas'];
+const PERFILES_KEY = 'diaritmo_perfiles';
+const PERFILES_MAX = 6;
+let perfilPorBorrar = null;
+
+function leerPerfiles(){
+  let idx = null;
+  try{ idx = JSON.parse(store.getItem(PERFILES_KEY) || 'null'); }catch(e){ idx = null; }
+  if(!idx || !Array.isArray(idx.lista) || !idx.lista.length || !idx.lista.some(p=>p && p.id===idx.activo)){
+    const id = newId();
+    idx = { activo: id, lista: [{ id: id, nombre: (profile && profile.nombre) || 'Mi perfil' }] };
+  }
+  return idx;
+}
+function perfilesBloqueados(){ return (typeof esPro === 'function') && !esPro(); }
+// Guarda y confirma que de verdad quedó en el navegador (si no hay espacio, no se sigue)
+function guardarSeguro(k, v){
+  store.setItem(k, v);
+  try{ return window.localStorage.getItem(k) === v; }catch(e){ return false; }
+}
+function blobPerfilActivo(){
+  const o = {};
+  PERFIL_KEYS.forEach(k=>{ const v = store.getItem(k); if(v !== null) o[k] = v; });
+  return JSON.stringify(o);
+}
+function recargarEstado(){
+  const leer = (k, def)=>{ try{ return JSON.parse(store.getItem(k) || def); }catch(e){ return JSON.parse(def); } };
+  data = leer('diaritmo_data','{}');
+  profile = leer('diaritmo_profile','{}');
+  medications = leer('diaritmo_meds','[]').map(m=>({ ...m, id: m.id || newId(), horas: Array.isArray(m.horas) ? m.horas : [] }));
+  citas = leer('diaritmo_citas','[]');
+  tomas = leer('diaritmo_tomas','{}');
+  today = new Date();
+  viewDate = new Date(today.getFullYear(), today.getMonth(), 1);
+  selectedDay = today.getDate(); selectedMonth = today.getMonth(); selectedYear = today.getFullYear();
+  activeSymptoms = [];
+  renderRegister();
+  renderPerfilesUI();
+  const tab = document.querySelector('.nav-tab');   // primera pestaña: Calendario
+  if(tab) showScreen('calendar', tab);
+  renderProfile();
+}
+function cambiarPerfil(destino, idx){
+  idx = idx || leerPerfiles();
+  if(destino === idx.activo || !idx.lista.some(p=>p.id===destino)){ cerrarPerfiles(); return false; }
+  if(!guardarSeguro('diaritmo_p_'+idx.activo, blobPerfilActivo())){
+    store.removeItem('diaritmo_p_'+idx.activo);
+    showToast('No se pudo cambiar de perfil: el navegador no tiene espacio para guardar');
+    return false;
+  }
+  let blob = {};
+  try{ blob = JSON.parse(store.getItem('diaritmo_p_'+destino) || '{}') || {}; }catch(e){ blob = {}; }
+  PERFIL_KEYS.forEach(k=>{ if(typeof blob[k] === 'string') store.setItem(k, blob[k]); else store.removeItem(k); });
+  idx.activo = destino;
+  store.setItem(PERFILES_KEY, JSON.stringify(idx));
+  store.removeItem('diaritmo_p_'+destino);
+  cerrarPerfiles();
+  recargarEstado();
+  const p = idx.lista.find(x=>x.id===destino);
+  showToast('Ahora ves el perfil de ' + (p ? p.nombre : ''));
+  return true;
+}
+function agregarPerfil(){
+  if(perfilesBloqueados()){ cerrarPerfiles(); abrirPro('perfiles'); return; }
+  const inp = document.getElementById('perfilNuevoNombre');
+  const nombre = inp.value.trim().slice(0, 30);
+  if(!nombre){ showToast('Escribe el nombre de la persona'); inp.focus(); return; }
+  const idx = leerPerfiles();
+  if(idx.lista.length >= PERFILES_MAX){ showToast('Puedes tener hasta ' + PERFILES_MAX + ' perfiles'); return; }
+  const id = newId();
+  idx.lista.push({ id: id, nombre: nombre });
+  if(!guardarSeguro(PERFILES_KEY, JSON.stringify(idx)) ||
+     !guardarSeguro('diaritmo_p_'+id, JSON.stringify({ diaritmo_profile: JSON.stringify({ nombre: nombre }) }))){
+    showToast('No se pudo crear el perfil: el navegador no permite guardar más datos');
+    return;
+  }
+  inp.value = '';
+  cambiarPerfil(id, idx);
+}
+function eliminarPerfil(id){
+  const idx = leerPerfiles();
+  if(id === idx.activo) return;
+  if(perfilPorBorrar !== id){ perfilPorBorrar = id; renderPerfilesUI(); return; }   // primer toque: pide confirmar
+  perfilPorBorrar = null;
+  idx.lista = idx.lista.filter(p=>p.id !== id);
+  store.setItem(PERFILES_KEY, JSON.stringify(idx));
+  store.removeItem('diaritmo_p_'+id);
+  renderPerfilesUI();
+  showToast('Perfil eliminado');
+}
+function sincronizarNombrePerfil(){
+  if(store.getItem(PERFILES_KEY) === null) return;
+  const idx = leerPerfiles();
+  const p = idx.lista.find(x=>x.id===idx.activo);
+  if(p && profile && profile.nombre && p.nombre !== profile.nombre){
+    p.nombre = String(profile.nombre).slice(0, 30);
+    store.setItem(PERFILES_KEY, JSON.stringify(idx));
+  }
+  renderPerfilesUI();
+}
+function abrirPerfiles(){
+  if(perfilesBloqueados()){ abrirPro('perfiles'); return; }
+  perfilPorBorrar = null;
+  renderPerfilesUI();
+  document.getElementById('perfilesModal').classList.add('open');
+}
+function cerrarPerfiles(){ perfilPorBorrar = null; document.getElementById('perfilesModal').classList.remove('open'); }
+function renderPerfilesUI(){
+  const idx = leerPerfiles();
+  const activo = idx.lista.find(p=>p.id===idx.activo);
+  const bar = document.getElementById('perfilBar');
+  if(bar){
+    bar.classList.toggle('on', idx.lista.length > 1);
+    document.getElementById('perfilBarNombre').textContent = activo ? activo.nombre : '';
+  }
+  const res = document.getElementById('perfilesResumen');
+  if(res) res.textContent = idx.lista.length > 1
+    ? `Perfil activo: ${activo.nombre} · ${idx.lista.length} perfiles en total`
+    : 'Ahora tienes un solo perfil.';
+  const lista = document.getElementById('perfilesLista');
+  if(lista) lista.innerHTML = idx.lista.map(p=> p.id===idx.activo
+    ? `<div class="pfm-row activo"><div class="pfm-nombre">${esc(p.nombre)}</div><div class="pfm-chip">Activo</div></div>`
+    : `<div class="pfm-row"><div class="pfm-nombre">${esc(p.nombre)}</div>
+        <button class="pfm-btn" onclick="cambiarPerfil('${esc(p.id)}')">Ver</button>
+        <button class="pfm-btn del${perfilPorBorrar===p.id?' seguro':''}" onclick="eliminarPerfil('${esc(p.id)}')">${perfilPorBorrar===p.id?'¿Borrar todo?':'Eliminar'}</button>
+      </div>`).join('');
+}
+// Para el respaldo: los demás perfiles, ya convertidos a objetos
+function perfilesParaRespaldo(){
+  if(store.getItem(PERFILES_KEY) === null) return null;
+  const idx = leerPerfiles(), otros = {};
+  idx.lista.forEach(p=>{
+    if(p.id === idx.activo) return;
+    let b = {};
+    try{ b = JSON.parse(store.getItem('diaritmo_p_'+p.id) || '{}') || {}; }catch(e){ b = {}; }
+    const j = (k, def)=>{ try{ return JSON.parse(b[k] || def); }catch(e){ return JSON.parse(def); } };
+    otros[p.id] = { data: j('diaritmo_data','{}'), profile: j('diaritmo_profile','{}'), medications: j('diaritmo_meds','[]'), citas: j('diaritmo_citas','[]'), tomas: j('diaritmo_tomas','{}') };
+  });
+  return { activo: idx.activo, lista: idx.lista, otros: otros };
+}
+// Al restaurar un respaldo que trae varios perfiles
+function restaurarPerfiles(pf){
+  if(!pf || !Array.isArray(pf.lista) || !pf.lista.length) return;
+  const lista = pf.lista.filter(p=>p && typeof p.id==='string' && /^[a-z0-9]{1,24}$/i.test(p.id)).slice(0, PERFILES_MAX)
+                  .map(p=>({ id: p.id, nombre: cleanStr(p.nombre, 30) || 'Perfil' }));
+  if(!lista.some(p=>p.id===pf.activo)) return;
+  // quitar lo que hubiera de perfiles anteriores
+  const viejo = leerPerfiles();
+  viejo.lista.forEach(p=>store.removeItem('diaritmo_p_'+p.id));
+  lista.forEach(p=>{
+    if(p.id === pf.activo) return;
+    const o = (pf.otros && pf.otros[p.id]) || {};
+    store.setItem('diaritmo_p_'+p.id, JSON.stringify({
+      diaritmo_data: JSON.stringify(sanitizeData(o.data)),
+      diaritmo_profile: JSON.stringify(sanitizeProfile(o.profile)),
+      diaritmo_meds: JSON.stringify(sanitizeMeds(o.medications)),
+      diaritmo_citas: JSON.stringify(sanitizeCitas(o.citas)),
+      diaritmo_tomas: JSON.stringify(sanitizeTomas(o.tomas)) }));
+  });
+  store.setItem(PERFILES_KEY, JSON.stringify({ activo: pf.activo, lista: lista }));
+}
+
 function saveAgenda(){
   store.setItem('diaritmo_citas', JSON.stringify(citas));
   store.setItem('diaritmo_tomas', JSON.stringify(tomas));
@@ -3290,6 +3511,7 @@ let profileEditing = false;
 function saveProfileData(){
   store.setItem('diaritmo_profile', JSON.stringify(profile));
   store.setItem('diaritmo_meds', JSON.stringify(medications));
+  if(typeof sincronizarNombrePerfil === 'function') sincronizarNombrePerfil();
 }
 
 function renderProfile(){
@@ -3622,6 +3844,8 @@ function exportBackup(){
     citas: citas,
     tomas: tomas
   };
+  const pfs = perfilesParaRespaldo();
+  if(pfs) backup.perfiles = pfs;
   const json = JSON.stringify(backup, null, 2);
   const blob = new Blob([json], {type: 'application/json'});
   const a = document.createElement('a');
@@ -3671,6 +3895,7 @@ function importBackup(event){
           <div><strong>Días con registro:</strong> ${dias}</div>
           <div><strong>Total de lecturas:</strong> ${lecturas}</div>
           <div><strong>Citas:</strong> ${Array.isArray(backup.citas) ? backup.citas.length : 0}</div>
+          ${backup.perfiles && Array.isArray(backup.perfiles.lista) && backup.perfiles.lista.length>1 ? `<div><strong>Perfiles:</strong> ${backup.perfiles.lista.length}</div>` : ''}
           <div><strong>Respaldo creado:</strong> ${exportado}</div>
         </div>
       `;
@@ -3695,6 +3920,8 @@ function confirmImport(){
   saveData();
   saveProfileData();
   saveAgenda();
+  restaurarPerfiles(importPendingData.perfiles);
+  renderPerfilesUI();
   importPendingData = null;
   closeImportModal();
   renderCalendar();
@@ -3864,7 +4091,7 @@ function renderFaq(){
 // ARRANQUE
 // ═══════════════════════════════════════
 (function init(){
-  const APP_VERSION = '2.5';
+  const APP_VERSION = '2.6';
   // Al cambiar de versión NO se borran los datos del usuario: solo se registra la versión.
   // Si en el futuro cambia la estructura de los datos, aquí va una migración que los convierta.
   if(store.getItem('diaritmo_version') !== APP_VERSION){
@@ -3875,6 +4102,7 @@ function renderFaq(){
   renderProfile();
   renderFaq();
   updateBackupLastSaved();
+  renderPerfilesUI();
 })();
 </script>
 </body>
