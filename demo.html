@@ -448,6 +448,21 @@
     margin-bottom: 10px;
   }
 
+
+  /* ── Tendencia (v2.5) ── */
+  .trend-card { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); padding: 14px; position: relative; overflow: hidden; }
+  .trend-tabs { display: flex; gap: 6px; margin-bottom: 12px; }
+  .trend-tab { flex: 1; padding: 8px 4px; border: 1.5px solid var(--border); background: var(--surface); color: var(--text-soft); border-radius: 10px; font: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer; }
+  .trend-tab.active { border-color: var(--blue); background: var(--blue-light); color: var(--blue); }
+  .trend-stats { display: flex; gap: 8px; margin-bottom: 10px; }
+  .trend-stat { flex: 1; background: var(--bg); border-radius: 10px; padding: 9px 4px; text-align: center; }
+  .trend-stat-val { font-size: 20px; font-weight: 800; color: var(--text); }
+  .trend-stat-label { font-size: 9.5px; font-weight: 600; color: var(--text-soft); text-transform: uppercase; letter-spacing: 0.4px; }
+  .trend-chart svg { width: 100%; height: auto; display: block; }
+  .trend-sub { font-size: 11px; font-weight: 700; color: var(--text-soft); text-transform: uppercase; letter-spacing: 0.6px; margin: 12px 0 8px; }
+  .trend-empty { font-size: 13px; color: var(--text-soft); text-align: center; padding: 18px 8px; }
+  .trend-note { font-size: 11px; color: var(--text-soft); margin-top: 10px; line-height: 1.4; }
+  .pro-tag { display: none; }
   .week-bars { display: flex; flex-direction: column; gap: 10px; }
   .week-bar-row { display: flex; align-items: center; gap: 10px; }
   .week-bar-label { font-size: 12px; color: var(--text-soft); width: 60px; flex-shrink: 0; }
@@ -989,6 +1004,21 @@
     padding: 7px 14px;
     line-height: 1.4;
   }
+
+  /* ── Funciones Pro (demo) ── */
+  body.no-pro .pro-tag { display: inline-flex; align-items: center; gap: 3px; background: #FBE7D6; color: #A8521C; font-size: 10px; font-weight: 700; letter-spacing: 0.3px; text-transform: none; padding: 2px 7px; border-radius: 999px; margin-left: 6px; vertical-align: middle; }
+  .pro-tag .i { width: 11px; height: 11px; }
+  body.no-pro #trendInner { filter: blur(5px); pointer-events: none; user-select: none; }
+  .trend-lock { display: none; }
+  body.no-pro .trend-lock { display: flex; position: absolute; inset: 0; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; padding: 20px; background: rgba(255,255,255,0.55); }
+  .trend-lock-title { font-size: 15px; font-weight: 700; color: var(--text); }
+  .trend-lock-text { font-size: 12.5px; color: var(--text-soft); line-height: 1.45; max-width: 250px; }
+  .trend-lock button { background: var(--blue); color: #fff; border: 0; border-radius: 10px; padding: 10px 18px; font: inherit; font-size: 13.5px; font-weight: 700; cursor: pointer; }
+  .pro-list { text-align: left; margin: 0 0 16px; padding: 0; list-style: none; font-size: 13px; color: var(--text); }
+  .pro-list li { padding: 5px 0 5px 22px; position: relative; line-height: 1.4; }
+  .pro-list li::before { content: ''; position: absolute; left: 2px; top: 10px; width: 10px; height: 6px; border-left: 2.2px solid var(--green); border-bottom: 2.2px solid var(--green); transform: rotate(-45deg); }
+  .demo-banner.is-pro { background: var(--green-bg); border-bottom-color: #CFE3D5; color: var(--green); }
+  .demo-banner.is-aviso { background: #E7F0F1; border-bottom-color: #CADDE0; color: #1F4B53; }
   .demo-banner a { color: #2A626C; text-decoration: underline; font-weight: 700; }
   .demo-modal-overlay {
     position: fixed; inset: 0; background: rgba(20,28,40,0.55);
@@ -1024,7 +1054,42 @@
 
 <!-- DEMO BANNER -->
 <div class="demo-banner" id="demoBanner">
-  <svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M12 7v5l3 2"/></svg> Versión de demostración — tus datos se borran automáticamente cada 3 días. <a href="https://pay.hotmart.com/R106866950E" target="_blank" rel="noopener">Comprar versión completa</a>
+  <svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M12 7v5l3 2"/></svg> Versión de demostración: tus datos se borran cada 3 días y las funciones Pro están bloqueadas. <a href="https://pay.hotmart.com/R106866950E" target="_blank" rel="noopener">Pasar a Pro</a>
+</div>
+
+
+<!-- MODAL: FUNCIÓN PRO -->
+<div class="demo-modal-overlay" id="proModal" onclick="if(event.target===this) this.classList.remove('open')">
+  <div class="demo-modal">
+    <h3 id="proModalTitle">Función Pro</h3>
+    <p id="proModalText"></p>
+    <ul class="pro-list">
+      <li>Tu historial se guarda siempre, sin borrado cada 3 días</li>
+      <li>Reporte para el médico en PDF, para imprimir o compartir</li>
+      <li>Respaldo de tus datos para no perderlos</li>
+      <li>Recordatorios de medicamentos y citas</li>
+      <li>Gráficas de tendencia de 7, 30 y 90 días</li>
+    </ul>
+    <a class="btn-buy" href="https://pay.hotmart.com/R106866950E" target="_blank" rel="noopener">Pasar a DiaRitmo 360 Pro</a>
+    <button class="btn-continue" onclick="document.getElementById('proModal').classList.remove('open')">Seguir con la demo</button>
+  </div>
+</div>
+
+<!-- MODAL: REGALO DÍA MUNDIAL DE LA DIABETES -->
+<div class="demo-modal-overlay" id="regaloModal">
+  <div class="demo-modal">
+    <h3>¡Feliz Día Mundial de la Diabetes!</h3>
+    <p>Hoy DiaRitmo 360 Pro es tuyo, gratis. Ya quedó activado: tus datos no se vuelven a borrar y tienes todas las funciones.</p>
+    <ul class="pro-list">
+      <li>Historial permanente</li>
+      <li>Reporte para el médico</li>
+      <li>Respaldo de tus datos</li>
+      <li>Recordatorios de medicamentos y citas</li>
+      <li>Gráficas de tendencia</li>
+    </ul>
+    <p style="font-size:12.5px;">Importante: el regalo queda guardado en este navegador. Abre siempre la app desde aquí y descarga un respaldo de vez en cuando en Mi perfil.</p>
+    <button class="btn-continue" style="background:var(--blue);color:#fff;border-color:var(--blue);" onclick="document.getElementById('regaloModal').classList.remove('open')">Empezar a usarla</button>
+  </div>
 </div>
 
 <!-- DEMO RESET MODAL -->
@@ -1293,7 +1358,7 @@
       <div id="horariosList"></div>
     </div>
 
-    <div class="agenda-hint" style="text-align:center;"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg> Los recordatorios aparecen mientras la app esté abierta.</div>
+    <div class="agenda-hint" style="text-align:center;"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg> Los recordatorios aparecen mientras la app esté abierta. <span class="pro-tag" style="cursor:pointer" onclick="abrirPro('recordatorios')"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg> Pro</span></div>
   </div>
 </div>
 
@@ -1321,9 +1386,29 @@
     </div>
 
     <button class="export-btn" onclick="exportReport()">
-      <svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> Generar reporte para el médico
+      <svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> Generar reporte para el médico <span class="pro-tag"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg> Pro</span>
     </button>
     <div class="export-hint">Desde ahí puedes imprimirlo, guardarlo en PDF o compartirlo.</div>
+
+
+    <div class="report-section">
+      <div class="report-section-title">Tendencia de tu glucosa <span class="pro-tag"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg> Pro</span></div>
+      <div class="trend-card" id="trendCard">
+        <div id="trendInner">
+          <div class="trend-tabs">
+            <button class="trend-tab active" data-d="7" onclick="setTendencia(7)">7 días</button>
+            <button class="trend-tab" data-d="30" onclick="setTendencia(30)">30 días</button>
+            <button class="trend-tab" data-d="90" onclick="setTendencia(90)">90 días</button>
+          </div>
+          <div id="trendBody"></div>
+        </div>
+        <div class="trend-lock">
+          <div class="trend-lock-title">Gráficas de tendencia</div>
+          <div class="trend-lock-text">Mira cómo cambia tu glucosa en 7, 30 y 90 días. Lo que ves detrás es un ejemplo.</div>
+          <button onclick="abrirPro('tendencia')">Desbloquear con Pro</button>
+        </div>
+      </div>
+    </div>
 
     <div class="report-section">
       <div class="report-section-title">Promedio por semana</div>
@@ -1475,10 +1560,10 @@
       <div class="backup-last" id="backupLastSaved">Último respaldo: nunca</div>
       <div class="backup-btns">
         <button class="backup-btn-export" onclick="exportBackup()">
-          <svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg> Descargar respaldo
+          <svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg> Descargar respaldo <span class="pro-tag"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg> Pro</span>
         </button>
-        <label class="backup-btn-import" for="importFileInput">
-          <svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21V9M7 14l5-5 5 5M5 3h14"/></svg> Restaurar respaldo
+        <label class="backup-btn-import" for="importFileInput" onclick="if(!esPro()){ event.preventDefault(); abrirPro('respaldo'); }">
+          <svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21V9M7 14l5-5 5 5M5 3h14"/></svg> Restaurar respaldo <span class="pro-tag"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg> Pro</span>
         </label>
         <input type="file" id="importFileInput" accept=".diaritmo,.json" style="display:none;" onchange="importBackup(event)">
       </div>
@@ -1791,8 +1876,54 @@ if(!store.getItem(LIMPIEZA_LANZAMIENTO)){
 // ═══════════════════════════════════════
 // DEMO — borrado automático de datos cada 3 días
 // ═══════════════════════════════════════
+
+// ═══════════════════════════════════════
+// DEMO — funciones Pro y regalo del Día Mundial de la Diabetes
+// ═══════════════════════════════════════
+const PRO_KEY = 'diaritmo_pro';
+const DIA_GRATIS = { y: 2026, m: 11, d: 14 };   // 14 de noviembre de 2026 (fecha del dispositivo)
+function esPro(){ return store.getItem(PRO_KEY) === '1'; }
+const PRO_TEXTOS = {
+  reporte: ['El reporte para el médico es Pro', 'Con la versión Pro generas el reporte del mes para llevarlo a tu cita, imprimirlo, guardarlo en PDF o compartirlo.'],
+  respaldo: ['El respaldo es Pro', 'Con la versión Pro descargas y restauras un respaldo de todos tus datos, para no perderlos si cambias de celular.'],
+  tendencia: ['Las gráficas de tendencia son Pro', 'Con la versión Pro ves cómo cambia tu glucosa en 7, 30 y 90 días y en qué momento del día sube más.'],
+  recordatorios: ['Los recordatorios son Pro', 'Con la versión Pro la app te avisa a la hora de cada medicamento y una hora antes de tus citas.']
+};
+function abrirPro(cual){
+  const t = PRO_TEXTOS[cual] || ['Función Pro', 'Esta función hace parte de DiaRitmo 360 Pro.'];
+  document.getElementById('proModalTitle').textContent = t[0];
+  document.getElementById('proModalText').textContent = t[1];
+  document.getElementById('proModal').classList.add('open');
+}
+function pintarEstadoPro(){
+  const pro = esPro();
+  document.body.classList.toggle('no-pro', !pro);
+  const b = document.getElementById('demoBanner');
+  if(!b) return;
+  const hoy = new Date();
+  const antes = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate()) < new Date(DIA_GRATIS.y, DIA_GRATIS.m-1, DIA_GRATIS.d);
+  if(pro){
+    b.className = 'demo-banner is-pro';
+    b.textContent = 'DiaRitmo 360 Pro activado: tus datos ya no se borran. Descarga un respaldo de vez en cuando en Mi perfil.';
+  } else if(antes){
+    b.className = 'demo-banner is-aviso';
+    b.innerHTML = 'Este 14 de noviembre, Día Mundial de la Diabetes: abre la app ese día y te quedas con la versión Pro gratis. Mientras tanto es una demo y tus datos se borran cada 3 días.';
+  }
+}
+(function(){
+  const h = new Date();
+  const esElDia = h.getFullYear()===DIA_GRATIS.y && h.getMonth()+1===DIA_GRATIS.m && h.getDate()===DIA_GRATIS.d;
+  if(esElDia && !esPro()){
+    store.setItem(PRO_KEY, '1');
+    store.setItem('diaritmo_pro_desde', h.toISOString());
+    setTimeout(function(){ const m = document.getElementById('regaloModal'); if(m) m.classList.add('open'); }, 500);
+  }
+  pintarEstadoPro();
+})();
+
 const DEMO_LIMIT_MS = 3 * 24 * 60 * 60 * 1000; // 3 días
 (function(){
+  if(esPro()) return;   // quien tiene Pro conserva sus datos
   const inicio = parseInt(store.getItem('diaritmo_demo_start') || '0', 10);
   const ahora = Date.now();
   if(!inicio){
@@ -2422,9 +2553,104 @@ function renderReport(){
 
   // Semanas
   renderWeekBars(y,m,days);
+  renderTendencia();
 
   // Últimas lecturas
   renderLogList(y,m,days);
+}
+
+
+// ═══════════════════════════════════════
+// TENDENCIA (v2.5) — promedios de 7, 30 y 90 días
+// ═══════════════════════════════════════
+let trendDias = 7;
+function setTendencia(n){ trendDias = n; renderTendencia(); }
+
+// Datos de ejemplo: solo se usan para la vista previa bloqueada de la demo
+function datosEjemploTendencia(){
+  const out = {}, base = new Date();
+  for(let i=0;i<90;i++){
+    const f = new Date(base.getFullYear(), base.getMonth(), base.getDate()-i);
+    const w = Math.sin(i/4)*14 + Math.cos(i/9)*10;
+    out[dateKey(f.getFullYear(), f.getMonth(), f.getDate())] = {
+      ayunas: Math.round(112+w), antes: Math.round(118+w*0.7),
+      despues: Math.round(158+w*1.3), noche: Math.round(128+w*0.8) };
+  }
+  return out;
+}
+
+function renderTendencia(){
+  const body = document.getElementById('trendBody');
+  if(!body) return;
+  document.querySelectorAll('.trend-tab').forEach(b=>b.classList.toggle('active', Number(b.dataset.d)===trendDias));
+  const bloqueado = (typeof esPro === 'function') && !esPro();
+  const fuente = bloqueado ? datosEjemploTendencia() : data;
+  const hoy = new Date();
+  const dias = [], todas = [], porMomento = {ayunas:[],antes:[],despues:[],noche:[]};
+  let enMeta = 0;
+  for(let i=trendDias-1;i>=0;i--){
+    const f = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate()-i);
+    const rec = fuente[dateKey(f.getFullYear(), f.getMonth(), f.getDate())];
+    const vals = [];
+    if(rec) MOMENTOS.forEach(mo=>{
+      const v = Number(rec[mo]);
+      if(v){ vals.push(v); todas.push(v); porMomento[mo].push(v); if(glucoseStatus(v, mo)==='ok') enMeta++; }
+    });
+    dias.push({ f, avg: vals.length ? vals.reduce((a,b)=>a+b,0)/vals.length : null });
+  }
+  if(!todas.length){
+    body.innerHTML = `<div class="trend-empty">Aún no hay lecturas en los últimos ${trendDias} días. Registra tu glucosa y aquí verás cómo va cambiando.</div>`;
+    return;
+  }
+  const prom = Math.round(todas.reduce((a,b)=>a+b,0)/todas.length);
+  const pct = Math.round(enMeta/todas.length*100);
+
+  // Gráfica de línea (promedio de cada día)
+  const W=320, H=150, L=30, R=8, T=10, B=22;
+  const conDato = dias.filter(d=>d.avg!==null).map(d=>d.avg);
+  const yMin = Math.min(60, Math.floor((Math.min(...conDato)-10)/10)*10);
+  const yMax = Math.max(200, Math.ceil((Math.max(...conDato)+10)/10)*10);
+  const X = i => L + (dias.length===1 ? (W-L-R)/2 : i*(W-L-R)/(dias.length-1));
+  const Y = v => T + (yMax-v)*(H-T-B)/(yMax-yMin);
+  let path = '', puntos = '', previo = false;
+  dias.forEach((d,i)=>{
+    if(d.avg===null){ previo = false; return; }
+    path += (previo?'L':'M') + X(i).toFixed(1) + ' ' + Y(d.avg).toFixed(1) + ' ';
+    previo = true;
+    if(trendDias<=30) puntos += `<circle cx="${X(i).toFixed(1)}" cy="${Y(d.avg).toFixed(1)}" r="${trendDias===7?3.5:2.2}" fill="var(--blue)"/>`;
+  });
+  const fcorta = f => `${f.getDate()} ${MESES[f.getMonth()].slice(0,3).toLowerCase()}`;
+  const svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Promedio diario de glucosa de los últimos ${trendDias} días">
+    <rect x="${L}" y="${Y(140).toFixed(1)}" width="${W-L-R}" height="${(Y(HIPO)-Y(140)).toFixed(1)}" fill="var(--green-bg)"/>
+    ${[HIPO,140,HIPER].map(v=>`<line x1="${L}" x2="${W-R}" y1="${Y(v).toFixed(1)}" y2="${Y(v).toFixed(1)}" stroke="var(--border)" stroke-width="1" stroke-dasharray="3 3"/><text x="${L-5}" y="${(Y(v)+3.5).toFixed(1)}" text-anchor="end" font-size="9.5" fill="var(--text-soft)">${v}</text>`).join('')}
+    <path d="${path}" fill="none" stroke="var(--blue)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    ${puntos}
+    <text x="${L}" y="${H-6}" font-size="9.5" fill="var(--text-soft)">${fcorta(dias[0].f)}</text>
+    <text x="${W-R}" y="${H-6}" text-anchor="end" font-size="9.5" fill="var(--text-soft)">Hoy</text>
+  </svg>`;
+
+  const colores = {ok:'var(--green)',warn:'var(--amber)',bad:'var(--red)'};
+  const filas = MOMENTOS.map(mo=>{
+    const a = porMomento[mo];
+    const av = a.length ? Math.round(a.reduce((x,y)=>x+y,0)/a.length) : null;
+    const c = av ? colores[glucoseStatus(av, mo)] : 'var(--border)';
+    return `<div class="week-bar-row">
+      <div class="week-bar-label">${MOMENTO_CORTO[mo]}</div>
+      <div class="week-bar-track"><div class="week-bar-fill" style="width:${av?Math.min(100,av/300*100):0}%;background:${c}"></div></div>
+      <div class="week-bar-val" style="color:${av?c:'var(--text-soft)'}">${av||'–'}</div>
+    </div>`;
+  }).join('');
+
+  body.innerHTML = `
+    <div class="trend-stats">
+      <div class="trend-stat"><div class="trend-stat-val">${prom}</div><div class="trend-stat-label">Promedio mg/dL</div></div>
+      <div class="trend-stat"><div class="trend-stat-val">${pct}%</div><div class="trend-stat-label">Lecturas en meta</div></div>
+      <div class="trend-stat"><div class="trend-stat-val">${todas.length}</div><div class="trend-stat-label">Lecturas</div></div>
+    </div>
+    <div class="trend-chart">${svg}</div>
+    <div class="trend-sub">Promedio por momento del día</div>
+    <div class="week-bars">${filas}</div>
+    <div class="trend-note">La franja verde marca el rango general de 70 a 140 mg/dL. Tus metas las define tu médico; esta gráfica no reemplaza su valoración.</div>`;
 }
 
 function renderWeekBars(y,m,days){
@@ -2517,6 +2743,7 @@ function cellTextColor(val, mo){
 }
 
 function exportReport(){
+  if(!esPro()){ abrirPro('reporte'); return; }
   const m=viewDate.getMonth(), y=viewDate.getFullYear();
   const avg=document.getElementById('rstat-avg').textContent;
   const daysReg=document.getElementById('rstat-days').textContent;
@@ -3011,12 +3238,12 @@ function revisarRecordatorios(){
   const n = new Date(), k = nowKey(), h = hhmm(n), hechas = tomas[k] || {};
   dosisHoy().forEach(x=>{
     const id = k + x.k;
-    if(x.hora === h && !hechas[x.k] && !avisados[id]){ avisados[id] = 1; showToast(`Hora de tomar ${x.med.name}${x.med.dose?' '+x.med.dose:''}`); }
+    if(esPro() && x.hora === h && !hechas[x.k] && !avisados[id]){ avisados[id] = 1; showToast(`Hora de tomar ${x.med.name}${x.med.dose?' '+x.med.dose:''}`); }
   });
   citas.filter(c=>c.fecha===k && c.hora).forEach(c=>{
     const [hh,mm] = c.hora.split(':').map(Number);
     const faltan = (hh*60+mm) - (n.getHours()*60+n.getMinutes());
-    if(faltan === 60 && !avisados['c'+c.id]){ avisados['c'+c.id] = 1; showToast(`Cita en 1 hora: ${c.titulo}`); }
+    if(esPro() && faltan === 60 && !avisados['c'+c.id]){ avisados['c'+c.id] = 1; showToast(`Cita en 1 hora: ${c.titulo}`); }
   });
   if(document.getElementById('screen-agenda').classList.contains('active')) renderDosis();
   if(document.getElementById('screen-calendar').classList.contains('active')) renderUpCitas();
@@ -3384,6 +3611,7 @@ function sanitizeTomas(raw){
 }
 
 function exportBackup(){
+  if(!esPro()){ abrirPro('respaldo'); return; }
   const backup = {
     version: 2,
     exportedAt: new Date().toISOString(),
@@ -3418,6 +3646,7 @@ function updateBackupLastSaved(){
 }
 
 function importBackup(event){
+  if(!esPro()){ event.target.value=''; abrirPro('respaldo'); return; }
   const file = event.target.files[0];
   if(!file){ return; }
   const reader = new FileReader();
@@ -3635,7 +3864,7 @@ function renderFaq(){
 // ARRANQUE
 // ═══════════════════════════════════════
 (function init(){
-  const APP_VERSION = '2.4';
+  const APP_VERSION = '2.5';
   // Al cambiar de versión NO se borran los datos del usuario: solo se registra la versión.
   // Si en el futuro cambia la estructura de los datos, aquí va una migración que los convierta.
   if(store.getItem('diaritmo_version') !== APP_VERSION){
